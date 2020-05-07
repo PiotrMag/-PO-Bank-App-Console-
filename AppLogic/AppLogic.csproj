@@ -35,5 +35,18 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
+  <ItemGroup>
+    <Compile Include="ATMCard.cs" />
+    <Compile Include="Bank.cs" />
+    <Compile Include="Card.cs" />
+    <Compile Include="NaturalPerson.cs" />
+    <Compile Include="PaymentCenter.cs" />
+    <Compile Include="ServiceCompany.cs" />
+    <Compile Include="Shop.cs" />
+    <Compile Include="Client.cs" />
+    <Compile Include="DebitCard.cs" />
+    <Compile Include="CreditCard.cs" />
+    <Compile Include="TransportCompany.cs" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

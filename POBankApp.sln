@@ -7,6 +7,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "POBankApp", "POBankApp\POBa
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AppLogic", "AppLogic\AppLogic.csproj", "{A73E4319-ACC4-449A-8158-76719D9AC5FE}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataAccessLayer", "DataAccessLayer\DataAccessLayer.csproj", "{676C6A6C-BC74-4892-9C80-D0AE88A5ED16}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{A73E4319-ACC4-449A-8158-76719D9AC5FE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A73E4319-ACC4-449A-8158-76719D9AC5FE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A73E4319-ACC4-449A-8158-76719D9AC5FE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{676C6A6C-BC74-4892-9C80-D0AE88A5ED16}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{676C6A6C-BC74-4892-9C80-D0AE88A5ED16}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{676C6A6C-BC74-4892-9C80-D0AE88A5ED16}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{676C6A6C-BC74-4892-9C80-D0AE88A5ED16}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
