@@ -21,6 +21,12 @@ namespace AppLogic
             this.Name = name;
         }
 
+        /// <summary>
+        /// Probuje autoryzowac karte i dokonac platnosci
+        /// </summary>
+        /// <returns>
+        /// Zwraca AuthorizationResult, ktory mowi o tym, czy autoryzacja sie powiodla, czy nie
+        /// </returns>
         public AuthorizationResult Authorize ()
         {
             return AuthorizationResult.NULL;
