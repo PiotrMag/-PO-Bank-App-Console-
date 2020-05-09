@@ -34,10 +34,19 @@ namespace AppLogic
         private List<Client> companyList;
         private List<Bank> banksList;
 
-
         public List<Client> GetClients()
         {
             return new List<Client>(list);
+        }
+
+        /// <summary>
+        /// Zwraca liste obiektow typu ArchiveRecord
+        /// Kazdy element jest pojedynczym wpisem do lokalnego archiwum
+        /// </summary
+        /// <param name="query">Zapytanie do wykonania w archiwum</param>
+        public List<ArchiveRecord> SearchArchives(String query) 
+        {
+            return null;
         }
     }
 }
