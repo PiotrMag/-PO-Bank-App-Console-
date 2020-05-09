@@ -6,13 +6,34 @@ using System.Threading.Tasks;
 
 namespace AppLogic
 {
-    public class PaymentCenter
+    /// <summary>
+    /// Klasa PaymentCenter zaimplementowana na bazie Singleton Pattern
+    /// Nie jest to rozwiazanie wielowatkowe
+    /// </summary>
+    public sealed class PaymentCenter
     {
-        public PaymentCenter()
+        // Czesc kodu potrzebna do zaimplementowania Singleton Pattern
+        private static PaymentCenter instance = null;
+        public static PaymentCenter Instance 
         {
-            list = new List<Client>();
+            get 
+            {
+                if (instance == null) 
+                    instance = new PaymentCenter();
+                return instance;
+            }
         }
-        private List<Client> list;
+
+        private PaymentCenter()
+        {
+            companyList= new List<Client>();
+            banksList = new List<Bank>();
+        }
+        //--------------------------------------------koniec Singleton
+
+        private List<Client> companyList;
+        private List<Bank> banksList;
+
 
         public List<Client> GetClients()
         {
