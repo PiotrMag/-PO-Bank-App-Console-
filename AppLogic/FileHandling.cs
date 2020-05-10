@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace DataAccessLayer
+﻿namespace AppLogic
 {
     public static class FileHandling
     {

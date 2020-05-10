@@ -8,5 +8,6 @@ namespace AppLogic
 {
     abstract public class Client
     {
+        public bool IsActive { get; set; }
     }
 }

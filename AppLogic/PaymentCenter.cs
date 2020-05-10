@@ -6,13 +6,20 @@ using System.Threading.Tasks;
 
 namespace AppLogic
 {
+    public enum CardType
+    {
+        CreditCard,
+        DebitCard,
+        ATMCard
+    }
+
     /// <summary>
     /// Klasa PaymentCenter zaimplementowana na bazie Singleton Pattern
     /// Nie jest to rozwiazanie wielowatkowe
     /// </summary>
     public sealed class PaymentCenter
     {
-        // Czesc kodu potrzebna do zaimplementowania Singleton Pattern
+        #region Kod Singleton Pattern
         private static PaymentCenter instance = null;
         public static PaymentCenter Instance 
         {
@@ -26,17 +33,17 @@ namespace AppLogic
 
         private PaymentCenter()
         {
-            companyList= new List<Client>();
+            clientList= new List<Client>();
             banksList = new List<Bank>();
         }
-        //--------------------------------------------koniec Singleton
+        #endregion
 
-        private List<Client> companyList;
+        private List<Client> clientList;
         private List<Bank> banksList;
 
         public List<Client> GetClients()
         {
-            return new List<Client>(list);
+            return new List<Client>(clientList);
         }
 
         /// <summary>
@@ -48,5 +55,54 @@ namespace AppLogic
         {
             return null;
         }
+
+        #region obsługa kart (dodawanie/usuwanie)
+        /// <summary>
+        /// Wysyła do banku prośbę o dodanie nowej karty bierzącemu klientowi
+        /// </summary>
+        /// <param name="client">Klient żądający dodania karty</param>
+        /// <param name="type">Typ tworzonej karty</param>
+        /// <returns>
+        /// BankActionResult, ktory mowi o tym, czy akcja sie powiodla, czy nie
+        /// </returns>
+        public BankActionResult AddNewCardRequest(Client client, CardType type)
+        {
+            return BankActionResult.NULL;
+        }
+
+        /// <summary>
+        /// Wysyła do banku prośbę o usunięcie z systemu karty
+        /// </summary>
+        /// <param name="number">Numer usuwanej karty</param>
+        /// <returns>
+        /// BankActionResult, ktory mowi o tym, czy akcja sie powiodla, czy nie
+        /// </returns>
+        public BankActionResult DeleteCardRequest(string number)
+        {
+            return BankActionResult.NULL;
+        }
+        #endregion
+
+        #region obsługa klientów (dodawanie/usuwanie)
+        /// <summary>
+        /// Wysyła do banku prośbę o dodanie do systemu nowego klienta
+        /// </summary>
+        /// <param name="client">Obiekt dodawanego klienta</param>
+        /// <returns></returns>
+        public BankActionResult AddNewClientRequest(Client client)
+        {
+            return BankActionResult.NULL;
+        }
+
+        /// <summary>
+        /// Wysyła do banku prośbę o usunięcie z systemu klienta
+        /// </summary>
+        /// <param name="client">Obiekt usuwanego klienta</param>
+        /// <returns></returns>
+        public BankActionResult DeleteClientRequest(Client client)
+        {
+            return BankActionResult.NULL;
+        }
+        #endregion
     }
 }

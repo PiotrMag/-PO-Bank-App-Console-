@@ -40,6 +40,7 @@
     <Compile Include="ATMCard.cs" />
     <Compile Include="Bank.cs" />
     <Compile Include="Card.cs" />
+    <Compile Include="FileHandling.cs" />
     <Compile Include="NaturalPerson.cs" />
     <Compile Include="PaymentCenter.cs" />
     <Compile Include="ServiceCompany.cs" />
