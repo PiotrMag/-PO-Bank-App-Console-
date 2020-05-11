@@ -8,11 +8,9 @@ namespace AppLogic
 {
     internal class NaturalPerson : Client
     {
-        public String secondName = "";
-
-        public NaturalPerson(String name, String secondName, String PESEL) : base(name, PESEL)
+        public NaturalPerson(string name, string PESEL) : base(name, PESEL)
         {
-            this.secondName = secondName;
+            
         }
     }
 }

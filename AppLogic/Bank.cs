@@ -18,7 +18,7 @@ namespace AppLogic
     public class Bank
     {
         private static int counter = 0;
-        public String Name { get; set; }
+        public string Name { get; set; }
         public List<Card> cards { get; }
         public int Id { get; }
 
@@ -26,7 +26,7 @@ namespace AppLogic
         /// Konstruktor obiektu Bank
         /// </summary>
         /// <param name="name">Nazwa banku</param>
-        public Bank(String name)
+        public Bank(string name)
         {
             Name = name;
             Id = counter++;

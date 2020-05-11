@@ -12,7 +12,7 @@ namespace AppLogic
         /// Tworzy nową kartę bankomatową o podanym numerze
         /// </summary>
         /// <param name="number">Numer karty</param>
-        public ATMCard(string number) : base(number)
+        public ATMCard(string number, Client owner) : base(number, owner)
         {
         }
     }

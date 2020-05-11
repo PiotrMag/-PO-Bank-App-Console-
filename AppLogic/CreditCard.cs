@@ -12,7 +12,7 @@ namespace AppLogic
         /// Tworzy nową kartę kredytową o podanym numerze
         /// </summary>
         /// <param name="number">Numer karty</param>
-        internal CreditCard(string number) : base(number)
+        internal CreditCard(string number, Client owner) : base(number, owner)
         {
         }
     }

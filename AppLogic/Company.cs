@@ -20,7 +20,7 @@ namespace AppLogic
             return BankActionResult.NULL;
         }
 
-        public Company(String name, String NIP) : base(name, NIP)
+        public Company(string name, string NIP) : base(name, NIP)
         {
 
         }

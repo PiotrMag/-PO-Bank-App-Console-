@@ -8,7 +8,7 @@ namespace AppLogic
         /// Odczytuje zawartość z pliku
         /// </summary>
         /// <param name="filePath">Ścieżka do pliku do odczytu</param>
-        public static String ReadFile(String filePath)
+        public static string ReadFile(string filePath)
         {
             return null;
         }
@@ -18,7 +18,7 @@ namespace AppLogic
         /// </summary>
         /// <param name="filePath">Ścieżka do pliku do zapisu</param>
         /// <param name="content">Dane do zapisania</param>
-        public static void WriteFile(String filePath, String content)
+        public static void WriteFile(string filePath, string content)
         {
 
         }

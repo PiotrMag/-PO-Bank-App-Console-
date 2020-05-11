@@ -8,6 +8,6 @@ namespace AppLogic
 {
     internal class TransportCompany : Company
     {
-        public TransportCompany(String name, String NIP) : base(name, NIP) { }
+        public TransportCompany(string name, string NIP) : base(name, NIP) { }
     }
 }
