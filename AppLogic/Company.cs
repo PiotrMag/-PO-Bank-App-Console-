@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace AppLogic
 {
-    abstract public class Company
+    abstract public class Company : Client
     {
         /// <summary>
         /// Metoda wysyłająca prośbę o dokonanie transakcji do banków obsługujących dane karty
@@ -18,6 +18,11 @@ namespace AppLogic
         public BankActionResult MakeTransactionRequest(Card fromCard, Card toCard, double amount)
         {
             return BankActionResult.NULL;
+        }
+
+        public Company(String name, String NIP) : base(name, NIP)
+        {
+
         }
     }
 }

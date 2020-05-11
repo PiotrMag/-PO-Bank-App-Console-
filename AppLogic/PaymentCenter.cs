@@ -38,13 +38,8 @@ namespace AppLogic
         }
         #endregion
 
-        private List<Client> clientList;
         private List<Bank> banksList;
 
-        public List<Client> GetClients()
-        {
-            return new List<Client>(clientList);
-        }
 
         /// <summary>
         /// Zwraca liste obiektow typu ArchiveRecord

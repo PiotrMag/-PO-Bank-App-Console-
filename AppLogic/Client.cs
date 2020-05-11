@@ -8,6 +8,14 @@ namespace AppLogic
 {
     abstract public class Client
     {
+        public String name;
+        public String number;
         public bool IsActive { get; set; }
+
+        public Client(String name, String number)
+        {
+            this.name = name;
+            this.number = number;
+        }
     }
 }

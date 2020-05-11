@@ -6,7 +6,8 @@ using System.Threading.Tasks;
 
 namespace AppLogic
 {
-    internal class ServiceCompany : Client
+    internal class ServiceCompany : Company
     {
+        public ServiceCompany(String name, String NIP) : base(name, NIP) { }
     }
 }
