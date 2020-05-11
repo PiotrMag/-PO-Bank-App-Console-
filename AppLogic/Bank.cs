@@ -33,12 +33,23 @@ namespace AppLogic
         }
 
         /// <summary>
-        /// Probuje autoryzowac karte i dokonac platnosci
+        /// Probuje autoryzowac karte
         /// </summary>
         /// <returns>
         /// BankActionResult, ktory mowi o tym, czy autoryzacja sie powiodla, czy nie
         /// </returns>
         public BankActionResult Authorize ()
+        {
+            return BankActionResult.NULL;
+        }
+
+        /// <summary>
+        /// Dokonuje transakcji z podanej karty o podanej kwocie. Podanie kwoty z minusem powoduje zabranie kwoty z karty, a z plusem dodanie kwoty na kartę
+        /// </summary>
+        /// <param name="card">Karta do wykonania transakcji</param>
+        /// <param name="amount">Kwota do dodania/zabrania</param>
+        /// <returns>Zwraca rezultat wykonania transakcji</returns>
+        public BankActionResult MakeTransaction(Card card, double amount)
         {
             return BankActionResult.NULL;
         }

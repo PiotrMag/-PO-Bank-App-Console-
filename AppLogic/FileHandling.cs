@@ -1,19 +1,24 @@
-﻿namespace AppLogic
+﻿using System;
+
+namespace AppLogic
 {
     public static class FileHandling
     {
         /// <summary>
-        /// Odczytuje dane z pliku/bazy danyh
+        /// Odczytuje zawartość z pliku
         /// </summary>
-        public static void ReadFile()
+        /// <param name="filePath">Ścieżka do pliku do odczytu</param>
+        public static String ReadFile(String filePath)
         {
-
+            return null;
         }
 
         /// <summary>
-        /// zapisuje dane zmienione w trakcie sesji działania programu
+        /// Zapisuje dane do pliku
         /// </summary>
-        public static void SaveChanges()
+        /// <param name="filePath">Ścieżka do pliku do zapisu</param>
+        /// <param name="content">Dane do zapisania</param>
+        public static void WriteFile(String filePath, String content)
         {
 
         }

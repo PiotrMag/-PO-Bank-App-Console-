@@ -56,6 +56,66 @@ namespace AppLogic
             return null;
         }
 
+        #region logowanie płatności
+        /// <summary>
+        /// Dodaje wpis o transakcji do lokalnego archiwum
+        /// </summary>
+        /// <param name="fromCard">Karta, z której próbowano pobraś środki</param>
+        /// <param name="toCard">Karta, na którą próbowano wpłacić środki</param>
+        /// <param name="amount">Kwota</param>
+        /// <param name="result">Wynik wykonania transakcji (czy wystąpił błąd, jeśli tak, to jaki)</param>
+        public void LogInArchive(Card fromCard, Card toCard, double amount, String result)
+        {
+
+        }
+        #endregion
+
+        #region przegladanie firm
+        /// <summary>
+        /// Zwraca wszystkie firmy/sklepy
+        /// </summary>
+        /// <returns>Lista typu Company</returns>
+        public List<Company> GetCompanies()
+        {
+            return new List<Company>();
+        }
+        #endregion
+
+        #region zapis/odczyt stanu centrum
+        /// <summary>
+        /// Zapisuje stan systemu w pliku w formacie XML
+        /// </summary>
+        /// <param name="filePath">Ścieżka do pliku do zapisania</param>
+        public void SaveSystemState(String filePath)
+        {
+            return;
+        }
+
+        /// <summary>
+        /// Odczytuje stan systemu z pliku o podanej ścieżce.
+        /// UWAGA: Obecny stan systemu zostanie utracony na rzecz nowego stanu
+        /// </summary>
+        /// <param name="filePath">Ścieżka do pliku do odczytania</param>
+        public void LoadSystemState(String filePath)
+        {
+            return;
+        }
+        #endregion
+
+        #region dokonanie transakcji
+        /// <summary>
+        /// Metoda wysyłająca prośbę o dokonanie transakcji do banków obsługujących dane karty
+        /// </summary>
+        /// <param name="fromCard">Karta, z której ma zostać zabrana kwota</param>
+        /// <param name="toCard">Karta, na która ma zostaś wpłacona kwota</param>
+        /// <param name="amount">Kwota</param>
+        /// <returns>Wynik wykonania transakcji</returns>
+        public BankActionResult MakeTransactionRequest(Card fromCard, Card toCard, double amount)
+        {
+            return BankActionResult.NULL;
+        }
+        #endregion
+
         #region obsługa kart (dodawanie/usuwanie)
         /// <summary>
         /// Wysyła do banku prośbę o dodanie nowej karty bierzącemu klientowi
