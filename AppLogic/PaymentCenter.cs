@@ -33,7 +33,6 @@ namespace AppLogic
 
         private PaymentCenter()
         {
-            clientList= new List<Client>();
             banksList = new List<Bank>();
         }
         #endregion
