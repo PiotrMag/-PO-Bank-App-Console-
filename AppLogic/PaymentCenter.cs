@@ -98,11 +98,26 @@ namespace AppLogic
             Stream fileStream = FileHandling.GetReadingStream(filePath);
             if (fileStream == null)
                 return false;
-
-            // XML Parser (Reader)
-            //
+            
+            // XMLParser (reader)
             XmlReader reader = XmlReader.Create(fileStream);
-            //
+            
+            while(reader.Read())
+            {
+                switch(reader.NodeType)
+                {
+                    case XmlNodeType.Element:
+                        break;
+                    case XmlNodeType.Attribute:
+                        break;
+                    case XmlNodeType.Text:
+                        break;
+                    default:
+                        break;
+                }
+            }
+
+            reader.Close();
             // ....
 
             return true;
