@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 
 namespace AppLogic
 {
@@ -8,9 +9,12 @@ namespace AppLogic
         /// Odczytuje zawartość z pliku
         /// </summary>
         /// <param name="filePath">Ścieżka do pliku do odczytu</param>
+        /// <returns>Zwraca odczytaną wartość. Jeżeli plik nie istnieje zwraca null</returns>
         public static string ReadFile(string filePath)
         {
-            return null;
+            if (!File.Exists(filePath))
+                return null;
+            return File.ReadAllText(filePath);
         }
 
         /// <summary>
@@ -18,9 +22,15 @@ namespace AppLogic
         /// </summary>
         /// <param name="filePath">Ścieżka do pliku do zapisu</param>
         /// <param name="content">Dane do zapisania</param>
-        public static void WriteFile(string filePath, string content)
+        /// <param name="writeEvenIfExists">Czy ma zapisać do pliku, nawet jeżeli istnieje (stara zawartość zostaje usunięta)</param>
+        /// <returns>Zwraca true jeżeli zapis się udał, zwraca false, jeżeli się nie udał</returns>
+        public static bool WriteFile(string filePath, string content, bool writeEvenIfExists)
         {
-
+            if (!writeEvenIfExists)
+                if (File.Exists(filePath))
+                    return false;
+            File.WriteAllText(filePath, content);
+            return true;
         }
     }
 }
