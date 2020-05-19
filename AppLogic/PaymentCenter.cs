@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml;
 
 namespace AppLogic
 {
@@ -90,9 +91,19 @@ namespace AppLogic
         /// UWAGA: Obecny stan systemu zostanie utracony na rzecz nowego stanu
         /// </summary>
         /// <param name="filePath">Ścieżka do pliku do odczytania</param>
-        public void LoadSystemState(String filePath)
+        /// <returns>Zwraca true, jeżeli udało się poprawnie załadować stan systemu, a false, jeżeli wystąpił błąd</returns>
+        public bool LoadSystemState(String filePath)
         {
-            return;
+            string fileContent = FileHandling.ReadFile(filePath);
+            if (fileContent == null)
+                return false;
+
+            // XML Parser (Reader)
+            //
+            //
+            // ....
+
+            return true;
         }
         #endregion
 

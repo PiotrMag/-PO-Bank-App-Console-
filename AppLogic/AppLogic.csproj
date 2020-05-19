@@ -51,5 +51,8 @@
     <Compile Include="CreditCard.cs" />
     <Compile Include="TransportCompany.cs" />
   </ItemGroup>
+  <ItemGroup>
+    <Reference Include="System.Xml" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
