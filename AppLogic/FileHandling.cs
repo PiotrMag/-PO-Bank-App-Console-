@@ -9,12 +9,12 @@ namespace AppLogic
         /// Odczytuje zawartość z pliku
         /// </summary>
         /// <param name="filePath">Ścieżka do pliku do odczytu</param>
-        /// <returns>Zwraca odczytaną wartość. Jeżeli plik nie istnieje zwraca null</returns>
-        public static string ReadFile(string filePath)
+        /// <returns>Zwraca strumień do czytania. Jeżeli plik nie istnieje zwraca null</returns>
+        public static Stream GetReadingStream(string filePath)
         {
             if (!File.Exists(filePath))
                 return null;
-            return File.ReadAllText(filePath);
+            return new StreamReader(filePath).BaseStream;
         }
 
         /// <summary>

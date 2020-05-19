@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -94,12 +95,13 @@ namespace AppLogic
         /// <returns>Zwraca true, jeżeli udało się poprawnie załadować stan systemu, a false, jeżeli wystąpił błąd</returns>
         public bool LoadSystemState(String filePath)
         {
-            string fileContent = FileHandling.ReadFile(filePath);
-            if (fileContent == null)
+            Stream fileStream = FileHandling.GetReadingStream(filePath);
+            if (fileStream == null)
                 return false;
 
             // XML Parser (Reader)
             //
+            XmlReader reader = XmlReader.Create(fileStream);
             //
             // ....
 
