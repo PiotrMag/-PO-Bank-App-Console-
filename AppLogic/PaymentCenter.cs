@@ -82,9 +82,17 @@ namespace AppLogic
         /// Zapisuje stan systemu w pliku w formacie XML
         /// </summary>
         /// <param name="filePath">Ścieżka do pliku do zapisania</param>
-        public void SaveSystemState(String filePath)
+        /// <returns>Zwraca true, jeżeli udało się zapisać bez problemu, a false jeżeli sie nie udało</returns>
+        public bool SaveSystemState(String filePath)
         {
-            return;
+            StringBuilder xmlContent = new StringBuilder();
+
+            using (XmlWriter write = XmlWriter.Create(xmlContent))
+            {
+                //.......
+            }
+
+            return FileHandling.WriteFile(filePath, xmlContent.ToString(), false);
         }
 
         /// <summary>
@@ -100,24 +108,23 @@ namespace AppLogic
                 return false;
             
             // XMLParser (reader)
-            XmlReader reader = XmlReader.Create(fileStream);
-            
-            while(reader.Read())
+            using (XmlReader reader = XmlReader.Create(fileStream))
             {
-                switch(reader.NodeType)
+                while (reader.Read())
                 {
-                    case XmlNodeType.Element:
-                        break;
-                    case XmlNodeType.Attribute:
-                        break;
-                    case XmlNodeType.Text:
-                        break;
-                    default:
-                        break;
+                    switch (reader.NodeType)
+                    {
+                        case XmlNodeType.Element:
+                            break;
+                        case XmlNodeType.Attribute:
+                            break;
+                        case XmlNodeType.Text:
+                            break;
+                        default:
+                            break;
+                    }
                 }
             }
-
-            reader.Close();
             // ....
 
             return true;
