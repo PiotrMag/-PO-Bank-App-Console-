@@ -87,9 +87,40 @@ namespace AppLogic
         {
             StringBuilder xmlContent = new StringBuilder();
 
-            using (XmlWriter write = XmlWriter.Create(xmlContent))
+            using (XmlWriter writer = XmlWriter.Create(xmlContent))
             {
-                //.......
+                writer.WriteStartDocument();
+                // zapisywanie stanu banków
+                foreach (Bank bank in banksList)
+                {
+                    string bankName = bank.Name;
+                    int bankId = bank.Id;
+                    if (bankName == null || bankId < 0)
+                        continue; // TODO: może trzeba zmienić, żeby wyrzucało błąd????
+                    writer.WriteStartElement("banks");
+                    writer.WriteAttributeString("name", bankName);
+                    writer.WriteAttributeString("id", bankId.ToString());
+
+                    foreach (Card card in bank.cards)
+                    {
+                        string cardNumber = card.Number;
+                        Client cardOwner = card.Owner;
+                        if (cardNumber == null || cardOwner == null)
+                            continue; // TODO: może lepiej przerobić, żeby wyrzucało wyjątek????
+                        writer.WriteStartElement("card");
+                        writer.WriteAttributeString("number", cardNumber);
+                        writer.WriteAttributeString("ownerName", cardOwner.Name);
+                        writer.WriteAttributeString("ownerNumber", cardOwner.Number.ToString());
+                        writer.WriteAttributeString("ownerType", cardOwner.clientType.ToString("g"));
+
+                        writer.WriteEndElement();
+                    }
+
+                    writer.WriteEndElement();
+                }
+                // zapisywanie stanu archiwum
+                // .........
+                // .........
             }
 
             return FileHandling.WriteFile(filePath, xmlContent.ToString(), false);

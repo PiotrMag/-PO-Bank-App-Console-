@@ -8,7 +8,11 @@ namespace AppLogic
 {
     abstract public class Card
     {
-        public Client owner;
+        public Client Owner { get; }
+        /// <summary>
+        /// Numer karty płatniczej
+        /// </summary>
+        public string Number { get; set; }
 
         /// <summary>
         /// tworzy nową kartę płatniczą o podanym numerze
@@ -17,11 +21,7 @@ namespace AppLogic
         public Card(string number, Client owner)
         {
             Number = number;
-            this.owner = owner;
+            Owner = owner;
         }
-        /// <summary>
-        /// Numer karty płatniczej
-        /// </summary>
-        public string Number { get; set; }
     }
 }
