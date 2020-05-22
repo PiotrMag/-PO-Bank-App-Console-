@@ -10,7 +10,12 @@ namespace AppLogic
     {
         public string CardNumber { get; }
         public double Amount { get; }
-        public InsufficientCardBalance(string message) : base(message) { }
+        public InsufficientCardBalance(string message) : this(message, "null", 0) { }
+        public InsufficientCardBalance(string message, string cardNumber, double amount) : base(message)
+        {
+            this.CardNumber = cardNumber;
+            this.Amount = amount;
+        }
     }
 
     abstract public class Card
