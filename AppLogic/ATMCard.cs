@@ -15,5 +15,10 @@ namespace AppLogic
         public ATMCard(string number, Client owner) : base(number, owner)
         {
         }
+
+        public override void MakeTransaction(double amount)
+        {
+            this.balance += amount;
+        }
     }
 }

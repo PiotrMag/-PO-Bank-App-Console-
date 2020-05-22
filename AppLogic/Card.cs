@@ -21,6 +21,10 @@ namespace AppLogic
         /// </summary>
         public string Number { get; set; }
 
+        public double Balance { get { return balance; } }
+
+        protected double balance;
+
         /// <summary>
         /// tworzy nową kartę płatniczą o podanym numerze
         /// </summary>
@@ -29,6 +33,7 @@ namespace AppLogic
         {
             Number = number;
             Owner = owner;
+            balance = 0;
         }
 
         public override bool Equals(object obj)
@@ -41,6 +46,11 @@ namespace AppLogic
             return false;
         }
 
+        /// <summary>
+        /// Abstrakcyjna metoda, której zadaniem jest dokonanie transakcji na kartę
+        /// </summary>
+        /// <param name="amount">Kwota</param>
+        /// <exception cref="InsufficientCardBalance">Wyrzuca wyjątek InsufficientCardBalance, jeżeli typ karty nie pozwala na przekroczenie 0 na koncie</exception>
         abstract public void MakeTransaction(double amount);
     }
 }

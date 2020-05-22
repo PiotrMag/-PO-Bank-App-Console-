@@ -15,5 +15,12 @@ namespace AppLogic
         internal DebitCard(string number, Client owner) : base(number, owner)
         {
         }
+
+        public override void MakeTransaction(double amount)
+        {
+            if (this.balance + amount < 0)
+                throw new InsufficientCardBalance("Probowano zabrac z karty debetowej wiecej niz na niej jest!");
+            this.balance += amount;
+        }
     }
 }

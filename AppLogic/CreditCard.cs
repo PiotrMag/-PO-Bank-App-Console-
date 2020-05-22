@@ -15,5 +15,10 @@ namespace AppLogic
         internal CreditCard(string number, Client owner) : base(number, owner)
         {
         }
+
+        public override void MakeTransaction(double amount)
+        {
+            this.balance += amount;
+        }
     }
 }
