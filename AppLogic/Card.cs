@@ -6,6 +6,13 @@ using System.Threading.Tasks;
 
 namespace AppLogic
 {
+    public class InsufficientCardBalance : Exception 
+    {
+        public string CardNumber { get; }
+        public double Amount { get; }
+        public InsufficientCardBalance(string message) : base(message) { }
+    }
+
     abstract public class Card
     {
         public Client Owner { get; }
@@ -23,5 +30,7 @@ namespace AppLogic
             Number = number;
             Owner = owner;
         }
+
+        abstract public void MakeTransaction(double amount);
     }
 }
