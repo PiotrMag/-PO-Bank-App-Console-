@@ -27,5 +27,15 @@ namespace AppLogic
             this.Number = number;
             this.clientType = clientType; 
         }
+
+        public override bool Equals(object obj)
+        {
+            if (!(obj is Client))
+                return false;
+            Client client = (Client)obj;
+            if (client.Name == this.Name && client.clientType == this.clientType && client.Number == this.Number)
+                return true;
+            return false;
+        }
     }
 }

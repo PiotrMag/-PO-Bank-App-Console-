@@ -38,9 +38,14 @@ namespace AppLogic
         /// <returns>
         /// BankActionResult, ktory mowi o tym, czy autoryzacja sie powiodla, czy nie
         /// </returns>
-        public BankActionResult Authorize ()
+        public BankActionResult Authorize (Card card)
         {
-            return BankActionResult.NULL;
+            foreach (Card c in cards)
+            {
+                if (c.Equals(card))
+                    return BankActionResult.SUCCESS;
+            }
+            return BankActionResult.REJECTED_NO_SUCH_USER;
         }
 
         /// <summary>

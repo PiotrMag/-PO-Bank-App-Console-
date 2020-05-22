@@ -31,6 +31,16 @@ namespace AppLogic
             Owner = owner;
         }
 
+        public override bool Equals(object obj)
+        {
+            if (!(obj is Card))
+                return false;
+            Card card = (Card)obj;
+            if (card.Number == this.Number && card.Owner.Equals(this.Owner))
+                return true;
+            return false;
+        }
+
         abstract public void MakeTransaction(double amount);
     }
 }
