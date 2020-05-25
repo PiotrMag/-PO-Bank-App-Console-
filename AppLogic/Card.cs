@@ -45,5 +45,6 @@ namespace AppLogic
         /// <param name="amount">Kwota</param>
         /// <exception cref="InsufficientCardBalanceException">Wyrzuca wyjątek InsufficientCardBalanceException, jeżeli typ karty nie pozwala na przekroczenie 0 na koncie</exception>
         abstract public void MakeTransaction(double amount);
+        abstract public BankActionResult Authorize(double amount);
     }
 }

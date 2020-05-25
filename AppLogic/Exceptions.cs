@@ -37,11 +37,20 @@ namespace AppLogic
 
     public class NotEmptyAccountException : Exception
     {
-        public NotEmptyAccountException(string message, double amount) : base(message)
+        public NotEmptyAccountException(string message, double amount, string cardNumber) : base(message)
         {
             Amount = amount;
+            CardNumber = cardNumber;
         }
-        
-        public double Amount;
+        public string CardNumber { get; }
+        public double Amount { get; }
+    }
+
+    public class TransactionDeniedException : Exception
+    {
+        public TransactionDeniedException(string message) : base(message)
+        {
+
+        }
     }
 }

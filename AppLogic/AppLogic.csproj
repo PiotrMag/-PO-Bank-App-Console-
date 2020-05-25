@@ -41,6 +41,7 @@
     <Compile Include="Bank.cs" />
     <Compile Include="Card.cs" />
     <Compile Include="Company.cs" />
+    <Compile Include="Exceptions.cs" />
     <Compile Include="FileHandling.cs" />
     <Compile Include="NaturalPerson.cs" />
     <Compile Include="PaymentCenter.cs" />

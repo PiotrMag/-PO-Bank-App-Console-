@@ -20,5 +20,9 @@ namespace AppLogic
         {
             this.balance += amount;
         }
+        public override BankActionResult Authorize(double amount)
+        {
+            return BankActionResult.SUCCESS;
+        }
     }
 }

@@ -19,8 +19,14 @@ namespace AppLogic
         public override void MakeTransaction(double amount)
         {
             if (this.balance + amount < 0)
-                throw new InsufficientCardBalanceException("Probowano zabrac z karty debetowej wiecej niz na niej jest!", this.Number, amount);
+                throw new InsufficientCardBalanceException("Kwota transakcji przekracza stan karty debetowej", this.Number, amount);
             this.balance += amount;
+        }
+        public override BankActionResult Authorize(double amount)
+        {
+            if (balance + amount < 0)
+                return BankActionResult.REJECTED_INSUFFICIENT_ACCOUNT_BALANCE;
+            return BankActionResult.SUCCESS;
         }
     }
 }

@@ -12,13 +12,26 @@ namespace AppLogic
         /// Tworzy nową kartę kredytową o podanym numerze
         /// </summary>
         /// <param name="number">Numer karty</param>
-        internal CreditCard(string number, Client owner) : base(number, owner)
+        internal CreditCard(string number, Client owner, double creditLimit=1000) : base(number, owner)
         {
+            this.creditLimit = -creditLimit;
         }
+
+        public double CreditLimit { get { return -1 * (creditLimit); }}
+
+        private double creditLimit;
 
         public override void MakeTransaction(double amount)
         {
-            this.balance += amount;
+            if(balance + amount < creditLimit)
+                throw new InsufficientCardBalanceException("Kwota transakcji przekracza dopuszczalny limit karty kredytowej", Number, amount);
+            balance += amount;
+        }
+        public override BankActionResult Authorize(double amount)
+        {
+            if (balance + amount < creditLimit)
+                return BankActionResult.REJECTED_INSUFFICIENT_ACCOUNT_BALANCE;
+            return BankActionResult.SUCCESS;
         }
     }
 }

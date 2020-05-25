@@ -33,16 +33,16 @@ namespace AppLogic
         }
 
         /// <summary>
-        /// Probuje autoryzowac karte
+        /// Probuje autoryzowac płatność kartą na podaną kwotę
         /// </summary>
         /// <returns>
         /// BankActionResult, ktory mowi o tym, czy autoryzacja sie powiodla, czy nie
         /// </returns>
-        public BankActionResult Authorize(Card card)
+        public BankActionResult Authorize(string cardNumber, double amount)
         {
             foreach (Card c in cards)
             {
-                if (c.Equals(card))
+                if (c.Number == cardNumber && c.Authorize(amount)==BankActionResult.SUCCESS)
                     return BankActionResult.SUCCESS;
             }
             return BankActionResult.REJECTED_NO_SUCH_USER;
@@ -51,12 +51,18 @@ namespace AppLogic
         /// <summary>
         /// Dokonuje transakcji z podanej karty o podanej kwocie. Podanie kwoty z minusem powoduje zabranie kwoty z karty, a z plusem dodanie kwoty na kartę
         /// </summary>
-        /// <param name="card">Karta do wykonania transakcji</param>
+        /// <param name="cardNumber">Karta do wykonania transakcji</param>
         /// <param name="amount">Kwota do dodania/zabrania</param>
         /// <returns>Zwraca rezultat wykonania transakcji</returns>
-        public BankActionResult MakeTransaction(Card card, double amount)
+        public void MakeTransaction(string cardNumber, double amount)
         {
-            return BankActionResult.NULL;
+            foreach (var card in cards)
+            {
+                if (card.Number == cardNumber)
+                {
+                    card.MakeTransaction(amount);
+                }
+            }
         }
 
         #region obsługa kart (dodawanie/usuwanie)
@@ -139,9 +145,9 @@ namespace AppLogic
             foreach (var card in cards)
             {
                 if (number == card.Number && card.Balance < 0)
-                    throw new NotEmptyAccountException("Na karcie znajduje się debet. Nie można usunąć!!!", card.Balance);
+                    throw new NotEmptyAccountException("Na karcie znajduje się debet. Nie można usunąć!!!", card.Balance, card.Number);
                 else if (number == card.Number && card.Balance > 0)
-                    throw new NotEmptyAccountException("Na karcie znajdują się jeszcze niewykorzystane środki. Nie można usunąć!!!", card.Balance);
+                    throw new NotEmptyAccountException("Na karcie znajdują się jeszcze niewykorzystane środki. Nie można usunąć!!!", card.Balance, card.Number);
                 else if (number == card.Number)
                 {
                     card.IsActive = false;
@@ -173,9 +179,9 @@ namespace AppLogic
             foreach (var card in cards)
             {
                 if (card.Owner.Equals(client) && card.Balance < 0)
-                    throw new NotEmptyAccountException("Na karcie znajduje się debet. Nie można usunąć!!!", card.Balance);
+                    throw new NotEmptyAccountException("Na karcie znajduje się debet. Nie można usunąć!!!", card.Balance, card.Number);
                 else if (card.Owner.Equals(client) && card.Balance > 0)
-                    throw new NotEmptyAccountException("Na karcie znajdują się jeszcze niewykorzystane środki. Nie można usunąć!!!", card.Balance);
+                    throw new NotEmptyAccountException("Na karcie znajdują się jeszcze niewykorzystane środki. Nie można usunąć!!!", card.Balance, card.Number);
                 else if (card.Owner.Equals(client))
                 {
                     card.IsActive = false;

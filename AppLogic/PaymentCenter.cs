@@ -166,16 +166,38 @@ namespace AppLogic
         /// <summary>
         /// Metoda wysyłająca prośbę o dokonanie transakcji do banków obsługujących dane karty
         /// </summary>
-        /// <param name="fromCard">Karta, z której ma zostać zabrana kwota</param>
-        /// <param name="toCard">Karta, na która ma zostaś wpłacona kwota</param>
+        /// <param name="fromCardNumber">Karta, z której ma zostać zabrana kwota</param>
+        /// <param name="toCardNumber">Karta, na która ma zostaś wpłacona kwota</param>
         /// <param name="amount">Kwota</param>
         /// <returns>Wynik wykonania transakcji</returns>
-        public BankActionResult MakeTransactionRequest(Card fromCard, Card toCard, double amount)
+        public void MakeTransactionRequest(string fromCardNumber, string toCardNumber, double amount)
         {
-
-
-
-            return BankActionResult.NULL;
+            int id1 = 9999 - int.Parse(fromCardNumber.Remove(4));
+            int id2 = 9999 - int.Parse(toCardNumber.Remove(4));
+            int count = 0;
+            foreach (var bank in bankList)
+            {
+                if (bank.Id == id1 && bank.Authorize(fromCardNumber, amount) == BankActionResult.SUCCESS)
+                    count++;
+                if (bank.Id == id2 && bank.Authorize(toCardNumber, amount) == BankActionResult.SUCCESS)
+                    count++;
+            }
+            if (count == 2)
+            {
+                foreach (var bank in bankList)
+                {
+                    if (bank.Id == id1)
+                    {
+                        bank.MakeTransaction(fromCardNumber, -amount);
+                    }
+                    if (bank.Id == id2)
+                    {
+                        bank.MakeTransaction(toCardNumber, amount);
+                    }
+                }
+            }
+            else
+                throw new TransactionDeniedException("Conajmniej jedna z kart nie przeszła autoryzacji");
         }
         #endregion
 
