@@ -6,18 +6,6 @@ using System.Threading.Tasks;
 
 namespace AppLogic
 {
-    public class InsufficientCardBalance : Exception 
-    {
-        public string CardNumber { get; }
-        public double Amount { get; }
-        public InsufficientCardBalance(string message) : this(message, "null", 0) { }
-        public InsufficientCardBalance(string message, string cardNumber, double amount) : base(message)
-        {
-            this.CardNumber = cardNumber;
-            this.Amount = amount;
-        }
-    }
-
     abstract public class Card
     {
         public Client Owner { get; }
@@ -25,7 +13,7 @@ namespace AppLogic
         /// Numer karty płatniczej
         /// </summary>
         public string Number { get; set; }
-
+        public bool IsActive { get; set; }
         public double Balance { get { return balance; } }
 
         protected double balance;
@@ -55,7 +43,7 @@ namespace AppLogic
         /// Abstrakcyjna metoda, której zadaniem jest dokonanie transakcji na kartę
         /// </summary>
         /// <param name="amount">Kwota</param>
-        /// <exception cref="InsufficientCardBalance">Wyrzuca wyjątek InsufficientCardBalance, jeżeli typ karty nie pozwala na przekroczenie 0 na koncie</exception>
+        /// <exception cref="InsufficientCardBalanceException">Wyrzuca wyjątek InsufficientCardBalanceException, jeżeli typ karty nie pozwala na przekroczenie 0 na koncie</exception>
         abstract public void MakeTransaction(double amount);
     }
 }

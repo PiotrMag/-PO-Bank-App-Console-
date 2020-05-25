@@ -23,8 +23,8 @@ namespace AppLogic
 
         public Client(string name, string number, ClientType clientType)
         {
-            this.Name = name;
-            this.Number = number;
+            Name = name;
+            Number = number;
             this.clientType = clientType; 
         }
 

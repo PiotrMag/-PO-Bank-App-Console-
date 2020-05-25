@@ -38,7 +38,7 @@ namespace AppLogic
         /// <returns>
         /// BankActionResult, ktory mowi o tym, czy autoryzacja sie powiodla, czy nie
         /// </returns>
-        public BankActionResult Authorize (Card card)
+        public BankActionResult Authorize(Card card)
         {
             foreach (Card c in cards)
             {
@@ -60,28 +60,96 @@ namespace AppLogic
         }
 
         #region obsługa kart (dodawanie/usuwanie)
+
+        /// <summary>
+        /// Funkcja generująca 18-cyfrowy numer karty bankowej
+        /// </summary>
+        /// <param name="type">typ karty, której numer generujemy</param>
+        /// <returns>numer karty</returns>
+        private string GenerateCardNumber(CardType type)
+        {
+            string number = (9999 - Id).ToString();
+
+            while (number.Length < 4)
+                number = "0" + number;
+            switch (type)
+            {
+                case CardType.CreditCard:
+                    number += "01";
+                    break;
+                case CardType.DebitCard:
+                    number += "02";
+                    break;
+                case CardType.ATMCard:
+                    number += "03";
+                    break;
+            }
+            string hash = (Math.Abs(DateTime.Now.GetHashCode()) % 99979933).ToString();
+            while (hash.Length < 8)
+                hash = "0" + hash;
+            number += hash;
+            int checkSum = 0;
+            for (int i = 0; i < number.Length; i++)
+            {
+                checkSum += ((int)number[i]*13 + 577) % 277;
+            }
+            checkSum %= 9109;
+            hash = checkSum.ToString();
+            while (hash.Length < 4)
+                hash = "0" + hash;
+            return number;
+        }
+
         /// <summary>
         /// Dodaj nowa/istniejaca karte do banku
         /// </summary>
-        /// <param name="card">Karta do dodania</param>
+        /// <param name="owner">Użytkownik żądający dodania</param>
+        /// <param name="type">Typ dodawanej karty</param>
         /// <returns>
-        /// BankActionResult, ktory mowi o tym, czy akcja sie powiodla, czy nie
+        /// Obiekt utworzonej karty
         /// </returns>
-        public BankActionResult AddCard(Card card)
+        public Card AddCard(Client owner, CardType type)
         {
-            return BankActionResult.NULL;
+            if (owner == null)
+                throw new NullUserException("Nie podano użytkownika");
+            string number = GenerateCardNumber(type);
+            Card card = null;
+            switch (type)
+            {
+                case CardType.CreditCard:
+                    card = new CreditCard(number, owner);
+                    break;
+                case CardType.DebitCard:
+                    card = new DebitCard(number, owner);
+                    break;
+                case CardType.ATMCard:
+                    card = new ATMCard(number, owner);
+                    break;
+            }
+            return card;
         }
 
         /// <summary>
         /// Usuwa kartę z systemu (tzw. soft delete)
         /// </summary>
         /// <param name="number">Numer usuwanej karty</param>
-        /// <returns>
-        /// BankActionResult, ktory mowi o tym, czy akcja sie powiodla, czy nie
-        /// </returns>
-        public BankActionResult DeleteCard(string number)
+        public void DeleteCard(string number)
         {
-            return BankActionResult.NULL;
+            bool removed = false;
+            foreach (var card in cards)
+            {
+                if (number == card.Number && card.Balance < 0)
+                    throw new NotEmptyAccountException("Na karcie znajduje się debet. Nie można usunąć!!!", card.Balance);
+                else if (number == card.Number && card.Balance > 0)
+                    throw new NotEmptyAccountException("Na karcie znajdują się jeszcze niewykorzystane środki. Nie można usunąć!!!", card.Balance);
+                else if (number == card.Number)
+                {
+                    card.IsActive = false;
+                    removed = true;
+                }
+            }
+            if (!removed)
+                throw new NoSuchCardException("Nie znaleziono karty o podanym numerze");
         }
         #endregion
 

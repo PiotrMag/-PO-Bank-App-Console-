@@ -23,11 +23,11 @@ namespace AppLogic
     {
         #region Kod Singleton Pattern
         private static PaymentCenter instance = null;
-        public static PaymentCenter Instance 
+        public static PaymentCenter Instance
         {
-            get 
+            get
             {
-                if (instance == null) 
+                if (instance == null)
                     instance = new PaymentCenter();
                 return instance;
             }
@@ -35,11 +35,11 @@ namespace AppLogic
 
         private PaymentCenter()
         {
-            banksList = new List<Bank>();
+            bankList = new List<Bank>();
         }
         #endregion
 
-        private List<Bank> banksList;
+        private List<Bank> bankList;
 
 
         /// <summary>
@@ -47,7 +47,7 @@ namespace AppLogic
         /// Kazdy element jest pojedynczym wpisem do lokalnego archiwum
         /// </summary
         /// <param name="query">Zapytanie do wykonania w archiwum</param>
-        public List<ArchiveRecord> SearchArchives(String query) 
+        public List<ArchiveRecord> SearchArchives(String query)
         {
             return null;
         }
@@ -91,7 +91,7 @@ namespace AppLogic
             {
                 writer.WriteStartDocument();
                 // zapisywanie stanu banków
-                foreach (Bank bank in banksList)
+                foreach (Bank bank in bankList)
                 {
                     string bankName = bank.Name;
                     int bankId = bank.Id;
@@ -137,7 +137,7 @@ namespace AppLogic
             Stream fileStream = FileHandling.GetReadingStream(filePath);
             if (fileStream == null)
                 return false;
-            
+
             // XMLParser (reader)
             using (XmlReader reader = XmlReader.Create(fileStream))
             {
@@ -172,6 +172,9 @@ namespace AppLogic
         /// <returns>Wynik wykonania transakcji</returns>
         public BankActionResult MakeTransactionRequest(Card fromCard, Card toCard, double amount)
         {
+
+
+
             return BankActionResult.NULL;
         }
         #endregion
@@ -183,23 +186,58 @@ namespace AppLogic
         /// <param name="client">Klient żądający dodania karty</param>
         /// <param name="type">Typ tworzonej karty</param>
         /// <returns>
-        /// BankActionResult, ktory mowi o tym, czy akcja sie powiodla, czy nie
+        /// Obiekt utworzonej karty
         /// </returns>
-        public BankActionResult AddNewCardRequest(Client client, CardType type)
+        public Card AddNewCardRequest(Client client, CardType type, int bankId)
         {
-            return BankActionResult.NULL;
+            Card card = null;
+            try
+            {
+                foreach (var bank in bankList)
+                {
+                    if (bankId == bank.Id)
+                    {
+                        card = bank.AddCard(client, type);
+                        break;
+                    }
+                }
+            }
+            catch (NullUserException exception)
+            {
+                throw exception;
+            }
+            return card;
         }
 
         /// <summary>
         /// Wysyła do banku prośbę o usunięcie z systemu karty
         /// </summary>
         /// <param name="number">Numer usuwanej karty</param>
-        /// <returns>
-        /// BankActionResult, ktory mowi o tym, czy akcja sie powiodla, czy nie
-        /// </returns>
-        public BankActionResult DeleteCardRequest(string number)
+        public void DeleteCardRequest(string number)
         {
-            return BankActionResult.NULL;
+            int id = 9999 - int.Parse(number.Remove(4));
+            try
+            {
+                bool removed = false;
+                foreach (var bank in bankList)
+                {
+                    if (bank.Id == id)
+                    {
+                        bank.DeleteCard(number);
+                        removed = true;
+                        break;
+                    }
+                }
+                if (!removed) throw new NoSuchCardException("Nie znaleziono karty o podanym numerze");
+            }
+            catch (NoSuchCardException ex)
+            {
+                throw ex;
+            }
+            catch (NotEmptyAccountException exception)
+            {
+                throw exception;
+            }
         }
         #endregion
 
