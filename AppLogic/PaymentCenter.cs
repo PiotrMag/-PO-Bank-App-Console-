@@ -253,13 +253,22 @@ namespace AppLogic
         }
 
         /// <summary>
-        /// Wysyła do banku prośbę o usunięcie z systemu klienta
+        /// Wysyła do wszystkich banków prośbę o usunięcie z systemu klienta
         /// </summary>
         /// <param name="client">Obiekt usuwanego klienta</param>
-        /// <returns></returns>
-        public BankActionResult DeleteClientRequest(Client client)
+        public void DeleteClientRequest(Client client)
         {
-            return BankActionResult.NULL;
+            try
+            {
+                foreach (var bank in bankList)
+                {
+                    bank.DeleteClient(client);
+                }
+            }
+            catch(NotEmptyAccountException ex)
+            {
+                throw ex;
+            }
         }
         #endregion
     }
