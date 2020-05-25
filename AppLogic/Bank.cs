@@ -91,7 +91,7 @@ namespace AppLogic
             int checkSum = 0;
             for (int i = 0; i < number.Length; i++)
             {
-                checkSum += ((int)number[i]*13 + 577) % 277;
+                checkSum += ((int)number[i] * 13 + 577) % 277;
             }
             checkSum %= 9109;
             hash = checkSum.ToString();
@@ -168,10 +168,19 @@ namespace AppLogic
         /// Usuwa z systemu klienta i powiązane z nim karty (tzw. soft delete)
         /// </summary>
         /// <param name="client">Obiekt usuwanego klienta</param>
-        /// <returns></returns>
-        public BankActionResult DeleteClient(Client client)
+        public void DeleteClient(Client client)
         {
-            return BankActionResult.NULL;
+            foreach (var card in cards)
+            {
+                if (card.Owner.Equals(client) && card.Balance < 0)
+                    throw new NotEmptyAccountException("Na karcie znajduje się debet. Nie można usunąć!!!", card.Balance);
+                else if (card.Owner.Equals(client) && card.Balance > 0)
+                    throw new NotEmptyAccountException("Na karcie znajdują się jeszcze niewykorzystane środki. Nie można usunąć!!!", card.Balance);
+                else if (card.Owner.Equals(client))
+                {
+                    card.IsActive = false;
+                }
+            }
         }
         #endregion
     }
