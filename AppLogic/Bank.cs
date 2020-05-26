@@ -61,6 +61,7 @@ namespace AppLogic
                 if (card.Number == cardNumber)
                 {
                     card.MakeTransaction(amount);
+                    break;
                 }
             }
         }
@@ -159,17 +160,6 @@ namespace AppLogic
         }
         #endregion
 
-        #region obsługa klientów (dodawanie/usuwanie)
-        /// <summary>
-        /// Dodaje do systemu nowego klienta
-        /// </summary>
-        /// <param name="client">Obiekt dodawanego klienta</param>
-        /// <returns></returns>
-        public BankActionResult AddClient(Client client)
-        {
-            return BankActionResult.NULL;
-        }
-
         /// <summary>
         /// Usuwa z systemu klienta i powiązane z nim karty (tzw. soft delete)
         /// </summary>
@@ -188,6 +178,5 @@ namespace AppLogic
                 }
             }
         }
-        #endregion
     }
 }

@@ -43,8 +43,7 @@ namespace AppLogic
 
 
         /// <summary>
-        /// Zwraca liste obiektow typu ArchiveRecord
-        /// Kazdy element jest pojedynczym wpisem do lokalnego archiwum
+        /// Zwraca liste rekordów archiwum spełniających podane zapytanie
         /// </summary
         /// <param name="query">Zapytanie do wykonania w archiwum</param>
         public List<ArchiveRecord> SearchArchives(String query)
@@ -263,17 +262,6 @@ namespace AppLogic
         }
         #endregion
 
-        #region obsługa klientów (dodawanie/usuwanie)
-        /// <summary>
-        /// Wysyła do banku prośbę o dodanie do systemu nowego klienta
-        /// </summary>
-        /// <param name="client">Obiekt dodawanego klienta</param>
-        /// <returns></returns>
-        public BankActionResult AddNewClientRequest(Client client)
-        {
-            return BankActionResult.NULL;
-        }
-
         /// <summary>
         /// Wysyła do wszystkich banków prośbę o usunięcie z systemu klienta
         /// </summary>
@@ -292,6 +280,5 @@ namespace AppLogic
                 throw ex;
             }
         }
-        #endregion
     }
 }
