@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static AppLogic.Card;
 
 namespace AppLogic
 {
@@ -28,8 +29,22 @@ namespace AppLogic
         /// <param name="name">Nazwa banku</param>
         public Bank(string name)
         {
-            Name = name;
+            if (name == null)
+                Name = "UNKNOWN";
+            else
+                Name = name;
             Id = counter++;
+        }
+
+        public Bank(string name, int id)
+        {
+            if (name == null)
+                Name = "UNKNOWN";
+            else
+                Name = name;
+            Id = id;
+            if (counter <= id)
+                counter = id + 1;
         }
 
         /// <summary>
@@ -133,7 +148,15 @@ namespace AppLogic
                     card = new ATMCard(number, owner);
                     break;
             }
+            //TODO: dodać karte do banku
             return card;
+        }
+
+        public void AddCard(Card card)
+        {
+            if (card == null)
+                throw new Exception("Probowano dodac pusta karte"); //TODO: przerobic na odpowiedni rodzaj Exception
+            this.cards.Add(card);
         }
 
         /// <summary>

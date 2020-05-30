@@ -8,7 +8,16 @@ namespace AppLogic
 {
     abstract public class Card
     {
+        public enum CardType
+        {
+            NULL = -1,
+            CreditCard = 1,
+            DebitCard = 2,
+            ATMCard = 3,
+        }
+
         public Client Owner { get; }
+
         /// <summary>
         /// Numer karty płatniczej
         /// </summary>

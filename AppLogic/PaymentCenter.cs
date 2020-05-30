@@ -5,15 +5,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml;
+using static AppLogic.Card;
 
 namespace AppLogic
 {
-    public enum CardType
-    {
-        CreditCard,
-        DebitCard,
-        ATMCard
-    }
 
     /// <summary>
     /// Klasa PaymentCenter zaimplementowana na bazie Singleton Pattern
@@ -96,7 +91,7 @@ namespace AppLogic
                     int bankId = bank.Id;
                     if (bankName == null || bankId < 0)
                         continue; // TODO: może trzeba zmienić, żeby wyrzucało błąd????
-                    writer.WriteStartElement("banks");
+                    writer.WriteStartElement("bank");
                     writer.WriteAttributeString("name", bankName);
                     writer.WriteAttributeString("id", bankId.ToString());
 
@@ -106,11 +101,23 @@ namespace AppLogic
                         Client cardOwner = card.Owner;
                         if (cardNumber == null || cardOwner == null)
                             continue; // TODO: może lepiej przerobić, żeby wyrzucało wyjątek????
+                        CardType cardType;
+                        if (card is CreditCard)
+                            cardType = CardType.CreditCard;
+                        else if (card is DebitCard)
+                            cardType = CardType.DebitCard;
+                        else if (card is ATMCard)
+                            cardType = CardType.ATMCard;
+                        else
+                            continue; //TODO: może lepiej wyrzucić wyjątek????
+
                         writer.WriteStartElement("card");
                         writer.WriteAttributeString("number", cardNumber);
                         writer.WriteAttributeString("ownerName", cardOwner.Name);
                         writer.WriteAttributeString("ownerNumber", cardOwner.Number.ToString());
                         writer.WriteAttributeString("ownerType", cardOwner.clientType.ToString("g"));
+                        writer.WriteAttributeString("cardType", cardType.ToString("g"));
+                        //TODO: dodać isActive i balance
 
                         writer.WriteEndElement();
                     }
@@ -123,6 +130,24 @@ namespace AppLogic
             }
 
             return FileHandling.WriteFile(filePath, xmlContent.ToString(), false);
+        }
+
+        /// <summary>
+        /// Sprawdza, czy bank o danym id jest na liście bankList w PaymentCenter
+        /// </summary>
+        /// <param name="bankId">ID banku</param>
+        /// <returns>czy dany bank jest na liście bankList</returns>
+        private bool IsBankOnTheList(int bankId)
+        {
+            if (bankId < 0)
+                return false;
+
+            foreach (Bank b in bankList)
+            {
+                if (b.Id == bankId)
+                    return true;
+            }
+            return false;
         }
 
         /// <summary>
@@ -140,18 +165,86 @@ namespace AppLogic
             // XMLParser (reader)
             using (XmlReader reader = XmlReader.Create(fileStream))
             {
+                string currentBankName = null, currentBankId = null;
+
                 while (reader.Read())
                 {
-                    switch (reader.NodeType)
+                    if (reader.NodeType == XmlNodeType.Element && reader.Name == "bank")
                     {
-                        case XmlNodeType.Element:
-                            break;
-                        case XmlNodeType.Attribute:
-                            break;
-                        case XmlNodeType.Text:
-                            break;
-                        default:
-                            break;
+                        currentBankName = reader.GetAttribute("name");
+                        currentBankId = reader.GetAttribute("id");
+                    }
+
+                    if (reader.NodeType == XmlNodeType.Element && reader.Name == "card")
+                    {
+                        if (reader.HasAttributes)
+                        {
+                            string clientName, clientNumber, cardNumber, cardLimitString;
+                            double cardLimit = 0;
+                            ClientType clientType;
+                            CardType cardType;
+                            //TODO: dodać wczytywanie isActive i balance
+
+                            clientName = reader.GetAttribute("ownerName");
+                            clientNumber = reader.GetAttribute("ownerNumber");
+                            clientType = (ClientType)int.Parse(reader.GetAttribute("ownerType"));
+                            cardNumber = reader.GetAttribute("number");
+                            cardType = (CardType)int.Parse(reader.GetAttribute("cardType"));
+                            cardLimitString = reader.GetAttribute("cardLimit");
+
+                            if (cardLimitString != null)
+                                cardLimit = double.Parse(cardLimitString);
+
+                            Client owner;
+
+                            if (clientType == ClientType.NaturalPerson)
+                                owner = new NaturalPerson(clientName, clientNumber);
+                            else if (clientType == ClientType.ServiceCompany)
+                                owner = new ServiceCompany(clientName, clientNumber);
+                            else if (clientType == ClientType.Shop)
+                                owner = new Shop(clientName, clientNumber);
+                            else if (clientType == ClientType.ServiceCompany)
+                                owner = new ServiceCompany(clientName, clientNumber);
+                            else
+                                continue;
+
+                            Card newCard;
+
+                            if (cardType == CardType.CreditCard)
+                                newCard = new CreditCard(cardNumber, owner, cardLimit);
+                            else if (cardType == CardType.DebitCard)
+                                newCard = new DebitCard(cardNumber, owner);
+                            else if (cardType == CardType.ATMCard)
+                                newCard = new ATMCard(cardNumber, owner);
+                            else
+                                continue;
+
+                            if (!IsBankOnTheList(currentBankId == null ? -1: int.Parse(currentBankId)))
+                            {
+                                Bank newBank;
+
+                                if (currentBankId == null || int.Parse(currentBankId) < 0)
+                                {
+                                    newBank = new Bank(currentBankName == null ? "UNKNOWN": currentBankName);
+                                    currentBankId = newBank.Id.ToString();
+                                    currentBankName = newBank.Name;
+                                }
+                                else
+                                {
+                                    newBank = new Bank(currentBankName, int.Parse(currentBankId));
+                                }
+
+                                bankList.Add(newBank);
+                            }
+
+                            AddNewCardRequest(newCard, int.Parse(currentBankId));
+                        }
+                    }
+
+                    if (reader.NodeType == XmlNodeType.EndElement && reader.Name == "bank")
+                    {
+                        currentBankName = null;
+                        currentBankId = null;
                     }
                 }
             }
@@ -228,6 +321,24 @@ namespace AppLogic
                 throw exception;
             }
             return card;
+        }
+
+        public void AddNewCardRequest(Card card, int bankId)
+        {
+            Bank bank = null;
+            foreach (Bank b in bankList)
+            {
+                if (b.Id == bankId)
+                {
+                    bank = b;
+                    break;
+                }
+            }
+
+            if (bank == null)
+                throw new Exception("Probowano dodac karte do nieistniejacegeo banku"); //TODO: przerobić na odpowiedni typ Exception
+
+            bank.AddCard(card);
         }
 
         /// <summary>
