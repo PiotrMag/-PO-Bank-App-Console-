@@ -20,7 +20,7 @@ namespace AppLogic
     {
         private static int counter = 0;
         public string Name { get; set; }
-        public List<Card> cards { get; }
+        public List<Card> Cards { get; }
         public int Id { get; }
 
         /// <summary>
@@ -55,7 +55,7 @@ namespace AppLogic
         /// </returns>
         public BankActionResult Authorize(string cardNumber, double amount)
         {
-            foreach (Card c in cards)
+            foreach (Card c in Cards)
             {
                 if (c.Number == cardNumber && c.Authorize(amount)==BankActionResult.SUCCESS)
                     return BankActionResult.SUCCESS;
@@ -71,7 +71,7 @@ namespace AppLogic
         /// <returns>Zwraca rezultat wykonania transakcji</returns>
         public void MakeTransaction(string cardNumber, double amount)
         {
-            foreach (var card in cards)
+            foreach (var card in Cards)
             {
                 if (card.Number == cardNumber)
                 {
@@ -156,7 +156,7 @@ namespace AppLogic
         {
             if (card == null)
                 throw new Exception("Probowano dodac pusta karte"); //TODO: przerobic na odpowiedni rodzaj Exception
-            this.cards.Add(card);
+            Cards.Add(card);
         }
 
         /// <summary>
@@ -166,7 +166,7 @@ namespace AppLogic
         public void DeleteCard(string number)
         {
             bool removed = false;
-            foreach (var card in cards)
+            foreach (var card in Cards)
             {
                 if (number == card.Number && card.Balance < 0)
                     throw new NotEmptyAccountException("Na karcie znajduje się debet. Nie można usunąć!!!", card.Balance, card.Number);
@@ -189,7 +189,7 @@ namespace AppLogic
         /// <param name="client">Obiekt usuwanego klienta</param>
         public void DeleteClient(Client client)
         {
-            foreach (var card in cards)
+            foreach (var card in Cards)
             {
                 if (card.Owner.Equals(client) && card.Balance < 0)
                     throw new NotEmptyAccountException("Na karcie znajduje się debet. Nie można usunąć!!!", card.Balance, card.Number);

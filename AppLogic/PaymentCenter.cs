@@ -34,7 +34,7 @@ namespace AppLogic
         }
         #endregion
 
-        private List<Bank> bankList;
+        private readonly List<Bank> bankList;
 
 
         /// <summary>
@@ -95,7 +95,7 @@ namespace AppLogic
                     writer.WriteAttributeString("name", bankName);
                     writer.WriteAttributeString("id", bankId.ToString());
 
-                    foreach (Card card in bank.cards)
+                    foreach (Card card in bank.Cards)
                     {
                         string cardNumber = card.Number;
                         Client cardOwner = card.Owner;
