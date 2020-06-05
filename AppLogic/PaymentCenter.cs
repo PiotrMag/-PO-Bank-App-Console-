@@ -162,6 +162,9 @@ namespace AppLogic
             if (fileStream == null)
                 return false;
 
+            // Czyszczenie listy banków
+            bankList.Clear();
+
             // XMLParser (reader)
             using (XmlReader reader = XmlReader.Create(fileStream))
             {
