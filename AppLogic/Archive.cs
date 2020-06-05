@@ -85,7 +85,7 @@ namespace AppLogic
         /// <param name="dbFilePath">Ściezka do bazy danych</param>
         /// <param name="command">Komenda do wykonania</param>
         /// <returns>Zwraca wynik wykonania query</returns>
-        static public List<ArchiveRecord> ExecuteSQLQuery(string dbFilePath, string tableName, string query)
+        static public List<ArchiveRecord> ExecuteSQLQuery(string dbFilePath, string query)
         {
             List<ArchiveRecord> records = new List<ArchiveRecord>();
             using (var connection = new SqliteConnection("Data Source=" + dbFilePath))
@@ -93,8 +93,7 @@ namespace AppLogic
                 connection.Open();
 
                 var command = connection.CreateCommand();
-                command.CommandText = sqlInsertIntoTable;
-                command.ExecuteNonQuery();
+                command.CommandText = query;
 
                 using (var reader = command.ExecuteReader())
                 {
