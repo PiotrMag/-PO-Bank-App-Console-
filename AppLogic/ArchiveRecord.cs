@@ -46,7 +46,20 @@ namespace AppLogic
                                 string clientName, string clientID, string clientCardID, string clientCardType, string clientBankName, string clientBankID,
                                 double amount, BankActionResult bankActionResult)
         {
-
+            CompanyName = companyName == null ? companyName : "NULL";
+            CompanyType = companyType == null ? companyType : "NULL";
+            CompanyCardID = companyCardID == null ? companyCardID : "NULL";
+            CompanyCardType = companyCardType == null ? companyCardType : "NULL";
+            CompanyBankName = companyBankName == null ? companyBankName : "NULL";
+            CompanyBankID = companyBankID == null ? companyBankID : "NULL";
+            ClientName = clientName == null ? clientName : "NULL";
+            ClientID = clientID == null ? clientID : "NULL";
+            ClientCardID = clientCardID == null ? clientCardID : "NULL";
+            ClientCardType = clientCardType == null ? clientCardType : "NULL";
+            ClientBankName = clientBankName == null ? clientBankName : "NULL";
+            ClientBankID = clientBankID == null ? clientBankID : "NULL";
+            Amount = amount;
+            Result = bankActionResult;
         }
     }
 }
