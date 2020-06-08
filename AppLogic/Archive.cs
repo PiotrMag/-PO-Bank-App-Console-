@@ -13,8 +13,8 @@ namespace AppLogic
 {
     static class Archive
     {
-        static private string sqlCreateTable = @"CREATE TABLE IF NOT EXISTS $tableName (id INTEGER PRIMARY KEY AUTOINCREMENT, companyName TEXT, companyType TEXT, companyCardID TEXT, companyCardType TEXT, companyBankName TEXT, companyBankID TEXT, clientName TEXT, clientID TEXT, clientCardID TEXT, clientCardType TEXT, clientBankName TEXT, clientBankID TEXT, amount REAL, bankActionResult TEXT);";
-        static private string sqlInsertIntoTable = @"INSER INTO $tableName (companyName, companyType, companyCardID, companyCardType, companyBankName, companyBankID, clientName, clientID, clientCardID, clientCardType, clientBankName, clientBankID, amount, bankActionResult) VALUES ($companyName, $companyType, $companyCardID, $companyCardType, $companyBankName, $companyBankID, $clientName, $clientID, $clientCardID, $clientCardType, $clientBankName, $clientBankID, $amount, $bankActionResult);";
+        static private string sqlCreateTable = @"CREATE TABLE IF NOT EXISTS $tableName (id INTEGER PRIMARY KEY AUTOINCREMENT, fromName TEXT, fromType TEXT, fromCardID TEXT, fromCardType TEXT, fromBankName TEXT, fromBankID TEXT, toName TEXT, toID TEXT, toCardID TEXT, toCardType TEXT, toBankName TEXT, toBankID TEXT, amount REAL, bankActionResult TEXT);";
+        static private string sqlInsertIntoTable = @"INSER INTO $tableName (fromName, fromType, fromCardID, fromCardType, fromBankName, fromBankID, toName, toID, toCardID, toCardType, toBankName, toBankID, amount, bankActionResult) VALUES (fromName, fromType, fromCardID, fromCardType, fromBankName, fromBankID, toName, toID, toCardID, toCardType, toBankName, toBankID, $amount, $bankActionResult);";
 
         /// <summary>
         /// Sprawdza, czy plik z bazą danych istnieje
@@ -61,18 +61,18 @@ namespace AppLogic
                 var command = connection.CreateCommand();
                 command.CommandText = sqlInsertIntoTable;
                 command.Parameters.AddWithValue("$tableName", tableName);
-                command.Parameters.AddWithValue("$companyName", record.CompanyName);
-                command.Parameters.AddWithValue("$companyType", record.CompanyType);
-                command.Parameters.AddWithValue("$companyCardID", record.CompanyCardID);
-                command.Parameters.AddWithValue("$companyCardType", record.CompanyCardType);
-                command.Parameters.AddWithValue("$companyBankName", record.CompanyBankName);
-                command.Parameters.AddWithValue("$companyBankID", record.CompanyBankID);
-                command.Parameters.AddWithValue("$clientName", record.ClientName);
-                command.Parameters.AddWithValue("$clientID", record.ClientID);
-                command.Parameters.AddWithValue("$clientCardID", record.ClientCardID);
-                command.Parameters.AddWithValue("$clientCardType", record.ClientCardType);
-                command.Parameters.AddWithValue("$clientBankName", record.ClientBankName);
-                command.Parameters.AddWithValue("$clientBankID", record.ClientBankID);
+                command.Parameters.AddWithValue("fromName", record.FromName);
+                command.Parameters.AddWithValue("fromType", record.FromType);
+                command.Parameters.AddWithValue("fromCardID", record.FromCardID);
+                command.Parameters.AddWithValue("fromCardType", record.FromCardType);
+                command.Parameters.AddWithValue("fromBankName", record.FromBankName);
+                command.Parameters.AddWithValue("fromBankID", record.FromBankID);
+                command.Parameters.AddWithValue("toName", record.ToName);
+                command.Parameters.AddWithValue("toID", record.ToID);
+                command.Parameters.AddWithValue("toCardID", record.ToCardID);
+                command.Parameters.AddWithValue("toCardType", record.ToCardType);
+                command.Parameters.AddWithValue("toBankName", record.ToBankName);
+                command.Parameters.AddWithValue("toBankID", record.ToBankID);
                 command.Parameters.AddWithValue("$amount", record.Amount);
                 command.Parameters.AddWithValue("$bankActionResult", record.Result);
                 command.ExecuteNonQuery();
@@ -101,22 +101,22 @@ namespace AppLogic
                     {
                         if (reader.FieldCount < 15)
                             continue; //TODO: może leipej wyrzucić błąd ????
-                        string companyName = reader.GetString(1);
-                        string companyType = reader.GetString(2);
-                        string companyCardID = reader.GetString(3);
-                        string companyCardType = reader.GetString(4);
-                        string companyBankName = reader.GetString(5);
-                        string companyBankID = reader.GetString(6);
-                        string clientName = reader.GetString(7);
-                        string clientID = reader.GetString(8);
-                        string clientCardID = reader.GetString(9);
-                        string clientCardType = reader.GetString(10);
-                        string clientBankName = reader.GetString(11);
-                        string clientBankID = reader.GetString(12);
+                        string fromName = reader.GetString(1);
+                        string fromType = reader.GetString(2);
+                        string fromCardID = reader.GetString(3);
+                        string fromCardType = reader.GetString(4);
+                        string fromBankName = reader.GetString(5);
+                        string fromBankID = reader.GetString(6);
+                        string toName = reader.GetString(7);
+                        string toID = reader.GetString(8);
+                        string toCardID = reader.GetString(9);
+                        string toCardType = reader.GetString(10);
+                        string toBankName = reader.GetString(11);
+                        string toBankID = reader.GetString(12);
                         float amount = reader.GetFloat(13);
                         BankActionResult bankActionResult = (BankActionResult)int.Parse(reader.GetString(14));
 
-                        ArchiveRecord newRecord = new ArchiveRecord(companyName, companyType, companyCardID, companyCardType, companyBankName, companyBankID, clientName, clientID, clientCardID, clientCardType, clientBankName, clientBankID, amount, bankActionResult);
+                        ArchiveRecord newRecord = new ArchiveRecord(fromName, fromType, fromCardID, fromCardType, fromBankName, fromBankID, toName, toID, toCardID, toCardType, toBankName, toBankID, amount, bankActionResult);
                         records.Add(newRecord);
                     }
                 }

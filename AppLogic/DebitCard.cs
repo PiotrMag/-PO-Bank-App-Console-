@@ -12,7 +12,7 @@ namespace AppLogic
         /// Tworzy nową kartę debetową o podanym numerze
         /// </summary>
         /// <param name="number">Numer karty</param>
-        internal DebitCard(string number, Client owner) : base(number, owner)
+        internal DebitCard(string number, Client owner, bool isActive, double balance) : base(number, owner, isActive, balance)
         {
         }
 

@@ -19,7 +19,7 @@ namespace AppLogic
         public string Name { get; }
         public string Number { get; }
         public bool IsActive { get; set; }
-        public ClientType clientType { get; }
+        public ClientType ClientType { get; }
 
         public Client(string name, string number, ClientType clientType)
         {

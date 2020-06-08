@@ -6,20 +6,20 @@ namespace AppLogic
     public class ArchiveRecord
     {
         // Dane na temat firmy
-        public string CompanyName { get; }
-        public string CompanyType { get; }
-        public string CompanyCardID { get; }
-        public string CompanyCardType { get; }
-        public string CompanyBankName { get; }
-        public string CompanyBankID { get; }
+        public string FromName { get; }
+        public string FromType { get; }
+        public string FromCardID { get; }
+        public string FromCardType { get; }
+        public string FromBankName { get; }
+        public string FromBankID { get; }
 
         // Dane na temat klienta
-        public string ClientName { get; }
-        public string ClientID { get; }
-        public string ClientCardID { get; }
-        public string ClientCardType { get; }
-        public string ClientBankName { get; }
-        public string ClientBankID { get; }
+        public string ToName { get; }
+        public string ToID { get; }
+        public string ToCardID { get; }
+        public string ToCardType { get; }
+        public string ToBankName { get; }
+        public string ToBankID { get; }
 
         // Dane o trnsakcji
         public double Amount { get; }
@@ -28,36 +28,36 @@ namespace AppLogic
         /// <summary>
         /// Tworzy obiekt reprezentujący wpis, który może zostać obsłuzony przez Archive. Przechowuje on informacje o pojedynczym rekordzie (transakcji)
         /// </summary>
-        /// <param name="companyName">Nazwa firmy</param>
-        /// <param name="companyType">Typ firmy</param>
-        /// <param name="companyCardID">ID firmy</param>
-        /// <param name="companyCardType">Typ karty firmy</param>
-        /// <param name="companyBankName">Nazwa banku, w którym firma ma kartę</param>
-        /// <param name="companyBankID">ID banku, w którym firma ma kartę</param>
-        /// <param name="clientName">Nazwa klienta</param>
-        /// <param name="clientID">ID klienta</param>
-        /// <param name="clientCardID">ID karty klienta</param>
-        /// <param name="clientCardType">Typ karty klienta</param>
-        /// <param name="clientBankName">Nazwa banku, w któryma klienta ma kratę</param>
-        /// <param name="clientBankID">ID banku, w którym klient ma kartę</param>
+        /// <param name="fromName">Nazwa firmy</param>
+        /// <param name="fromType">Typ firmy</param>
+        /// <param name="fromCardID">ID firmy</param>
+        /// <param name="fromCardType">Typ karty firmy</param>
+        /// <param name="fromBankName">Nazwa banku, w którym firma ma kartę</param>
+        /// <param name="fromBankID">ID banku, w którym firma ma kartę</param>
+        /// <param name="toName">Nazwa klienta</param>
+        /// <param name="toID">ID klienta</param>
+        /// <param name="toCardID">ID karty klienta</param>
+        /// <param name="toCardType">Typ karty klienta</param>
+        /// <param name="toBankName">Nazwa banku, w któryma klienta ma kratę</param>
+        /// <param name="toBankID">ID banku, w którym klient ma kartę</param>
         /// <param name="amount">Wielkość transakcji</param>
         /// <param name="bankActionResult">Wynik transakcji</param>
-        public ArchiveRecord(string companyName, string companyType, string companyCardID, string companyCardType, string companyBankName, string companyBankID, 
-                                string clientName, string clientID, string clientCardID, string clientCardType, string clientBankName, string clientBankID,
+        public ArchiveRecord(string fromName, string fromType, string fromCardID, string fromCardType, string fromBankName, string fromBankID, 
+                                string toName, string toID, string toCardID, string toCardType, string toBankName, string toBankID,
                                 double amount, BankActionResult bankActionResult)
         {
-            CompanyName = companyName == null ? companyName : "NULL";
-            CompanyType = companyType == null ? companyType : "NULL";
-            CompanyCardID = companyCardID == null ? companyCardID : "NULL";
-            CompanyCardType = companyCardType == null ? companyCardType : "NULL";
-            CompanyBankName = companyBankName == null ? companyBankName : "NULL";
-            CompanyBankID = companyBankID == null ? companyBankID : "NULL";
-            ClientName = clientName == null ? clientName : "NULL";
-            ClientID = clientID == null ? clientID : "NULL";
-            ClientCardID = clientCardID == null ? clientCardID : "NULL";
-            ClientCardType = clientCardType == null ? clientCardType : "NULL";
-            ClientBankName = clientBankName == null ? clientBankName : "NULL";
-            ClientBankID = clientBankID == null ? clientBankID : "NULL";
+            FromName = fromName == null ? fromName : "NULL";
+            FromType = fromType == null ? fromType : "NULL";
+            FromCardID = fromCardID == null ? fromCardID : "NULL";
+            FromCardType = fromCardType == null ? fromCardType : "NULL";
+            FromBankName = fromBankName == null ? fromBankName : "NULL";
+            FromBankID = fromBankID == null ? fromBankID : "NULL";
+            ToName = toName == null ? toName : "NULL";
+            ToID = toID == null ? toID : "NULL";
+            ToCardID = toCardID == null ? toCardID : "NULL";
+            ToCardType = toCardType == null ? toCardType : "NULL";
+            ToBankName = toBankName == null ? toBankName : "NULL";
+            ToBankID = toBankID == null ? toBankID : "NULL";
             Amount = amount;
             Result = bankActionResult;
         }

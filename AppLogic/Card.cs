@@ -24,6 +24,7 @@ namespace AppLogic
         public string Number { get; set; }
         public bool IsActive { get; set; }
         public double Balance { get { return balance; } }
+        public CardType Type { get; }
 
         protected double balance;
 
@@ -31,11 +32,12 @@ namespace AppLogic
         /// tworzy nową kartę płatniczą o podanym numerze
         /// </summary>
         /// <param name="number">numer karty</param>
-        public Card(string number, Client owner)
+        public Card(string number, Client owner, bool isActive, double balance)
         {
             Number = number;
             Owner = owner;
-            balance = 0;
+            IsActive = isActive;
+            this.balance = balance;
         }
 
         public override bool Equals(object obj)

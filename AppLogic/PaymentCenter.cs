@@ -1,7 +1,9 @@
-﻿using System;
+﻿using Microsoft.Data.Sqlite;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml;
@@ -16,6 +18,10 @@ namespace AppLogic
     /// </summary>
     public sealed class PaymentCenter
     {
+        private string dbFilePath = "archive.db";
+        private string dbTableName = "logs";
+        private bool isDBAvailable;
+
         #region Kod Singleton Pattern
         private static PaymentCenter instance = null;
         public static PaymentCenter Instance
@@ -31,6 +37,19 @@ namespace AppLogic
         private PaymentCenter()
         {
             bankList = new List<Bank>();
+            if (!Archive.CheckIfDBPresent(dbFilePath))
+            {
+                isDBAvailable = false;
+                try
+                {
+                    Archive.CreateDBAndTable(dbFilePath, dbTableName);
+                    isDBAvailable = true;
+                } 
+                catch (SqliteException e)
+                {
+                    //TODO: pokazać error
+                }
+            }
         }
         #endregion
 
@@ -50,13 +69,45 @@ namespace AppLogic
         /// <summary>
         /// Dodaje wpis o transakcji do lokalnego archiwum
         /// </summary>
-        /// <param name="fromCard">Karta, z której próbowano pobraś środki</param>
+        /// <param name="fromCard">Karta, z której próbowano pobrać środki</param>
+        /// <param name="fromBankName">Nazwa banku, w którym jest karta, z której próbowano pobrac środki</param>
+        /// <param name="fromBankID">ID banku, w którym jest karta, z której próbowano pobrac środki</param>
         /// <param name="toCard">Karta, na którą próbowano wpłacić środki</param>
+        /// <param name="toBankName">Nazwa banku, w którym jest karta, na którą przelać środki</param>
+        /// <param name="toBankID">ID banku, w którym jest karta, na którą próbowano przelać środki</param>
         /// <param name="amount">Kwota</param>
         /// <param name="result">Wynik wykonania transakcji (czy wystąpił błąd, jeśli tak, to jaki)</param>
-        public void LogInArchive(Card fromCard, Card toCard, double amount, String result)
+        public void LogInArchive(Card fromCard, Bank fromBank, Card toCard, Bank toBank, double amount, BankActionResult result)
         {
+            if (isDBAvailable)
+            {
+                try
+                {
+                    Archive.AddRecord(dbFilePath, dbTableName, 
+                        new ArchiveRecord(fromCard.Owner.Name, 
+                                        fromCard.Owner.ClientType.ToString("g"),
+                                        fromCard.Number,
+                                        fromCard.Type.ToString("g"),
+                                        fromBank.Name,
+                                        fromBank.Id.ToString(), 
+                                        toCard.Owner.Name,
+                                        toCard.Owner.Number,
+                                        toCard.Number,
+                                        toCard.Type.ToString("g"),
+                                        toBank.Name,
+                                        toBank.Id.ToString(),
+                                        amount,
+                                        result));
 
+                } catch (SqliteException e)
+                {
+                    //TODO: wyswietlić komunikat???
+                }
+            }
+            else
+            {
+                //TODO: wyswietlić komunikat o tym, że była próba logowania, ale nie ma DB
+            }
         }
         #endregion
 
@@ -115,9 +166,10 @@ namespace AppLogic
                         writer.WriteAttributeString("number", cardNumber);
                         writer.WriteAttributeString("ownerName", cardOwner.Name);
                         writer.WriteAttributeString("ownerNumber", cardOwner.Number.ToString());
-                        writer.WriteAttributeString("ownerType", cardOwner.clientType.ToString("g"));
+                        writer.WriteAttributeString("ownerType", cardOwner.ClientType.ToString("g"));
                         writer.WriteAttributeString("cardType", cardType.ToString("g"));
-                        //TODO: dodać isActive i balance
+                        writer.WriteAttributeString("isActive", card.IsActive.ToString());
+                        writer.WriteAttributeString("balance", card.Balance.ToString());
 
                         writer.WriteEndElement();
                     }
@@ -183,7 +235,8 @@ namespace AppLogic
                         if (reader.HasAttributes)
                         {
                             string clientName, clientNumber, cardNumber, cardLimitString;
-                            double cardLimit = 0;
+                            double cardLimit = 0, balance = 0;
+                            bool isActive = false;
                             ClientType clientType;
                             CardType cardType;
                             //TODO: dodać wczytywanie isActive i balance
@@ -194,6 +247,8 @@ namespace AppLogic
                             cardNumber = reader.GetAttribute("number");
                             cardType = (CardType)int.Parse(reader.GetAttribute("cardType"));
                             cardLimitString = reader.GetAttribute("cardLimit");
+                            isActive = bool.Parse(reader.GetAttribute("isActive"));
+                            balance = double.Parse(reader.GetAttribute("balance"));
 
                             if (cardLimitString != null)
                                 cardLimit = double.Parse(cardLimitString);
@@ -214,11 +269,11 @@ namespace AppLogic
                             Card newCard;
 
                             if (cardType == CardType.CreditCard)
-                                newCard = new CreditCard(cardNumber, owner, cardLimit);
+                                newCard = new CreditCard(cardNumber, owner, isActive, balance, cardLimit);
                             else if (cardType == CardType.DebitCard)
-                                newCard = new DebitCard(cardNumber, owner);
+                                newCard = new DebitCard(cardNumber, owner, isActive, balance);
                             else if (cardType == CardType.ATMCard)
-                                newCard = new ATMCard(cardNumber, owner);
+                                newCard = new ATMCard(cardNumber, owner, isActive, balance);
                             else
                                 continue;
 

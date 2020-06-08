@@ -12,7 +12,7 @@ namespace AppLogic
         /// Tworzy nową kartę kredytową o podanym numerze
         /// </summary>
         /// <param name="number">Numer karty</param>
-        internal CreditCard(string number, Client owner, double creditLimit=1000) : base(number, owner)
+        internal CreditCard(string number, Client owner, bool isActive, double balance, double creditLimit=1000) : base(number, owner, isActive, balance)
         {
             this.creditLimit = -creditLimit;
         }
