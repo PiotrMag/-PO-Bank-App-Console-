@@ -20,9 +20,18 @@ namespace AppLogic
             return BankActionResult.NULL;
         }
 
-        public Company(string name, string NIP) : base(name, NIP)
+        public Company(string name, string NIP, ClientType clientType) : base(name, NIP, clientType)
         {
 
+        }
+
+        public override bool Equals(object obj)
+        {
+            if (!(obj is Company))
+                return false;
+            if (this.Name == ((Company)obj).Name && this.Number == ((Company)obj).Name)
+                return true;
+            return false;
         }
     }
 }

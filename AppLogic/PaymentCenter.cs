@@ -55,7 +55,7 @@ namespace AppLogic
 
         private readonly List<Bank> bankList;
 
-
+        #region przeszukiwanie archiwum
         /// <summary>
         /// Zwraca liste rekordów archiwum spełniających podane zapytanie
         /// </summary
@@ -64,6 +64,7 @@ namespace AppLogic
         {
             return null;
         }
+        #endregion
 
         #region logowanie płatności
         /// <summary>
@@ -113,12 +114,28 @@ namespace AppLogic
 
         #region przegladanie firm
         /// <summary>
-        /// Zwraca wszystkie firmy/sklepy
+        /// Zwraca wszystkie firmy/sklepy. Unikalność firmy/sklepu jest określana na podstawie nazwy i numeru firmy/sklepu
         /// </summary>
         /// <returns>Lista typu Company</returns>
         public List<Company> GetCompanies()
         {
-            return new List<Company>();
+            List<Company> companies = new List<Company>();
+
+            foreach(Bank b in bankList)
+            {
+                foreach(Card c in b.Cards)
+                {
+                    if (c.Owner is Company)
+                    {
+                        if (!companies.Contains(c.Owner))
+                        {
+                            companies.Add((Company)c.Owner);
+                        }
+                    }
+                }
+            }
+
+            return companies;
         }
         #endregion
 
