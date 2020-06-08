@@ -60,9 +60,19 @@ namespace AppLogic
         /// Zwraca liste rekordów archiwum spełniających podane zapytanie
         /// </summary
         /// <param name="query">Zapytanie do wykonania w archiwum</param>
+        /// <returns>Zwraca te rekordy, które pasowały do zapytania SQLite</returns>
         public List<ArchiveRecord> SearchArchives(String query)
         {
-            return null;
+            List<ArchiveRecord> data = null;
+            try
+            {
+                 data = Archive.ExecuteSQLQuery(dbFilePath, query);
+            } 
+            catch (SqliteException e)
+            {
+                //TODO: wyrzucić błąd??
+            }
+            return data;
         }
         #endregion
 
