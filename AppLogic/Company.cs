@@ -17,7 +17,7 @@ namespace AppLogic
         /// <returns>Wynik wykonania transakcji</returns>
         public BankActionResult MakeTransactionRequest(Card fromCard, Card toCard, double amount)
         {
-            return BankActionResult.NULL;
+            return PaymentCenter.Instance.MakeTransactionRequest(fromCard.Number, toCard.Number, amount);
         }
 
         public Company(string name, string NIP, ClientType clientType) : base(name, NIP, clientType)

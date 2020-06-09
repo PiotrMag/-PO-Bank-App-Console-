@@ -349,7 +349,7 @@ namespace AppLogic
         /// <param name="toCardNumber">Karta, na która ma zostaś wpłacona kwota</param>
         /// <param name="amount">Kwota</param>
         /// <returns>Wynik wykonania transakcji</returns>
-        public void MakeTransactionRequest(string fromCardNumber, string toCardNumber, double amount)
+        public BankActionResult MakeTransactionRequest(string fromCardNumber, string toCardNumber, double amount)
         {
             int id1 = 9999 - int.Parse(fromCardNumber.Remove(4));
             int id2 = 9999 - int.Parse(toCardNumber.Remove(4));
@@ -377,6 +377,7 @@ namespace AppLogic
             }
             else
                 throw new TransactionDeniedException("Conajmniej jedna z kart nie przeszła autoryzacji");
+            return BankActionResult.SUCCESS;
         }
         #endregion
 
