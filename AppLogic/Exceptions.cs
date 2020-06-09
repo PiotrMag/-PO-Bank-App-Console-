@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -51,6 +52,15 @@ namespace AppLogic
         public TransactionDeniedException(string message) : base(message)
         {
 
+        }
+    }
+
+    public class NoSuchFileException : Exception
+    {
+        public string FilePath { get; }
+        public NoSuchFileException(string message, string filePath) : base(message)
+        {
+            this.FilePath = filePath;
         }
     }
 }
