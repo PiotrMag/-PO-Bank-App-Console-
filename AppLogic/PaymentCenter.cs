@@ -18,8 +18,8 @@ namespace AppLogic
     /// </summary>
     public sealed class PaymentCenter
     {
-        private string dbFilePath = "archive.db";
-        private string dbTableName = "logs";
+        private string dbFilePath;
+        private string dbTableName;
         private bool isDBAvailable;
 
         #region Kod Singleton Pattern
@@ -37,6 +37,19 @@ namespace AppLogic
         private PaymentCenter()
         {
             bankList = new List<Bank>();
+        }
+        #endregion
+
+        /// <summary>
+        /// Metoda, którą należy wywołac przed wykonywaniem jakichkolwiek czynności związanych z bazą danych
+        /// </summary>
+        /// <param name="dbFilePath">Ścieżka do pliku z bazą danych (jeżeli jej nie ma, to zostanie utworzona)</param>
+        /// <param name="dbTableName">Nazwa tabeli (jeżeli jej nie ma, to zostanie utworzona)</param>
+        public void InitDB(string dbFilePath, string dbTableName)
+        {
+            this.dbFilePath = dbFilePath;
+            this.dbTableName = dbTableName;
+
             if (!Archive.CheckIfDBPresent(dbFilePath))
             {
                 isDBAvailable = false;
@@ -44,14 +57,13 @@ namespace AppLogic
                 {
                     Archive.CreateDBAndTable(dbFilePath, dbTableName);
                     isDBAvailable = true;
-                } 
+                }
                 catch (SqliteException e)
                 {
-                    //TODO: pokazać error
+
                 }
             }
         }
-        #endregion
 
         private readonly List<Bank> bankList;
 
@@ -61,8 +73,13 @@ namespace AppLogic
         /// </summary
         /// <param name="query">Zapytanie do wykonania w archiwum</param>
         /// <returns>Zwraca te rekordy, które pasowały do zapytania SQLite</returns>
-        public List<ArchiveRecord> SearchArchives(String query)
+        public List<ArchiveRecord> SearchArchives(string query)
         {
+            if (this.dbFilePath == null || this.dbTableName == null || !this.isDBAvailable)
+                if (this.dbFilePath != null)
+                    throw new DBNotBound("Nie udało się skorzystać z bazy danych", dbFilePath);
+                else
+                    throw new DBNotBound("Nie można uzyskać dostępu do bazy danych");
             List<ArchiveRecord> data = null;
             try
             {
@@ -90,36 +107,29 @@ namespace AppLogic
         /// <param name="result">Wynik wykonania transakcji (czy wystąpił błąd, jeśli tak, to jaki)</param>
         public void LogInArchive(Card fromCard, Bank fromBank, Card toCard, Bank toBank, double amount, BankActionResult result)
         {
-            if (isDBAvailable)
+            if (isDBAvailable && dbFilePath != null && dbTableName != null)
             {
-                try
-                {
-                    Archive.AddRecord(dbFilePath, dbTableName,
-                        new ArchiveRecord(fromCard.Owner.Name,
-                                        fromCard.Owner.Number,
-                                        fromCard.Owner.ClientType.ToString("g"),
-                                        fromCard.Number,
-                                        fromCard.Type.ToString("g"),
-                                        fromBank.Name,
-                                        fromBank.Id.ToString(),
-                                        toCard.Owner.Name,
-                                        toCard.Owner.Number,
-                                        toCard.Owner.ClientType.ToString("g"),
-                                        toCard.Number,
-                                        toCard.Type.ToString("g"),
-                                        toBank.Name,
-                                        toBank.Id.ToString(),
-                                        amount,
-                                        result));
-
-                } catch (SqliteException e)
-                {
-                    //TODO: wyswietlić komunikat???
-                }
+                Archive.AddRecord(dbFilePath, dbTableName,
+                    new ArchiveRecord(fromCard.Owner.Name,
+                                    fromCard.Owner.Number,
+                                    fromCard.Owner.ClientType.ToString("g"),
+                                    fromCard.Number,
+                                    fromCard.Type.ToString("g"),
+                                    fromBank.Name,
+                                    fromBank.Id.ToString(),
+                                    toCard.Owner.Name,
+                                    toCard.Owner.Number,
+                                    toCard.Owner.ClientType.ToString("g"),
+                                    toCard.Number,
+                                    toCard.Type.ToString("g"),
+                                    toBank.Name,
+                                    toBank.Id.ToString(),
+                                    amount,
+                                    result));
             }
             else
             {
-                //TODO: wyswietlić komunikat o tym, że była próba logowania, ale nie ma DB
+                throw new DBNotBound("Nie połączonon z bazą danych");
             }
         }
         #endregion
@@ -241,7 +251,7 @@ namespace AppLogic
         {
             Stream fileStream = FileHandling.GetReadingStream(filePath);
             if (fileStream == null)
-                return false;
+                throw new NoSuchFileException("Nie znaleziono podanego pliku do czytania", filePath);
 
             // Czyszczenie listy banków
             bankList.Clear();

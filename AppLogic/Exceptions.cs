@@ -63,4 +63,14 @@ namespace AppLogic
             this.FilePath = filePath;
         }
     }
+
+    public class DBNotBound : Exception 
+    {
+        public string DBFilePath { get; }
+        public DBNotBound(string message, string dbFilePath) : base(message)
+        {
+            this.DBFilePath = dbFilePath;
+        }
+        public DBNotBound(string message) : base(message) { }
+    }
 }
