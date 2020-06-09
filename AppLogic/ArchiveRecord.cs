@@ -7,6 +7,7 @@ namespace AppLogic
     {
         // Dane na temat firmy
         public string FromName { get; }
+        public string FromID { get; }
         public string FromType { get; }
         public string FromCardID { get; }
         public string FromCardType { get; }
@@ -16,6 +17,7 @@ namespace AppLogic
         // Dane na temat klienta
         public string ToName { get; }
         public string ToID { get; }
+        public string ToType { get; }
         public string ToCardID { get; }
         public string ToCardType { get; }
         public string ToBankName { get; }
@@ -42,11 +44,12 @@ namespace AppLogic
         /// <param name="toBankID">ID banku, w którym klient ma kartę</param>
         /// <param name="amount">Wielkość transakcji</param>
         /// <param name="bankActionResult">Wynik transakcji</param>
-        public ArchiveRecord(string fromName, string fromType, string fromCardID, string fromCardType, string fromBankName, string fromBankID, 
-                                string toName, string toID, string toCardID, string toCardType, string toBankName, string toBankID,
+        public ArchiveRecord(string fromName, string fromId, string fromType, string fromCardID, string fromCardType, string fromBankName, string fromBankID, 
+                                string toName, string toID, string toType, string toCardID, string toCardType, string toBankName, string toBankID,
                                 double amount, BankActionResult bankActionResult)
         {
             FromName = fromName == null ? fromName : "NULL";
+            FromID = fromId == null ? fromId : "NULL";
             FromType = fromType == null ? fromType : "NULL";
             FromCardID = fromCardID == null ? fromCardID : "NULL";
             FromCardType = fromCardType == null ? fromCardType : "NULL";
@@ -54,6 +57,7 @@ namespace AppLogic
             FromBankID = fromBankID == null ? fromBankID : "NULL";
             ToName = toName == null ? toName : "NULL";
             ToID = toID == null ? toID : "NULL";
+            ToType = toType == null ? toType : "NULL";
             ToCardID = toCardID == null ? toCardID : "NULL";
             ToCardType = toCardType == null ? toCardType : "NULL";
             ToBankName = toBankName == null ? toBankName : "NULL";

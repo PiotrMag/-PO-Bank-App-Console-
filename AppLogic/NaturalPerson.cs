@@ -8,7 +8,7 @@ namespace AppLogic
 {
     internal class NaturalPerson : Client
     {
-        public NaturalPerson(string name, string PESEL) : base(name, PESEL)
+        public NaturalPerson(string name, string PESEL) : base(name, PESEL, ClientType.NaturalPerson)
         {
             
         }

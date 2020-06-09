@@ -16,6 +16,10 @@ namespace AppLogic
         {
         }
 
+        internal DebitCard(string number, Client owner) : base(number, owner, true, 0)
+        {
+        }
+
         public override void MakeTransaction(double amount)
         {
             if (this.balance + amount < 0)

@@ -8,6 +8,6 @@ namespace AppLogic
 {
     internal class ServiceCompany : Company
     {
-        public ServiceCompany(string name, string NIP) : base(name, NIP) { }
+        public ServiceCompany(string name, string NIP) : base(name, NIP, ClientType.ServiceCompany) { }
     }
 }

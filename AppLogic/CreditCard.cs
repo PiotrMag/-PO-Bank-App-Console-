@@ -17,6 +17,11 @@ namespace AppLogic
             this.creditLimit = -creditLimit;
         }
 
+        internal CreditCard(string number, Client owner, double creditLimit = 1000) : base(number, owner, true, 0)
+        {
+            this.creditLimit = -creditLimit;
+        }
+
         public double CreditLimit { get { return -1 * (creditLimit); }}
 
         private double creditLimit;

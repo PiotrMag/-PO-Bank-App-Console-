@@ -94,15 +94,17 @@ namespace AppLogic
             {
                 try
                 {
-                    Archive.AddRecord(dbFilePath, dbTableName, 
-                        new ArchiveRecord(fromCard.Owner.Name, 
+                    Archive.AddRecord(dbFilePath, dbTableName,
+                        new ArchiveRecord(fromCard.Owner.Name,
+                                        fromCard.Owner.Number,
                                         fromCard.Owner.ClientType.ToString("g"),
                                         fromCard.Number,
                                         fromCard.Type.ToString("g"),
                                         fromBank.Name,
-                                        fromBank.Id.ToString(), 
+                                        fromBank.Id.ToString(),
                                         toCard.Owner.Name,
                                         toCard.Owner.Number,
+                                        toCard.Owner.ClientType.ToString("g"),
                                         toCard.Number,
                                         toCard.Type.ToString("g"),
                                         toBank.Name,

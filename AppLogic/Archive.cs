@@ -102,21 +102,23 @@ namespace AppLogic
                         if (reader.FieldCount < 15)
                             continue; //TODO: może leipej wyrzucić błąd ????
                         string fromName = reader.GetString(1);
-                        string fromType = reader.GetString(2);
-                        string fromCardID = reader.GetString(3);
-                        string fromCardType = reader.GetString(4);
-                        string fromBankName = reader.GetString(5);
-                        string fromBankID = reader.GetString(6);
-                        string toName = reader.GetString(7);
-                        string toID = reader.GetString(8);
-                        string toCardID = reader.GetString(9);
-                        string toCardType = reader.GetString(10);
-                        string toBankName = reader.GetString(11);
-                        string toBankID = reader.GetString(12);
-                        float amount = reader.GetFloat(13);
-                        BankActionResult bankActionResult = (BankActionResult)int.Parse(reader.GetString(14));
+                        string fromID = reader.GetString(2);
+                        string fromType = reader.GetString(3);
+                        string fromCardID = reader.GetString(4);
+                        string fromCardType = reader.GetString(5);
+                        string fromBankName = reader.GetString(6);
+                        string fromBankID = reader.GetString(7);
+                        string toName = reader.GetString(8);
+                        string toID = reader.GetString(9);
+                        string toType = reader.GetString(10);
+                        string toCardID = reader.GetString(11);
+                        string toCardType = reader.GetString(12);
+                        string toBankName = reader.GetString(13);
+                        string toBankID = reader.GetString(14);
+                        float amount = reader.GetFloat(15);
+                        BankActionResult bankActionResult = (BankActionResult)int.Parse(reader.GetString(16));
 
-                        ArchiveRecord newRecord = new ArchiveRecord(fromName, fromType, fromCardID, fromCardType, fromBankName, fromBankID, toName, toID, toCardID, toCardType, toBankName, toBankID, amount, bankActionResult);
+                        ArchiveRecord newRecord = new ArchiveRecord(fromName, fromID, fromType, fromCardID, fromCardType, fromBankName, fromBankID, toName, toID, toType, toCardID, toCardType, toBankName, toBankID, amount, bankActionResult);
                         records.Add(newRecord);
                     }
                 }
