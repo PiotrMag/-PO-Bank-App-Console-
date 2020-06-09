@@ -22,10 +22,14 @@ namespace AppLogic
 
         public override void MakeTransaction(double amount)
         {
+            if (balance + amount < 0)
+                throw new InsufficientCardBalanceException("Próbowano pobrać większą kwotę niż to możliwe", this.Number, amount);
             this.balance += amount;
         }
         public override BankActionResult Authorize(double amount)
         {
+            if (balance + amount < 0)
+                return BankActionResult.REJECTED_INSUFFICIENT_ACCOUNT_BALANCE;
             return BankActionResult.SUCCESS;
         }
     }
