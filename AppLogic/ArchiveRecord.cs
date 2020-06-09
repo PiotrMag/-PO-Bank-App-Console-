@@ -31,6 +31,7 @@ namespace AppLogic
         /// Tworzy obiekt reprezentujący wpis, który może zostać obsłuzony przez Archive. Przechowuje on informacje o pojedynczym rekordzie (transakcji)
         /// </summary>
         /// <param name="fromName">Nazwa firmy</param>
+        /// <param name="fromId">Id firmy</param>
         /// <param name="fromType">Typ firmy</param>
         /// <param name="fromCardID">ID firmy</param>
         /// <param name="fromCardType">Typ karty firmy</param>
@@ -38,6 +39,7 @@ namespace AppLogic
         /// <param name="fromBankID">ID banku, w którym firma ma kartę</param>
         /// <param name="toName">Nazwa klienta</param>
         /// <param name="toID">ID klienta</param>
+        /// <param name="toType">Typ klienta</param>
         /// <param name="toCardID">ID karty klienta</param>
         /// <param name="toCardType">Typ karty klienta</param>
         /// <param name="toBankName">Nazwa banku, w któryma klienta ma kratę</param>
