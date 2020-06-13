@@ -6,4 +6,16 @@
     <UseWPF>true</UseWPF>
   </PropertyGroup>
 
+  <ItemGroup>
+    <None Remove="files\background.jpg" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\AppLogic\AppLogic.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="files\background.jpg" />
+  </ItemGroup>
+
 </Project>

@@ -9,13 +9,13 @@
         x:Name="MainMenu">
     <Grid>
         <Grid.Background>
-            <ImageBrush ImageSource="/files/background.jpg" />
+            <ImageBrush ImageSource="files/background.jpg" />
         </Grid.Background>
         <Label Content="Witaj w programie BankApp" HorizontalAlignment="Center" Margin="0,10,0,0" VerticalAlignment="Top" FontSize="36" Height="55" Width="463" FontFamily="Arial Unicode MS" Foreground="Yellow"/>
         <Label Content="Menu główne" HorizontalAlignment="Center" Margin="0,70,0,287" Foreground="Yellow" FontFamily="Arial Unicode MS" FontSize="48"/>
-        <Button Margin="295,152,295,251">Dokonaj transakcji</Button>
-        <Button Margin="295,225,295,178">Panel obsługi klienta</Button>
-        <Button Margin="295,297,295,106">Wyszukiwanie w bazie danych</Button>
-        <Button Margin="295,368,295,35">Zapisz i wyjdź</Button>
+        <Button Margin="295,152,295,251" Click="Transaction">Dokonaj transakcji</Button>
+        <Button Margin="295,225,295,178" Click="ClientPanel">Panel obsługi klienta</Button>
+        <Button Margin="295,297,295,106" Click="Database">Wyszukiwanie w bazie danych</Button>
+        <Button Margin="295,368,295,35" Click="SaveNQuit">Zapisz i wyjdź</Button>
     </Grid>
 </Window>

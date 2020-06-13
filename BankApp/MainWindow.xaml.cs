@@ -26,13 +26,28 @@ namespace BankApp
         {
             InitializeComponent();
             //dodać inicjowanie bazy danych
-            string FilePath="";
-            PaymentCenter.Instance.LoadSystemState(FilePath);
+            //string FilePath="";
+            //PaymentCenter.Instance.LoadSystemState(FilePath);
         }
 
-        private void Button_Click(object sender, RoutedEventArgs e)
+        private void Transaction(object sender, RoutedEventArgs e)
         {
-            
+
+        }
+
+        private void ClientPanel(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void Database(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void SaveNQuit(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 }
