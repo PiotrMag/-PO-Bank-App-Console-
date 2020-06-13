@@ -1,4 +1,4 @@
-﻿<Page x:Class="BankApp.Transaction"
+﻿<Page x:Class="BankApp.Database"
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
@@ -6,12 +6,9 @@
       xmlns:local="clr-namespace:BankApp"
       mc:Ignorable="d" 
       d:DesignHeight="450" d:DesignWidth="800"
-      Title="Transaction">
+      Title="Database">
 
     <Grid>
-        <Grid.Background>
-            <ImageBrush ImageSource="/files/background.jpg" />
-        </Grid.Background>
         
     </Grid>
 </Page>

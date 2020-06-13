@@ -16,9 +16,9 @@ namespace BankApp
     /// <summary>
     /// Logika interakcji dla klasy Page1.xaml
     /// </summary>
-    public partial class Page1 : Page
+    public partial class Transaction : Page
     {
-        public Page1()
+        public Transaction()
         {
             InitializeComponent();
         }

@@ -1,4 +1,4 @@
-﻿<Window x:Class="BankApp.MainWindow"
+﻿<NavigationWindow x:Class="BankApp.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -6,16 +6,6 @@
         xmlns:local="clr-namespace:BankApp"
         mc:Ignorable="d"
         Title="BankApp" Height="450" Width="800"
-        x:Name="MainMenu">
-    <Grid>
-        <Grid.Background>
-            <ImageBrush ImageSource="files/background.jpg" />
-        </Grid.Background>
-        <Label Content="Witaj w programie BankApp" HorizontalAlignment="Center" Margin="0,10,0,0" VerticalAlignment="Top" FontSize="36" Height="55" Width="463" FontFamily="Arial Unicode MS" Foreground="Yellow"/>
-        <Label Content="Menu główne" HorizontalAlignment="Center" Margin="0,70,0,287" Foreground="Yellow" FontFamily="Arial Unicode MS" FontSize="48"/>
-        <Button Margin="295,152,295,251" Click="Transaction">Dokonaj transakcji</Button>
-        <Button Margin="295,225,295,178" Click="ClientPanel">Panel obsługi klienta</Button>
-        <Button Margin="295,297,295,106" Click="Database">Wyszukiwanie w bazie danych</Button>
-        <Button Margin="295,368,295,35" Click="SaveNQuit">Zapisz i wyjdź</Button>
-    </Grid>
-</Window>
+        x:Name="_MainWindow" Source="MainMenu.xaml" ShowsNavigationUI="False">
+    
+</NavigationWindow>
