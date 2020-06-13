@@ -73,4 +73,12 @@ namespace AppLogic
         }
         public DBNotBound(string message) : base(message) { }
     }
+
+    public class WrongSumException : Exception
+    {
+        public WrongSumException(string message) : base(message)
+        {
+
+        }
+    }
 }

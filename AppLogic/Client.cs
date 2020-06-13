@@ -25,7 +25,7 @@ namespace AppLogic
         {
             Name = name;
             Number = number;
-            this.ClientType = clientType; 
+            ClientType = clientType;
         }
 
         public override bool Equals(object obj)
@@ -36,6 +36,10 @@ namespace AppLogic
             if (client.Name == this.Name && client.ClientType == this.ClientType && client.Number == this.Number)
                 return true;
             return false;
+        }
+        public override int GetHashCode()
+        {
+            return int.Parse(Number);
         }
     }
 }

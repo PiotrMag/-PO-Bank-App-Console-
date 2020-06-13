@@ -33,5 +33,9 @@ namespace AppLogic
                 return true;
             return false;
         }
+        public override int GetHashCode()
+        {
+            return int.Parse(Number);
+        }
     }
 }

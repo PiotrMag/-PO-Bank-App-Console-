@@ -50,6 +50,11 @@ namespace AppLogic
             return false;
         }
 
+        public override int GetHashCode()
+        {
+            return int.Parse(Number);
+        }
+
         /// <summary>
         /// Abstrakcyjna metoda, której zadaniem jest dokonanie transakcji na kartę
         /// </summary>

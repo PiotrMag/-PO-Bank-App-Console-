@@ -60,7 +60,7 @@ namespace AppLogic
                 }
                 catch (SqliteException e)
                 {
-
+                    throw e;
                 }
             }
         }
@@ -83,11 +83,11 @@ namespace AppLogic
             List<ArchiveRecord> data = null;
             try
             {
-                 data = Archive.ExecuteSQLQuery(dbFilePath, query);
-            } 
+                data = Archive.ExecuteSQLQuery(dbFilePath, query);
+            }
             catch (SqliteException e)
             {
-                //TODO: wyrzucić błąd??
+                throw e;
             }
             return data;
         }
@@ -143,15 +143,15 @@ namespace AppLogic
         {
             List<Company> companies = new List<Company>();
 
-            foreach(Bank b in bankList)
+            foreach (Bank b in bankList)
             {
-                foreach(Card c in b.Cards)
+                foreach (Card c in b.Cards)
                 {
-                    if (c.Owner is Company)
+                    if (c.Owner is Company company)
                     {
                         if (!companies.Contains(c.Owner))
                         {
-                            companies.Add((Company)c.Owner);
+                            companies.Add(company);
                         }
                     }
                 }
@@ -316,13 +316,13 @@ namespace AppLogic
                             else
                                 continue;
 
-                            if (!IsBankOnTheList(currentBankId == null ? -1: int.Parse(currentBankId)))
+                            if (!IsBankOnTheList(currentBankId == null ? -1 : int.Parse(currentBankId)))
                             {
                                 Bank newBank;
 
                                 if (currentBankId == null || int.Parse(currentBankId) < 0)
                                 {
-                                    newBank = new Bank(currentBankName == null ? "UNKNOWN": currentBankName);
+                                    newBank = new Bank(currentBankName ?? "UNKNOWN");
                                     currentBankId = newBank.Id.ToString();
                                     currentBankName = newBank.Name;
                                 }
@@ -484,7 +484,7 @@ namespace AppLogic
                     bank.DeleteClient(client);
                 }
             }
-            catch(NotEmptyAccountException ex)
+            catch (NotEmptyAccountException ex)
             {
                 throw ex;
             }

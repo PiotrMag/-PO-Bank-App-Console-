@@ -12,6 +12,25 @@
         <Grid.Background>
             <ImageBrush ImageSource="/files/background.jpg" />
         </Grid.Background>
-        
+        <Grid.RowDefinitions>
+            <RowDefinition Height="1*"/>
+            <RowDefinition Height="1*"/>
+            <RowDefinition Height="1*"/>
+            <RowDefinition Height="1*"/>
+            <RowDefinition Height="1*"/>
+        </Grid.RowDefinitions>
+        <Label Content="Typ transakcji" FontSize="36" FontWeight="Bold" HorizontalAlignment="Left" Margin="100,0,0,0" VerticalAlignment="Center"/>
+        <Button Grid.Row="1" Margin="250,25,250,25" Click="Withdraw">
+            Wypłata z konta
+        </Button>
+        <Button Grid.Row="2" Margin="250,25,250,25" Click="Payment">
+            Wpłata na konto
+        </Button>
+        <Button Grid.Row="3" Margin="250,25,250,25" Click="Transfer">
+            Przelew
+        </Button>
+        <Button Grid.Row="4" Margin="250,25,250,25" Click="MoveBack">
+            Wróć do poprzedniej strony
+        </Button>
     </Grid>
 </Page>
