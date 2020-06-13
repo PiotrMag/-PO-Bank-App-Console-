@@ -247,7 +247,7 @@ namespace AppLogic
         /// </summary>
         /// <param name="filePath">Ścieżka do pliku do odczytania</param>
         /// <returns>Zwraca true, jeżeli udało się poprawnie załadować stan systemu, a false, jeżeli wystąpił błąd</returns>
-        public bool LoadSystemState(String filePath)
+        public bool LoadSystemState(string filePath)
         {
             Stream fileStream = FileHandling.GetReadingStream(filePath);
             if (fileStream == null)

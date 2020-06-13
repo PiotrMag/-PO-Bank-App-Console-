@@ -11,14 +11,14 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace BankingApp
+namespace BankApp
 {
     /// <summary>
-    /// Logika interakcji dla klasy BankingAppMakeTransaction.xaml
+    /// Logika interakcji dla klasy Page1.xaml
     /// </summary>
-    public partial class BankingAppMakeTransaction : Page
+    public partial class Page1 : Page
     {
-        public BankingAppMakeTransaction()
+        public Page1()
         {
             InitializeComponent();
         }
