@@ -1,4 +1,5 @@
-﻿using System;
+﻿using AppLogic;
+using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Windows;
@@ -31,7 +32,18 @@ namespace BankApp
 
         private void Submit(object sender, RoutedEventArgs e)
         {
-            //DeleteClientRequest
+            try
+            {
+                PaymentCenter.Instance.DeleteClientRequest(number.Text);
+            }
+            catch(WrongUserException ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+            catch(NotEmptyAccountException ex2)
+            {
+                MessageBox.Show(ex2.Message + "\r\n" + ex2.Amount);
+            }
         }
     }
 }

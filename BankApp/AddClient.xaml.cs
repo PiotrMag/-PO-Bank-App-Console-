@@ -10,6 +10,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using AppLogic;
 
 namespace BankApp
 {
@@ -31,25 +32,32 @@ namespace BankApp
 
         private void Submit(object sender, RoutedEventArgs e)
         {
-            bool success = int.TryParse(number.Text, out int Number);
-            if (!success) MessageBox.Show("Błędny numer PESEL/NIP/REGON/KRS");
-            switch(box.Text)
+            try
             {
-                case "Osoba fizyczna":
-
-                    break;
-                case "Firma transportowa":
-
-                    break;
-                case "Sklep":
-
-                    break;
-                case "Zakład usługowy":
-
-                    break;
-                default:
-                    MessageBox.Show("Nie podano typu klienta");
-                    break;
+                bool success = int.TryParse(number.Text, out int Number);
+                if (!success) MessageBox.Show("Błędny numer PESEL/NIP/REGON/KRS");
+                switch(box.Text)
+                {
+                    case "Osoba fizyczna":
+                        PaymentCenter.Instance.AddClient(number.Text, name.Text, ClientType.NaturalPerson);
+                        break;
+                    case "Firma transportowa":
+                        PaymentCenter.Instance.AddClient(number.Text, name.Text, ClientType.TransportCompany);
+                        break;
+                    case "Sklep":
+                        PaymentCenter.Instance.AddClient(number.Text, name.Text, ClientType.Shop);
+                        break;
+                    case "Zakład usługowy":
+                        PaymentCenter.Instance.AddClient(number.Text, name.Text, ClientType.ServiceCompany);
+                        break;
+                    default:
+                        MessageBox.Show("Nie podano typu klienta");
+                        break;
+                }
+            }
+            catch(UserAlreadyExistsException ex)
+            {
+                MessageBox.Show(ex.Message);
             }
         }
     }

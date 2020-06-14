@@ -29,7 +29,13 @@ namespace AppLogic
         public NullUserException(string message) : base(message)
         { }
     }
+    public class UserAlreadyExistsException : WrongUserException
+    {
+        public UserAlreadyExistsException(string message) : base(message)
+        {
 
+        }
+    }
     public class NoSuchCardException : Exception
     {
         public NoSuchCardException(string message, string cardNumber) : base(message)
@@ -37,6 +43,15 @@ namespace AppLogic
             CardNumber = cardNumber;
         }
         public string CardNumber;
+    }
+
+    public class NoSuchBankException : Exception
+    {
+        public NoSuchBankException(string message, string name) : base(message)
+        {
+            Name = name;
+        }
+        public string Name;
     }
 
     public class NotEmptyAccountException : Exception

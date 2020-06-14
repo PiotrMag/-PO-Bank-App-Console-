@@ -66,6 +66,7 @@ namespace AppLogic
         }
 
         private readonly List<Bank> bankList;
+        private readonly List<Client> clientList;
 
         #region przeszukiwanie archiwum
         /// <summary>
@@ -160,6 +161,11 @@ namespace AppLogic
             return companies;
         }
         #endregion
+        /// <summary>
+        /// Zwraca wszystkich klientów. Unikalność klienta jest określana na podstawie nazwy i numeru klienta
+        /// </summary>
+        /// <returns>Lista typu Client</returns>
+        public List<Client> GetClients() => clientList;
 
         #region zapis/odczyt stanu centrum
         /// <summary>
@@ -422,25 +428,44 @@ namespace AppLogic
         /// <returns>
         /// Obiekt utworzonej karty
         /// </returns>
-        public Card AddNewCardRequest(Client client, CardType type, int bankId)
+        public Card AddNewCardRequest(string clientNr, CardType type, string bankName)
         {
             Card card = null;
             try
             {
+                int bankId = FindBankByName(bankName);
                 foreach (var bank in bankList)
                 {
                     if (bankId == bank.Id)
                     {
-                        card = bank.AddCard(client, type);
+                        card = bank.AddCard(FindClientByNr(clientNr), type);
                         break;
                     }
                 }
             }
-            catch (NullUserException exception)
+            catch (NullUserException ex)
             {
-                throw exception;
+                throw ex;
+            }
+            catch(WrongUserException ex2)
+            {
+                throw ex2;
+            }
+            catch(NoSuchBankException ex3)
+            {
+                throw ex3;
             }
             return card;
+        }
+
+        private int FindBankByName(string bankName)
+        {
+            foreach(var bank in bankList)
+            {
+                if (bank.Name == bankName)
+                    return bank.Id;
+            }
+            throw new NoSuchBankException("Nie znaleziono banku o podanej nazwie", bankName);
         }
 
         public void AddNewCardRequest(Card card, int bankId)
@@ -459,6 +484,23 @@ namespace AppLogic
                 throw new NoSuchCardException("Nieprawidłowy numer karty", card.Number);//Exception("Probowano dodac karte do nieistniejacegeo banku"); //TODO: przerobić na odpowiedni typ Exception
 
             bank.AddCard(card);
+        }
+
+        private Card FindCardByNr(string nr)
+        {
+            Card card = null;
+            int id = 9999 - int.Parse(nr.Remove(4, nr.Length - 4));
+            foreach (Bank bank in bankList)
+                if (bank.Id == id)
+                    foreach (Card c in bank.Cards)
+                        if (c.Number == nr)
+                        {
+                            card = c;
+                            break;
+                        }
+            if(card!=null)
+                return card;
+            throw new NoSuchCardException("Nie znaleziono karty", nr);
         }
 
         /// <summary>
@@ -494,22 +536,67 @@ namespace AppLogic
 
         #endregion
 
+        private Client FindClientByNr(string nr)
+        {
+            Client client = null;
+            foreach(Client c in clientList)
+                if(c.Number==nr)
+                {
+                    client = c;
+                    break;
+                }
+            if (client != null)
+                return client;
+            throw new WrongUserException("Nie znaleziono użytkownika");
+        }
+
         /// <summary>
         /// Wysyła do wszystkich banków prośbę o usunięcie z systemu klienta
         /// </summary>
         /// <param name="client">Obiekt usuwanego klienta</param>
-        public void DeleteClientRequest(Client client)
+        public void DeleteClientRequest(string number)
         {
             try
             {
                 foreach (var bank in bankList)
                 {
-                    bank.DeleteClient(client);
+                    bank.DeleteClient(FindClientByNr(number));
                 }
             }
             catch (NotEmptyAccountException ex)
             {
                 throw ex;
+            }
+            catch(WrongUserException ex2)
+            {
+                throw ex2;
+            }
+        }
+    
+        public void AddClient(string nr, string name, ClientType type)
+        {
+            Client client = null;
+            try
+            {
+                client = FindClientByNr(nr);
+            }
+            catch (WrongUserException)
+            {}
+            if (client != null) throw new UserAlreadyExistsException("Baza zawiera już tego klienta");
+            switch(type)
+            {
+                case ClientType.NaturalPerson:
+                    clientList.Add(new NaturalPerson(name, nr));
+                    break;
+                case ClientType.ServiceCompany:
+                    clientList.Add(new ServiceCompany(name, nr));
+                    break;
+                case ClientType.Shop:
+                    clientList.Add(new Shop(name, nr));
+                    break;
+                case ClientType.TransportCompany:
+                    clientList.Add(new TransportCompany(name, nr));
+                    break;
             }
         }
     }

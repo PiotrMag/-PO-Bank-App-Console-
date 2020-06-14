@@ -32,23 +32,35 @@ namespace BankApp
 
         private void Submit(object sender, RoutedEventArgs e)
         {
-
-            //FindClient
-            //FindBankId
-            switch (box.Text)
+            try
             {
-                case "Karta bankomatowa":
-                    //PaymentCenter.Instance.AddNewCardRequest();
-                    break;
-                case "Karta debetowa":
-                    //PaymentCenter.Instance.AddNewCardRequest();
-                    break;
-                case "Karta kredytowa":
-                    //PaymentCenter.Instance.AddNewCardRequest();
-                    break;
-                default:
-                    MessageBox.Show("Nie wybrano typu karty");
-                    break;
+                switch (box.Text)
+                {
+                    case "Karta bankomatowa":
+                        PaymentCenter.Instance.AddNewCardRequest(number.Text, Card.CardType.ATMCard, bank.Text);
+                        break;
+                    case "Karta debetowa":
+                        PaymentCenter.Instance.AddNewCardRequest(number.Text, Card.CardType.DebitCard, bank.Text);
+                        break;
+                    case "Karta kredytowa":
+                        PaymentCenter.Instance.AddNewCardRequest(number.Text, Card.CardType.CreditCard, bank.Text);
+                        break;
+                    default:
+                        MessageBox.Show("Nie wybrano typu karty");
+                        break;
+                }
+            }
+            catch (NullUserException ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+            catch (WrongUserException ex2)
+            {
+                MessageBox.Show(ex2.Message);
+            }
+            catch (NoSuchBankException ex3)
+            {
+                MessageBox.Show(ex3.Message + "\r\n" + ex3.Name);
             }
         }
     }

@@ -26,6 +26,6 @@
         <TextBox x:Name="number" Grid.Column="1" Grid.Row="1" Margin="60,66,96,66"></TextBox>
         <Button Grid.Column="0" Grid.Row="3" Margin="20,26,270,20" Click="MoveBack">Wróć</Button>
         <Button Grid.Column="1" Grid.Row="2" Margin="127,23,163,23" Click="Submit">Usuń Klienta</Button>
-        <Label Content="PESEL/NIP/REGON/KRS" VerticalAlignment="Center" FontSize="20" Height="38" FontFamily="Arial Unicode MS" Foreground="Yellow" Margin="101,0,47,0" Grid.Row="1"/>
+        <Label Content="PESEL/NIP/REGON/KRS" VerticalAlignment="Center" FontSize="20" Height="38" FontFamily="Arial Unicode MS" Foreground="Yellow" Margin="125,0,23,0" Grid.Row="1"/>
     </Grid>
 </Page>
