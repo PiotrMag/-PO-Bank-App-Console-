@@ -22,5 +22,15 @@ namespace BankApp
         {
             InitializeComponent();
         }
+
+        private void BankSearch(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void FirmSearch(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }

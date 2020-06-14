@@ -9,6 +9,19 @@
       Title="Database">
 
     <Grid>
-        
+        <Grid.Background>
+            <ImageBrush ImageSource="files/background.jpg" />
+        </Grid.Background>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="2*" />
+            <RowDefinition Height="1*" />
+            <RowDefinition Height="1*" />
+            <RowDefinition Height="1*" />
+            <RowDefinition Height="1*" />
+            <RowDefinition Height="1*" />
+        </Grid.RowDefinitions>
+        <Label Grid.Row="0" Content="Znajdź w bazie" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="36" Height="55" Width="256" FontFamily="Arial Unicode MS" Foreground="Yellow"/>
+        <Button Grid.Row="2" Margin="280,10,280,10" Click="BankSearch">Bank</Button>
+        <Button Grid.Row="4" Margin="280,10,280,10" Click="FirmSearch">Firma</Button>
     </Grid>
 </Page>

@@ -57,8 +57,9 @@ namespace AppLogic
         {
             foreach (Card c in Cards)
             {
-                if (c.Number == cardNumber && c.Authorize(amount)==BankActionResult.SUCCESS)
+                if (c.Number == cardNumber && c.Authorize(amount) == BankActionResult.SUCCESS)
                     return BankActionResult.SUCCESS;
+                else if (c.Number == cardNumber) return BankActionResult.REJECTED_INSUFFICIENT_ACCOUNT_BALANCE;
             }
             return BankActionResult.REJECTED_NO_SUCH_USER;
         }
@@ -179,7 +180,7 @@ namespace AppLogic
                 }
             }
             if (!removed)
-                throw new NoSuchCardException("Nie znaleziono karty o podanym numerze");
+                throw new NoSuchCardException("Nie znaleziono karty o podanym numerze", number);
         }
         #endregion
 

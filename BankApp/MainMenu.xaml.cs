@@ -2,6 +2,8 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -21,8 +23,10 @@ namespace BankApp
     {
         public MainMenu()
         {
+            //string Path = null;
             InitializeComponent();
-            //dodać inicjowanie i ładowanie bazy danych
+            //PaymentCenter.Instance.InitDB();
+            //PaymentCenter.Instance.LoadSystemState(Path);
         }
         private void Transaction(object sender, RoutedEventArgs e)
         {
@@ -44,9 +48,15 @@ namespace BankApp
 
         private void SaveNQuit(object sender, RoutedEventArgs e)
         {
-            //dodać zapis do db
-            //var saveNQuit = new SaveNQuit();
-            //NavigationService.Navigate(saveNQuit);
+            //string Path = null;
+            //if (!PaymentCenter.Instance.SaveSystemState(Path))
+            //    MessageBox.Show("Wystąpił błąd zapisu");
+            //else
+            //{
+                var saveNQuit = new SaveNQuit();
+                NavigationService.Navigate(saveNQuit);
+                Application.Current.Shutdown();
+            //}
         }
     }
 }

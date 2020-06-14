@@ -22,5 +22,47 @@ namespace BankApp
         {
             InitializeComponent();
         }
+
+        private void AddBank(object sender, RoutedEventArgs e)
+        {
+            var addBank = new AddBank();
+            NavigationService.Navigate(addBank);
+        }
+
+        private void DelBank(object sender, RoutedEventArgs e)
+        {
+            var delBank = new DelBank();
+            NavigationService.Navigate(delBank);
+        }
+
+        private void AddClient(object sender, RoutedEventArgs e)
+        {
+            var addClient = new AddClient();
+            NavigationService.Navigate(addClient);
+        }
+
+        private void DelClient(object sender, RoutedEventArgs e)
+        {
+            var delClient = new DelClient();
+            NavigationService.Navigate(delClient);
+        }
+
+        private void AddCard(object sender, RoutedEventArgs e)
+        {
+            var addCard = new AddCard();
+            NavigationService.Navigate(addCard);
+        }
+
+        private void DelCard(object sender, RoutedEventArgs e)
+        {
+            var delCard = new DelCard();
+            NavigationService.Navigate(delCard);
+        }
+
+        private void MoveBack(object sender, RoutedEventArgs e)
+        {
+            var mainMenu = new MainMenu();
+            NavigationService.Navigate(mainMenu);
+        }
     }
 }

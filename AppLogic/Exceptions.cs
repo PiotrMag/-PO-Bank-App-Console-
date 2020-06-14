@@ -22,7 +22,7 @@ namespace AppLogic
     public class WrongUserException : Exception
     {
         public WrongUserException(string message) : base(message)
-        {   }
+        { }
     }
     public class NullUserException : WrongUserException
     {
@@ -32,8 +32,11 @@ namespace AppLogic
 
     public class NoSuchCardException : Exception
     {
-        public NoSuchCardException(string message) : base(message)
-        { }
+        public NoSuchCardException(string message, string cardNumber) : base(message)
+        {
+            CardNumber = cardNumber;
+        }
+        public string CardNumber;
     }
 
     public class NotEmptyAccountException : Exception
@@ -64,7 +67,7 @@ namespace AppLogic
         }
     }
 
-    public class DBNotBound : Exception 
+    public class DBNotBound : Exception
     {
         public string DBFilePath { get; }
         public DBNotBound(string message, string dbFilePath) : base(message)

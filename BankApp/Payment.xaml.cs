@@ -10,6 +10,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using AppLogic;
 
 namespace BankApp
 {
@@ -27,11 +28,18 @@ namespace BankApp
         {
             try
             {
-
+                bool success = double.TryParse(amount.Text, out double Amount);
+                if (!success) throw new WrongSumException("Podano błędną wartość w polu \"Kwota przelewu\"");
+                PaymentCenter.Instance.OneCardTransactionRequest(card.Text, Amount);
+                //Log in archive
             }
-            catch(Exception ex)
+            catch (WrongSumException ex)
             {
-
+                MessageBox.Show(ex.Message);
+            }
+            catch (NoSuchCardException ex2)
+            {
+                MessageBox.Show(ex2.Message);
             }
         }
 

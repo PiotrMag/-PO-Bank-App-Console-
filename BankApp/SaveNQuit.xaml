@@ -9,6 +9,18 @@
       Title="SaveNQuit">
 
     <Grid>
-        
+        <Grid.Background>
+            <ImageBrush ImageSource="files/background.jpg" />
+        </Grid.Background>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="1*" />
+            <RowDefinition Height="2*" />
+            <RowDefinition Height="2*" />
+            <RowDefinition Height="2*" />
+            <RowDefinition Height="2*" />
+            <RowDefinition Height="2*" />
+        </Grid.RowDefinitions>
+        <Label Grid.Row="2" Content="Zmiany zostały zapisane" HorizontalAlignment="Center" VerticalAlignment="Top" FontSize="36" Height="55" Width="404" FontFamily="Arial Unicode MS" Foreground="Yellow"/>
+        <Label Grid.Row="3" Content="Dziękujemy za skorzystanie z programu" HorizontalAlignment="Center" Margin="0,0,0,0" Foreground="Yellow" FontFamily="Arial Unicode MS" FontSize="42"/>
     </Grid>
 </Page>

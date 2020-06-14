@@ -359,8 +359,9 @@ namespace AppLogic
         /// <param name="toCardNumber">Karta, na która ma zostaś wpłacona kwota</param>
         /// <param name="amount">Kwota</param>
         /// <returns>Wynik wykonania transakcji</returns>
-        public BankActionResult MakeTransactionRequest(string fromCardNumber, string toCardNumber, double amount)
+        public void MakeTransactionRequest(string fromCardNumber, string toCardNumber, double amount)
         {
+            if (fromCardNumber.Length < 5|| toCardNumber.Length < 5) throw new TransactionDeniedException("Conajmniej jedna z kart nie przeszła autoryzacji");
             int id1 = 9999 - int.Parse(fromCardNumber.Remove(4));
             int id2 = 9999 - int.Parse(toCardNumber.Remove(4));
             int count = 0;
@@ -387,11 +388,32 @@ namespace AppLogic
             }
             else
                 throw new TransactionDeniedException("Conajmniej jedna z kart nie przeszła autoryzacji");
-            return BankActionResult.SUCCESS;
+        }
+
+        /// <summary>
+        /// prośba o dokonanie wpłaty/wypłady z konta
+        /// </summary>
+        /// <param name="number">numer karty</param>
+        /// <param name="amount">kwota operacji</param>
+        public void OneCardTransactionRequest(string number, double amount)
+        {
+            if(number.Length<5) throw new NoSuchCardException("Nie znaleziono karty o podanym numerze", number);
+            int id = 9999 - int.Parse(number.Remove(4));
+            foreach (var bank in bankList)
+            {
+                if (bank.Id == id && bank.Authorize(number, amount) == BankActionResult.SUCCESS)
+                {
+                    bank.MakeTransaction(number, amount);
+                }
+                else if (bank.Id == id)
+                    throw new InsufficientCardBalanceException("Brak środków na karcie");
+
+            }
+            throw new NoSuchCardException("Nie znaleziono karty o podanym numerze", number);
         }
         #endregion
 
-        #region obsługa kart (dodawanie/usuwanie)
+        #region obsługa kart (dodawanie/usuwanie/sprawdzanie typu)
         /// <summary>
         /// Wysyła do banku prośbę o dodanie nowej karty bierzącemu klientowi
         /// </summary>
@@ -434,7 +456,7 @@ namespace AppLogic
             }
 
             if (bank == null)
-                throw new Exception("Probowano dodac karte do nieistniejacegeo banku"); //TODO: przerobić na odpowiedni typ Exception
+                throw new NoSuchCardException("Nieprawidłowy numer karty", card.Number);//Exception("Probowano dodac karte do nieistniejacegeo banku"); //TODO: przerobić na odpowiedni typ Exception
 
             bank.AddCard(card);
         }
@@ -458,7 +480,7 @@ namespace AppLogic
                         break;
                     }
                 }
-                if (!removed) throw new NoSuchCardException("Nie znaleziono karty o podanym numerze");
+                if (!removed) throw new NoSuchCardException("Nie znaleziono karty o podanym numerze", number);
             }
             catch (NoSuchCardException ex)
             {
@@ -467,6 +489,21 @@ namespace AppLogic
             catch (NotEmptyAccountException exception)
             {
                 throw exception;
+            }
+        }
+
+        public CardType CheckCardType(string cardNumber)
+        {
+            switch (cardNumber.Substring(5, 1))
+            {
+                case "1":
+                    return CardType.CreditCard;
+                case "2":
+                    return CardType.DebitCard;
+                case "3":
+                    return CardType.ATMCard;
+                default:
+                    return CardType.NULL;
             }
         }
         #endregion

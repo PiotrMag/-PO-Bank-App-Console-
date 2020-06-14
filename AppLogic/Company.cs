@@ -15,9 +15,20 @@ namespace AppLogic
         /// <param name="toCard">Karta, na która ma zostaś wpłacona kwota</param>
         /// <param name="amount">Kwota</param>
         /// <returns>Wynik wykonania transakcji</returns>
-        public BankActionResult MakeTransactionRequest(Card fromCard, Card toCard, double amount)
+        public void MakeTransactionRequest(Card fromCard, Card toCard, double amount)
         {
-            return PaymentCenter.Instance.MakeTransactionRequest(fromCard.Number, toCard.Number, amount);
+            try
+            {
+                PaymentCenter.Instance.MakeTransactionRequest(fromCard.Number, toCard.Number, amount);
+            }
+            catch(NoSuchCardException ex)
+            {
+                throw ex;
+            }
+            catch(InsufficientCardBalanceException ex2)
+            {
+                throw ex2;
+            }
         }
 
         public Company(string name, string NIP, ClientType clientType) : base(name, NIP, clientType)
