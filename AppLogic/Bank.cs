@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Dynamic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -13,13 +14,15 @@ namespace AppLogic
         SUCCESS = 0,
         REJECTED_CANT_ADD_CARD = 1,
         REJECTED_NO_SUCH_USER = 2,
-        REJECTED_INSUFFICIENT_ACCOUNT_BALANCE = 3
+        REJECTED_INSUFFICIENT_ACCOUNT_BALANCE = 3,
+        TRANSACTION_REJECTED = 4
     }
 
     public class Bank
     {
         private static int counter = 0;
         public string Name { get; set; }
+        public bool IsActive{get; set;}
         public List<Card> Cards { get; }
         public int Id { get; }
 
@@ -27,16 +30,14 @@ namespace AppLogic
         /// Konstruktor obiektu Bank
         /// </summary>
         /// <param name="name">Nazwa banku</param>
-        public Bank(string name)
+        public Bank(string name="UNKNOWN")
         {
-            if (name == null)
-                Name = "UNKNOWN";
-            else
-                Name = name;
+            Name = name;
             Id = counter++;
+            IsActive = true;
         }
 
-        public Bank(string name, int id)
+        public Bank(string name, int id, bool isActive)
         {
             if (name == null)
                 Name = "UNKNOWN";
@@ -45,6 +46,7 @@ namespace AppLogic
             Id = id;
             if (counter <= id)
                 counter = id + 1;
+            IsActive = isActive;
         }
 
         /// <summary>

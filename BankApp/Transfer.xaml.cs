@@ -27,12 +27,13 @@ namespace BankApp
 
         private void DoTransfer(object sender, RoutedEventArgs e)
         {
+            double Amount = 0;
             try
             {
-                bool success = double.TryParse(amount.Text, out double Amount);
+                bool success = double.TryParse(amount.Text, out Amount);
                 if (!success) throw new WrongSumException("Podano błędną wartość w polu \"Kwota przelewu\"");
                 PaymentCenter.Instance.MakeTransactionRequest(fromCard.Text, toCard.Text, Amount);
-                //PaymentCenter.Instance.LogInArchive()
+                PaymentCenter.Instance.PrepareArchiveLog(Amount, BankActionResult.SUCCESS, fromCard.Text, toCard.Text);
             }
             catch (WrongSumException ex)
             {
@@ -41,6 +42,7 @@ namespace BankApp
             catch (TransactionDeniedException ex2)
             {
                 MessageBox.Show(ex2.Message);
+                PaymentCenter.Instance.PrepareArchiveLog(Amount, BankActionResult.TRANSACTION_REJECTED, fromCard.Text, toCard.Text);
             }
         }
 

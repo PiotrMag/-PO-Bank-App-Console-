@@ -133,6 +133,10 @@ namespace AppLogic
                 throw new DBNotBound("Nie połączonon z bazą danych");
             }
         }
+
+        public void PrepareArchiveLog(double amount, BankActionResult result, string fromCardNumber=null,string toCardNumber=null)
+        {
+        }
         #endregion
 
         #region przegladanie firm
@@ -367,7 +371,7 @@ namespace AppLogic
         /// <returns>Wynik wykonania transakcji</returns>
         public void MakeTransactionRequest(string fromCardNumber, string toCardNumber, double amount)
         {
-            if (fromCardNumber.Length < 5|| toCardNumber.Length < 5) throw new TransactionDeniedException("Conajmniej jedna z kart nie przeszła autoryzacji");
+            if (fromCardNumber.Length < 5 || toCardNumber.Length < 5) throw new TransactionDeniedException("Conajmniej jedna z kart nie przeszła autoryzacji");
             int id1 = 9999 - int.Parse(fromCardNumber.Remove(4));
             int id2 = 9999 - int.Parse(toCardNumber.Remove(4));
             int count = 0;
@@ -403,7 +407,7 @@ namespace AppLogic
         /// <param name="amount">kwota operacji</param>
         public void OneCardTransactionRequest(string number, double amount)
         {
-            if(number.Length<5) throw new NoSuchCardException("Nie znaleziono karty o podanym numerze", number);
+            if (number.Length < 5) throw new NoSuchCardException("Nie znaleziono karty o podanym numerze", number);
             int id = 9999 - int.Parse(number.Remove(4));
             foreach (var bank in bankList)
             {
@@ -447,11 +451,11 @@ namespace AppLogic
             {
                 throw ex;
             }
-            catch(WrongUserException ex2)
+            catch (WrongUserException ex2)
             {
                 throw ex2;
             }
-            catch(NoSuchBankException ex3)
+            catch (NoSuchBankException ex3)
             {
                 throw ex3;
             }
@@ -460,7 +464,7 @@ namespace AppLogic
 
         private int FindBankByName(string bankName)
         {
-            foreach(var bank in bankList)
+            foreach (var bank in bankList)
             {
                 if (bank.Name == bankName)
                     return bank.Id;
@@ -498,7 +502,7 @@ namespace AppLogic
                             card = c;
                             break;
                         }
-            if(card!=null)
+            if (card != null)
                 return card;
             throw new NoSuchCardException("Nie znaleziono karty", nr);
         }
@@ -539,8 +543,8 @@ namespace AppLogic
         private Client FindClientByNr(string nr)
         {
             Client client = null;
-            foreach(Client c in clientList)
-                if(c.Number==nr)
+            foreach (Client c in clientList)
+                if (c.Number == nr)
                 {
                     client = c;
                     break;
@@ -563,7 +567,7 @@ namespace AppLogic
                 {
                     bank.DeleteClient(client);
                 }
-                foreach(var c in clientList)
+                foreach (var c in clientList)
                 {
                     if (c == client)
                     {
@@ -576,12 +580,12 @@ namespace AppLogic
             {
                 throw ex;
             }
-            catch(WrongUserException ex2)
+            catch (WrongUserException ex2)
             {
                 throw ex2;
             }
         }
-    
+
         public void AddClient(string nr, string name, ClientType type)
         {
             Client client = null;
@@ -590,9 +594,9 @@ namespace AppLogic
                 client = FindClientByNr(nr);
             }
             catch (WrongUserException)
-            {}
+            { }
             if (client != null) throw new UserAlreadyExistsException("Baza zawiera już tego klienta");
-            switch(type)
+            switch (type)
             {
                 case ClientType.NaturalPerson:
                     clientList.Add(new NaturalPerson(name, nr));
@@ -606,6 +610,31 @@ namespace AppLogic
                 case ClientType.TransportCompany:
                     clientList.Add(new TransportCompany(name, nr));
                     break;
+            }
+        }
+
+        public void AddBank(string name)
+        {
+            foreach (var bank in bankList)
+            {
+                if (bank.Name == name)
+                    throw new BankAlreadyExistsException("Bank o podanej nazwie został już dodany");
+            }
+            bankList.Add(new Bank(name));
+        }
+
+        public void DeleteBank(string name)
+        {
+            foreach (var bank in bankList)
+            {
+                if (bank.Name == name)
+                {
+                    foreach (var card in bank.Cards)
+                        if (card.IsActive)
+                            throw new BankContainsActiveCardsException("Nie można usunąć - bank zawiera aktywne karty");
+                    bank.IsActive = false;
+                    break;
+                }
             }
         }
     }

@@ -1,4 +1,4 @@
-﻿<Page x:Class="BankApp.Database"
+﻿<Page x:Class="BankApp.BankSearch"
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
@@ -6,7 +6,7 @@
       xmlns:local="clr-namespace:BankApp"
       mc:Ignorable="d" 
       d:DesignHeight="450" d:DesignWidth="800"
-      Title="Database">
+      Title="BankSearch">
 
     <Grid>
         <Grid.Background>
@@ -22,7 +22,7 @@
         </Grid.RowDefinitions>
         <Label Grid.Row="0" Content="Znajdź w bazie" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="36" Height="55" Width="256" FontFamily="Arial Unicode MS" Foreground="Yellow"/>
         <Button Grid.Row="2" Margin="280,10,280,10" Click="BankSearch">Bank</Button>
-        <Button Grid.Row="4" Margin="280,10,280,10" Click="CompanySearch">Firma</Button>
+        <Button Grid.Row="4" Margin="280,10,280,10" Click="FirmSearch">Firma</Button>
         <Button Grid.Row="5" Margin="10,10,630,10" Click="MoveBack">Wróć</Button>
     </Grid>
 </Page>

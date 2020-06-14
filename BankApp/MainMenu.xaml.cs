@@ -23,10 +23,12 @@ namespace BankApp
     {
         public MainMenu()
         {
-            //string Path = null;
+            string Path = null;
             InitializeComponent();
-            //PaymentCenter.Instance.InitDB();
-            //PaymentCenter.Instance.LoadSystemState(Path);
+            PaymentCenter.Instance.InitDB(Path, "Banki");
+            PaymentCenter.Instance.InitDB(Path, "Klienci");
+            PaymentCenter.Instance.InitDB(Path, "Transakcje");
+            PaymentCenter.Instance.LoadSystemState(Path);
         }
         private void Transaction(object sender, RoutedEventArgs e)
         {
@@ -48,15 +50,11 @@ namespace BankApp
 
         private void SaveNQuit(object sender, RoutedEventArgs e)
         {
-            //string Path = null;
-            //if (!PaymentCenter.Instance.SaveSystemState(Path))
-            //    MessageBox.Show("Wystąpił błąd zapisu");
-            //else
-            //{
-                var saveNQuit = new SaveNQuit();
-                NavigationService.Navigate(saveNQuit);
+            string Path = null;
+            if (!PaymentCenter.Instance.SaveSystemState(Path))
+                MessageBox.Show("Wystąpił błąd zapisu");
+            else
                 Application.Current.Shutdown();
-            //}
         }
     }
 }

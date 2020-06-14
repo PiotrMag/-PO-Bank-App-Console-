@@ -18,11 +18,15 @@
             <RowDefinition Height="1*" />
             <RowDefinition Height="1*" />
             <RowDefinition Height="1*" />
-            <RowDefinition Height="1*" />
         </Grid.RowDefinitions>
-        <Label Grid.Row="0" Content="Znajdź w bazie" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="36" Height="55" Width="256" FontFamily="Arial Unicode MS" Foreground="Yellow"/>
-        <Button Grid.Row="2" Margin="280,10,280,10" Click="BankSearch">Bank</Button>
-        <Button Grid.Row="4" Margin="280,10,280,10" Click="FirmSearch">Firma</Button>
-        <Button Grid.Row="5" Margin="10,10,630,10" Click="MoveBack">Wróć</Button>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="1*" />
+            <ColumnDefinition Width="1*" />
+        </Grid.ColumnDefinitions>
+        <Label Content="Dodaj Bank" VerticalAlignment="Center" FontSize="36" Height="59" FontFamily="Arial Unicode MS" Foreground="Yellow" Grid.ColumnSpan="2" Margin="299,0,299,0"/>
+        <TextBox x:Name="name" Grid.Column="1" Grid.Row="2" Margin="60,26,96,26"></TextBox>
+        <Button Grid.Column="0" Grid.Row="4" Margin="20,26,270,20" Click="MoveBack">Wróć</Button>
+        <Button Grid.Column="1" Grid.Row="4" Margin="127,23,163,23" Click="Submit">Dodaj Bank</Button>
+        <Label Content="Nazwa banku" VerticalAlignment="Center" FontSize="20" Height="38" FontFamily="Arial Unicode MS" Foreground="Yellow" Margin="227,0,34,0" Grid.Row="2"/>
     </Grid>
 </Page>

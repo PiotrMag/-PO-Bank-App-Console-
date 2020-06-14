@@ -10,6 +10,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using AppLogic;
 
 namespace BankApp
 {
@@ -23,20 +24,23 @@ namespace BankApp
             InitializeComponent();
         }
 
-        private void BankSearch(object sender, RoutedEventArgs e)
-        {
-
-        }
-
-        private void FirmSearch(object sender, RoutedEventArgs e)
-        {
-
-        }
 
         private void MoveBack(object sender, RoutedEventArgs e)
         {
             var clientPanel = new ClientPanel();
             NavigationService.Navigate(clientPanel);
+        }
+
+        private void Submit(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                PaymentCenter.Instance.AddBank(name.Text);
+            }
+            catch(BankAlreadyExistsException ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
         }
     }
 }

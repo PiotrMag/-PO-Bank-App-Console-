@@ -26,20 +26,27 @@ namespace BankApp
 
         private void DoWithdraw(object sender, RoutedEventArgs e)
         {
+            double Amount = 0;
             try
             {
-                bool success = double.TryParse(amount.Text, out double Amount);
+                bool success = double.TryParse(amount.Text, out Amount);
                 if (!success) throw new WrongSumException("Podano błędną wartość w polu \"Kwota przelewu\"");
                 PaymentCenter.Instance.OneCardTransactionRequest(card.Text, (-1)*Amount);
-                //Log in archive
+                PaymentCenter.Instance.PrepareArchiveLog(Amount, BankActionResult.SUCCESS, card.Text);
             }
             catch (WrongSumException ex)
             {
                 MessageBox.Show(ex.Message);
             }
-            catch(NoSuchCardException ex2)
+            catch(InsufficientCardBalanceException ex2)
             {
-                MessageBox.Show(ex2.Message);
+                MessageBox.Show(ex2.Message + "\r\n" + ex2.Amount);
+                PaymentCenter.Instance.PrepareArchiveLog(Amount, BankActionResult.REJECTED_INSUFFICIENT_ACCOUNT_BALANCE, card.Text);
+            }
+            catch(NoSuchCardException ex3)
+            {
+                MessageBox.Show(ex3.Message);
+                PaymentCenter.Instance.PrepareArchiveLog(Amount, BankActionResult.REJECTED_NO_SUCH_USER, card.Text);
             }
         }
 

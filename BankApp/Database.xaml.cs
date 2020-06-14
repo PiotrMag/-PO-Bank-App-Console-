@@ -25,12 +25,14 @@ namespace BankApp
 
         private void BankSearch(object sender, RoutedEventArgs e)
         {
-
+            var bankSearch = new BankSearch();
+            NavigationService.Navigate(bankSearch);
         }
 
-        private void FirmSearch(object sender, RoutedEventArgs e)
+        private void CompanySearch(object sender, RoutedEventArgs e)
         {
-
+            var companySearch = new CompanySearch();
+            NavigationService.Navigate(companySearch);
         }
 
         private void MoveBack(object sender, RoutedEventArgs e)

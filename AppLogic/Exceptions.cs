@@ -18,7 +18,21 @@ namespace AppLogic
             this.Amount = amount;
         }
     }
+    public class BankContainsActiveCardsException : Exception
+    {
+        public BankContainsActiveCardsException(string message) : base(message)
+        {
 
+        }
+    }
+
+    public class BankAlreadyExistsException : Exception
+    {
+        public BankAlreadyExistsException(string message) : base(message)
+        {
+
+        }
+    }
     public class WrongUserException : Exception
     {
         public WrongUserException(string message) : base(message)

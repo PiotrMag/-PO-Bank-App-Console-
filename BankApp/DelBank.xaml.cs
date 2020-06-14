@@ -1,4 +1,5 @@
-﻿using System;
+﻿using AppLogic;
+using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Windows;
@@ -27,6 +28,18 @@ namespace BankApp
         {
             var clientPanel = new ClientPanel();
             NavigationService.Navigate(clientPanel);
+        }
+
+        private void Submit(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                PaymentCenter.Instance.DeleteBank(name.Text);
+            }
+            catch(BankContainsActiveCardsException ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
         }
     }
 }

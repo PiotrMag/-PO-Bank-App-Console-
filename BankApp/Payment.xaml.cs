@@ -26,12 +26,13 @@ namespace BankApp
 
         private void DoPayment(object sender, RoutedEventArgs e)
         {
+            double Amount=0;
             try
             {
-                bool success = double.TryParse(amount.Text, out double Amount);
+                bool success = double.TryParse(amount.Text, out Amount);
                 if (!success) throw new WrongSumException("Podano błędną wartość w polu \"Kwota przelewu\"");
                 PaymentCenter.Instance.OneCardTransactionRequest(card.Text, Amount);
-                //Log in archive
+                PaymentCenter.Instance.PrepareArchiveLog(Amount, BankActionResult.SUCCESS, null, card.Text);
             }
             catch (WrongSumException ex)
             {
@@ -40,6 +41,7 @@ namespace BankApp
             catch (NoSuchCardException ex2)
             {
                 MessageBox.Show(ex2.Message);
+                PaymentCenter.Instance.PrepareArchiveLog(Amount, BankActionResult.REJECTED_NO_SUCH_USER, null, card.Text);
             }
         }
 
