@@ -1,4 +1,5 @@
-﻿using System;
+﻿using AppLogic;
+using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Windows;
@@ -21,6 +22,34 @@ namespace BankApp
         public AddCard()
         {
             InitializeComponent();
+        }
+
+        private void MoveBack(object sender, RoutedEventArgs e)
+        {
+            var clientPanel = new ClientPanel();
+            NavigationService.Navigate(clientPanel);
+        }
+
+        private void Submit(object sender, RoutedEventArgs e)
+        {
+
+            //FindClient
+            //FindBankId
+            switch (box.Text)
+            {
+                case "Karta bankomatowa":
+                    //PaymentCenter.Instance.AddNewCardRequest();
+                    break;
+                case "Karta debetowa":
+                    //PaymentCenter.Instance.AddNewCardRequest();
+                    break;
+                case "Karta kredytowa":
+                    //PaymentCenter.Instance.AddNewCardRequest();
+                    break;
+                default:
+                    MessageBox.Show("Nie wybrano typu karty");
+                    break;
+            }
         }
     }
 }

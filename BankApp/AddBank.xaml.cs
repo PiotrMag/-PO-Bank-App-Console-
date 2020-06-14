@@ -22,5 +22,21 @@ namespace BankApp
         {
             InitializeComponent();
         }
+
+        private void BankSearch(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void FirmSearch(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void MoveBack(object sender, RoutedEventArgs e)
+        {
+            var clientPanel = new ClientPanel();
+            NavigationService.Navigate(clientPanel);
+        }
     }
 }

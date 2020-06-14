@@ -22,5 +22,11 @@ namespace BankApp
         {
             InitializeComponent();
         }
+
+        private void MoveBack(object sender, RoutedEventArgs e)
+        {
+            var clientPanel = new ClientPanel();
+            NavigationService.Navigate(clientPanel);
+        }
     }
 }

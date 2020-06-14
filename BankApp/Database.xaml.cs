@@ -32,5 +32,11 @@ namespace BankApp
         {
 
         }
+
+        private void MoveBack(object sender, RoutedEventArgs e)
+        {
+            var mainMenu = new MainMenu();
+            NavigationService.Navigate(mainMenu);
+        }
     }
 }

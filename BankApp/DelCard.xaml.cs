@@ -1,4 +1,5 @@
-﻿using System;
+﻿using AppLogic;
+using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Windows;
@@ -21,6 +22,35 @@ namespace BankApp
         public DelCard()
         {
             InitializeComponent();
+        }
+
+        private void MoveBack(object sender, RoutedEventArgs e)
+        {
+            var clientPanel = new ClientPanel();
+            NavigationService.Navigate(clientPanel);
+        }
+
+        private void Submit(object sender, RoutedEventArgs e)
+        {
+            bool success = true;
+            try
+            {
+                PaymentCenter.Instance.DeleteCardRequest(number.Text);
+            }
+            catch(NoSuchCardException ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+            catch(NotEmptyAccountException ex2)
+            {
+                MessageBox.Show(ex2.Message);
+            }
+            if (success)
+            {
+                MessageBox.Show("Pomyślnie usunięto kartę");
+                var mainMenu = new MainMenu();
+                NavigationService.Navigate(mainMenu);
+            }
         }
     }
 }

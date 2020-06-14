@@ -492,20 +492,6 @@ namespace AppLogic
             }
         }
 
-        public CardType CheckCardType(string cardNumber)
-        {
-            switch (cardNumber.Substring(5, 1))
-            {
-                case "1":
-                    return CardType.CreditCard;
-                case "2":
-                    return CardType.DebitCard;
-                case "3":
-                    return CardType.ATMCard;
-                default:
-                    return CardType.NULL;
-            }
-        }
         #endregion
 
         /// <summary>

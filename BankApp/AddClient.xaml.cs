@@ -22,5 +22,35 @@ namespace BankApp
         {
             InitializeComponent();
         }
+
+        private void MoveBack(object sender, RoutedEventArgs e)
+        {
+            var clientPanel = new ClientPanel();
+            NavigationService.Navigate(clientPanel);
+        }
+
+        private void Submit(object sender, RoutedEventArgs e)
+        {
+            bool success = int.TryParse(number.Text, out int Number);
+            if (!success) MessageBox.Show("Błędny numer PESEL/NIP/REGON/KRS");
+            switch(box.Text)
+            {
+                case "Osoba fizyczna":
+
+                    break;
+                case "Firma transportowa":
+
+                    break;
+                case "Sklep":
+
+                    break;
+                case "Zakład usługowy":
+
+                    break;
+                default:
+                    MessageBox.Show("Nie podano typu klienta");
+                    break;
+            }
+        }
     }
 }
