@@ -558,9 +558,14 @@ namespace AppLogic
         {
             try
             {
+                Client client = FindClientByNr(number);
                 foreach (var bank in bankList)
                 {
-                    bank.DeleteClient(FindClientByNr(number));
+                    bank.DeleteClient(client);
+                }
+                if (clientList.Contains(client))
+                {
+                    clientList.Remove(client);
                 }
             }
             catch (NotEmptyAccountException ex)
