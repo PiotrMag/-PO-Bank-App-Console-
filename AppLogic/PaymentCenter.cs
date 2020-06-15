@@ -338,7 +338,7 @@ namespace AppLogic
                                 }
                                 else
                                 {
-                                    newBank = new Bank(currentBankName, int.Parse(currentBankId));
+                                    newBank = new Bank(currentBankName, int.Parse(currentBankId), true);
                                 }
 
                                 bankList.Add(newBank);

@@ -32,13 +32,21 @@ namespace BankApp
 
         private void Submit(object sender, RoutedEventArgs e)
         {
+            bool success = true;
             try
             {
                 PaymentCenter.Instance.DeleteBank(name.Text);
             }
             catch(BankContainsActiveCardsException ex)
             {
+                success = false;
                 MessageBox.Show(ex.Message);
+            }
+            if (success)
+            {
+                MessageBox.Show("Pomyślnie usunięto bank");
+                var mainMenu = new MainMenu();
+                NavigationService.Navigate(mainMenu);
             }
         }
     }
