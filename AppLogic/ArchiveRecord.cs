@@ -24,7 +24,7 @@ namespace AppLogic
         public string ToBankID { get; }
 
         // Dane o trnsakcji
-        public double Amount { get; }
+        public decimal Amount { get; }
         public BankActionResult Result { get; }
 
         /// <summary>
@@ -48,7 +48,7 @@ namespace AppLogic
         /// <param name="bankActionResult">Wynik transakcji</param>
         public ArchiveRecord(string fromName, string fromId, string fromType, string fromCardID, string fromCardType, string fromBankName, string fromBankID, 
                                 string toName, string toID, string toType, string toCardID, string toCardType, string toBankName, string toBankID,
-                                double amount, BankActionResult bankActionResult)
+                                decimal amount, BankActionResult bankActionResult)
         {
             FromName = fromName != null ? fromName : "NULL";
             FromID = fromId != null ? fromId : "NULL";

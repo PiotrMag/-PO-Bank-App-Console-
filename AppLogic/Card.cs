@@ -23,16 +23,16 @@ namespace AppLogic
         /// </summary>
         public string Number { get; set; }
         public bool IsActive { get; set; }
-        public double Balance { get { return balance; } }
+        public decimal Balance { get { return balance; } }
         public CardType Type { get; }
 
-        protected double balance;
+        protected decimal balance;
 
         /// <summary>
         /// tworzy nową kartę płatniczą o podanym numerze
         /// </summary>
         /// <param name="number">numer karty</param>
-        public Card(string number, Client owner, bool isActive, double balance)
+        public Card(string number, Client owner, bool isActive, decimal balance)
         {
             Number = number;
             Owner = owner;
@@ -60,7 +60,7 @@ namespace AppLogic
         /// </summary>
         /// <param name="amount">Kwota</param>
         /// <exception cref="InsufficientCardBalanceException">Wyrzuca wyjątek InsufficientCardBalanceException, jeżeli typ karty nie pozwala na przekroczenie 0 na koncie</exception>
-        abstract public void MakeTransaction(double amount);
-        abstract public BankActionResult Authorize(double amount);
+        abstract public void MakeTransaction(decimal amount);
+        abstract public BankActionResult Authorize(decimal amount);
     }
 }

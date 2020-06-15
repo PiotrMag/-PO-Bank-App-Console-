@@ -27,10 +27,10 @@ namespace BankApp
 
         private void DoTransfer(object sender, RoutedEventArgs e)
         {
-            double Amount = 0;
+            decimal Amount = 0;
             try
             {
-                bool success = double.TryParse(amount.Text, out Amount);
+                bool success = decimal.TryParse(amount.Text, out Amount);
                 if (!success) throw new WrongSumException("Podano błędną wartość w polu \"Kwota przelewu\"");
                 PaymentCenter.Instance.MakeTransactionRequest(fromCard.Text, toCard.Text, Amount);
                 PaymentCenter.Instance.PrepareArchiveLog(Amount, BankActionResult.SUCCESS, fromCard.Text, toCard.Text);

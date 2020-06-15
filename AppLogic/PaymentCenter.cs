@@ -107,7 +107,7 @@ namespace AppLogic
         /// <param name="toBankID">ID banku, w którym jest karta, na którą próbowano przelać środki</param>
         /// <param name="amount">Kwota</param>
         /// <param name="result">Wynik wykonania transakcji (czy wystąpił błąd, jeśli tak, to jaki)</param>
-        public void LogInArchive(Card fromCard, Bank fromBank, Card toCard, Bank toBank, double amount, BankActionResult result)
+        public void LogInArchive(Card fromCard, Bank fromBank, Card toCard, Bank toBank, decimal amount, BankActionResult result)
         {
             if (isDBAvailable && dbFilePath != null && dbTableName != null)
             {
@@ -135,7 +135,7 @@ namespace AppLogic
             }
         }
 
-        public void PrepareArchiveLog(double amount, BankActionResult result, string fromCardNumber=null,string toCardNumber=null)
+        public void PrepareArchiveLog(decimal amount, BankActionResult result, string fromCardNumber=null,string toCardNumber=null)
         {
         }
         #endregion
@@ -285,7 +285,7 @@ namespace AppLogic
                         if (reader.HasAttributes)
                         {
                             string clientName, clientNumber, cardNumber, cardLimitString;
-                            double cardLimit = 0, balance = 0;
+                            decimal cardLimit = 0, balance = 0;
                             bool isActive = false;
                             ClientType clientType;
                             CardType cardType;
@@ -298,10 +298,10 @@ namespace AppLogic
                             cardType = (CardType)int.Parse(reader.GetAttribute("cardType"));
                             cardLimitString = reader.GetAttribute("cardLimit");
                             isActive = bool.Parse(reader.GetAttribute("isActive"));
-                            balance = double.Parse(reader.GetAttribute("balance"));
+                            balance = decimal.Parse(reader.GetAttribute("balance"));
 
                             if (cardLimitString != null)
-                                cardLimit = double.Parse(cardLimitString);
+                                cardLimit = decimal.Parse(cardLimitString);
 
                             Client owner;
 
@@ -370,7 +370,7 @@ namespace AppLogic
         /// <param name="toCardNumber">Karta, na która ma zostaś wpłacona kwota</param>
         /// <param name="amount">Kwota</param>
         /// <returns>Wynik wykonania transakcji</returns>
-        public void MakeTransactionRequest(string fromCardNumber, string toCardNumber, double amount)
+        public void MakeTransactionRequest(string fromCardNumber, string toCardNumber, decimal amount)
         {
             if (fromCardNumber.Length < 5 || toCardNumber.Length < 5) throw new TransactionDeniedException("Conajmniej jedna z kart nie przeszła autoryzacji");
             int id1 = 9999 - int.Parse(fromCardNumber.Remove(4));
@@ -406,7 +406,7 @@ namespace AppLogic
         /// </summary>
         /// <param name="number">numer karty</param>
         /// <param name="amount">kwota operacji</param>
-        public void OneCardTransactionRequest(string number, double amount)
+        public void OneCardTransactionRequest(string number, decimal amount)
         {
             if (number.Length < 5) throw new NoSuchCardException("Nie znaleziono karty o podanym numerze", number);
             int id = 9999 - int.Parse(number.Remove(4));

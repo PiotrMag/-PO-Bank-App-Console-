@@ -26,7 +26,7 @@ namespace BankApp
 
         private void DoWithdraw(object sender, RoutedEventArgs e)
         {
-            double Amount = 0;
+            decimal Amount = 0;
             try
             {
                 bool success = double.TryParse(amount.Text, out Amount);

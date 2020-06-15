@@ -55,7 +55,7 @@ namespace AppLogic
         /// <returns>
         /// BankActionResult, ktory mowi o tym, czy autoryzacja sie powiodla, czy nie
         /// </returns>
-        public BankActionResult Authorize(string cardNumber, double amount)
+        public BankActionResult Authorize(string cardNumber, decimal amount)
         {
             foreach (Card c in Cards)
             {
@@ -72,7 +72,7 @@ namespace AppLogic
         /// <param name="cardNumber">Karta do wykonania transakcji</param>
         /// <param name="amount">Kwota do dodania/zabrania</param>
         /// <returns>Zwraca rezultat wykonania transakcji</returns>
-        public void MakeTransaction(string cardNumber, double amount)
+        public void MakeTransaction(string cardNumber, decimal amount)
         {
             foreach (var card in Cards)
             {

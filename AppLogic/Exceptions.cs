@@ -10,12 +10,12 @@ namespace AppLogic
     public class InsufficientCardBalanceException : Exception
     {
         public string CardNumber { get; }
-        public double Amount { get; }
+        public decimal Amount { get; }
         public InsufficientCardBalanceException(string message) : this(message, "null", 0) { }
-        public InsufficientCardBalanceException(string message, string cardNumber, double amount) : base(message)
+        public InsufficientCardBalanceException(string message, string cardNumber, decimal amount) : base(message)
         {
-            this.CardNumber = cardNumber;
-            this.Amount = amount;
+            CardNumber = cardNumber;
+            Amount = amount;
         }
     }
     public class BankContainsActiveCardsException : Exception
@@ -70,13 +70,13 @@ namespace AppLogic
 
     public class NotEmptyAccountException : Exception
     {
-        public NotEmptyAccountException(string message, double amount, string cardNumber) : base(message)
+        public NotEmptyAccountException(string message, decimal amount, string cardNumber) : base(message)
         {
             Amount = amount;
             CardNumber = cardNumber;
         }
         public string CardNumber { get; }
-        public double Amount { get; }
+        public decimal Amount { get; }
     }
 
     public class TransactionDeniedException : Exception
