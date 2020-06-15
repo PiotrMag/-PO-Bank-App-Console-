@@ -23,22 +23,16 @@ namespace BankApp
             InitializeComponent();
         }
 
-        private void BankSearch(object sender, RoutedEventArgs e)
-        {
-            var bankSearch = new BankSearch();
-            NavigationService.Navigate(bankSearch);
-        }
-
-        private void CompanySearch(object sender, RoutedEventArgs e)
-        {
-            var companySearch = new CompanySearch();
-            NavigationService.Navigate(companySearch);
-        }
-
         private void MoveBack(object sender, RoutedEventArgs e)
         {
             var mainMenu = new MainMenu();
             NavigationService.Navigate(mainMenu);
+        }
+
+        private void Search(object sender, RoutedEventArgs e)
+        {
+            var search = new Search(box.Text);
+            NavigationService.Navigate(search);
         }
     }
 }

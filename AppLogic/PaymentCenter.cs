@@ -37,7 +37,6 @@ namespace AppLogic
         private PaymentCenter()
         {
             bankList = new List<Bank>();
-            clientList = new List<Client>();
         }
         #endregion
 
@@ -67,7 +66,6 @@ namespace AppLogic
         }
 
         private readonly List<Bank> bankList;
-        private readonly List<Client> clientList;
 
         #region przeszukiwanie archiwum
         /// <summary>
@@ -135,8 +133,9 @@ namespace AppLogic
             }
         }
 
-        public void PrepareArchiveLog(decimal amount, BankActionResult result, string fromCardNumber=null,string toCardNumber=null)
+        public void PrepareArchiveLog(decimal amount, BankActionResult result, string fromCardNumber = null, string toCardNumber = null)
         {
+            LogInArchive(FindCardByNr(fromCardNumber), FindBankByCardNr(fromCardNumber), FindCardByNr(toCardNumber), FindBankByCardNr(toCardNumber), amount, result);
         }
         #endregion
 
@@ -170,7 +169,21 @@ namespace AppLogic
         /// Zwraca wszystkich klientów. Unikalność klienta jest określana na podstawie nazwy i numeru klienta
         /// </summary>
         /// <returns>Lista typu Client</returns>
-        public List<Client> GetClients() => clientList;
+        public List<Client> GetClients()
+        {
+            List<Client> list = new List<Client>();
+            foreach (Bank b in bankList)
+            {
+                foreach (Card c in b.Cards)
+                {
+                    if (!list.Contains(c.Owner))
+                    {
+                        list.Add(c.Owner);
+                    }
+                }
+            }
+            return list;
+        }
 
         #region zapis/odczyt stanu centrum
         /// <summary>
@@ -372,7 +385,7 @@ namespace AppLogic
         /// <returns>Wynik wykonania transakcji</returns>
         public void MakeTransactionRequest(string fromCardNumber, string toCardNumber, decimal amount)
         {
-            if (fromCardNumber.Length < 5 || toCardNumber.Length < 5) throw new TransactionDeniedException("Conajmniej jedna z kart nie przeszła autoryzacji");
+            if (fromCardNumber.Length < 5 || toCardNumber.Length < 5) throw new TransactionDeniedException("Nieprawidłowy numer karty");
             int id1 = 9999 - int.Parse(fromCardNumber.Remove(4));
             int id2 = 9999 - int.Parse(toCardNumber.Remove(4));
             int count = 0;
@@ -380,9 +393,14 @@ namespace AppLogic
             {
                 if (bank.Id == id1 && bank.Authorize(fromCardNumber, amount) == BankActionResult.SUCCESS)
                     count++;
+            }
+            if (count == 0) throw new TransactionDeniedException("Karta wyjściowa nie przeszła autoryzacji");
+            foreach (var bank in bankList)
+            {
                 if (bank.Id == id2 && bank.Authorize(toCardNumber, amount) == BankActionResult.SUCCESS)
                     count++;
             }
+            if (count == 1) throw new TransactionDeniedException("Karta wejściowa nie przeszła autoryzacji");
             if (count == 2)
             {
                 foreach (var bank in bankList)
@@ -397,8 +415,6 @@ namespace AppLogic
                     }
                 }
             }
-            else
-                throw new TransactionDeniedException("Conajmniej jedna z kart nie przeszła autoryzacji");
         }
 
         /// <summary>
@@ -408,7 +424,7 @@ namespace AppLogic
         /// <param name="amount">kwota operacji</param>
         public void OneCardTransactionRequest(string number, decimal amount)
         {
-            if (number.Length < 5) throw new NoSuchCardException("Nie znaleziono karty o podanym numerze", number);
+            if (number.Length < 5) throw new NoSuchCardException("Nieprawidłowy numer karty", number);
             int id = 9999 - int.Parse(number.Remove(4));
             foreach (var bank in bankList)
             {
@@ -493,6 +509,7 @@ namespace AppLogic
 
         private Card FindCardByNr(string nr)
         {
+            if (nr == null) return null;
             Card card = null;
             int id = 9999 - int.Parse(nr.Remove(4, nr.Length - 4));
             foreach (Bank bank in bankList)
@@ -544,7 +561,8 @@ namespace AppLogic
         private Client FindClientByNr(string nr)
         {
             Client client = null;
-            foreach (Client c in clientList)
+            List<Client> list = GetClients();
+            foreach (Client c in list)
                 if (c.Number == nr)
                 {
                     client = c;
@@ -563,6 +581,7 @@ namespace AppLogic
         {
             try
             {
+                List<Client> clientList = GetClients();
                 Client client = FindClientByNr(number);
                 foreach (var bank in bankList)
                 {
@@ -587,39 +606,23 @@ namespace AppLogic
             }
         }
 
-        public void AddClient(string nr, string name, ClientType type)
-        {
-            Client client = null;
-            try
-            {
-                client = FindClientByNr(nr);
-            }
-            catch (WrongUserException)
-            { }
-            if (client != null) throw new UserAlreadyExistsException("Baza zawiera już tego klienta");
-            switch (type)
-            {
-                case ClientType.NaturalPerson:
-                    clientList.Add(new NaturalPerson(name, nr));
-                    break;
-                case ClientType.ServiceCompany:
-                    clientList.Add(new ServiceCompany(name, nr));
-                    break;
-                case ClientType.Shop:
-                    clientList.Add(new Shop(name, nr));
-                    break;
-                case ClientType.TransportCompany:
-                    clientList.Add(new TransportCompany(name, nr));
-                    break;
-            }
-        }
 
+        private Bank FindBankByCardNr(string number)
+        {
+            if (number == null) return null;
+            int nr = 9999 - int.Parse(number.Remove(4, number.Length - 4));
+            foreach (var b in bankList)
+            {
+                if (b.Id == nr) return b;
+            }
+            return null;
+        }
         public void AddBank(string name)
         {
             foreach (var bank in bankList)
             {
                 if (bank.Name == name)
-                    throw new BankAlreadyExistsException("Bank o podanej nazwie został już dodany");
+                    throw new BankAlreadyExistsException("Bank o podanej nazwie został dodany wcześniej");
             }
             bankList.Add(new Bank(name));
         }

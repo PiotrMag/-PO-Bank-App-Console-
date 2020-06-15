@@ -151,14 +151,14 @@ namespace AppLogic
                     card = new ATMCard(number, owner);
                     break;
             }
-            //TODO: dodać karte do banku
+            Cards.Add(card);
             return card;
         }
 
         public void AddCard(Card card)
         {
             if (card == null)
-                throw new Exception("Probowano dodac pusta karte"); //TODO: przerobic na odpowiedni rodzaj Exception
+                throw new NoSuchCardException("Probowano dodac pusta karte", "");
             Cards.Add(card);
         }
 

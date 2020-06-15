@@ -118,7 +118,7 @@ namespace AppLogic
                         float amount = reader.GetFloat(15);
                         BankActionResult bankActionResult = (BankActionResult)int.Parse(reader.GetString(16));
 
-                        ArchiveRecord newRecord = new ArchiveRecord(fromName, fromID, fromType, fromCardID, fromCardType, fromBankName, fromBankID, toName, toID, toType, toCardID, toCardType, toBankName, toBankID, amount, bankActionResult);
+                        ArchiveRecord newRecord = new ArchiveRecord(fromName, fromID, fromType, fromCardID, fromCardType, fromBankName, fromBankID, toName, toID, toType, toCardID, toCardType, toBankName, toBankID, (decimal)amount, bankActionResult);
                         records.Add(newRecord);
                     }
                 }

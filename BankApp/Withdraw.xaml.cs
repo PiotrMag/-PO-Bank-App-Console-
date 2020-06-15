@@ -29,7 +29,7 @@ namespace BankApp
             decimal Amount = 0;
             try
             {
-                bool success = double.TryParse(amount.Text, out Amount);
+                bool success = decimal.TryParse(amount.Text, out Amount);
                 if (!success) throw new WrongSumException("Podano błędną wartość w polu \"Kwota przelewu\"");
                 PaymentCenter.Instance.OneCardTransactionRequest(card.Text, (-1)*Amount);
                 PaymentCenter.Instance.PrepareArchiveLog(Amount, BankActionResult.SUCCESS, card.Text);

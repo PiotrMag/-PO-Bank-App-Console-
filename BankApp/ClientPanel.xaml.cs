@@ -35,12 +35,6 @@ namespace BankApp
             NavigationService.Navigate(delBank);
         }
 
-        private void AddClient(object sender, RoutedEventArgs e)
-        {
-            var addClient = new AddClient();
-            NavigationService.Navigate(addClient);
-        }
-
         private void DelClient(object sender, RoutedEventArgs e)
         {
             var delClient = new DelClient();

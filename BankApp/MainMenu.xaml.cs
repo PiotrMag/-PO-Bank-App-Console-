@@ -13,6 +13,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Microsoft.Data.Sqlite;
 
 namespace BankApp
 {
@@ -25,10 +26,17 @@ namespace BankApp
         {
             string Path = null;
             InitializeComponent();
-            PaymentCenter.Instance.InitDB(Path, "Banki");
-            PaymentCenter.Instance.InitDB(Path, "Klienci");
-            PaymentCenter.Instance.InitDB(Path, "Transakcje");
-            PaymentCenter.Instance.LoadSystemState(Path);
+            try
+            {
+                //wczytywanie bazy danych
+                PaymentCenter.Instance.InitDB(Path, "Transakcje");
+                PaymentCenter.Instance.LoadSystemState(Path);
+            }
+            catch(SqliteException ex)
+            {
+                MessageBox.Show(ex.Message + "\r\nKod błędu: " + ex.SqliteExtendedErrorCode);
+            }
+
         }
         private void Transaction(object sender, RoutedEventArgs e)
         {

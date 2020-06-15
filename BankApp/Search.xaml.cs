@@ -14,13 +14,15 @@ using System.Windows.Shapes;
 namespace BankApp
 {
     /// <summary>
-    /// Logika interakcji dla klasy BankSearch.xaml
+    /// Logika interakcji dla klasy Search.xaml
     /// </summary>
-    public partial class BankSearch : Page
+    public partial class Search : Page
     {
-        public BankSearch()
+        public Search(string query)
         {
             InitializeComponent();
+            //zapytanie do bazy danych
+            //wyświetlanie wyników
         }
 
         private void MoveBack(object sender, RoutedEventArgs e)
