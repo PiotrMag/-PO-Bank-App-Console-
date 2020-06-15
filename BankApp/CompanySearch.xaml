@@ -21,8 +21,6 @@
             <RowDefinition Height="1*" />
         </Grid.RowDefinitions>
         <Label Grid.Row="0" Content="Znajdź w bazie" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="36" Height="55" Width="256" FontFamily="Arial Unicode MS" Foreground="Yellow"/>
-        <Button Grid.Row="2" Margin="280,10,280,10" Click="BankSearch">Bank</Button>
-        <Button Grid.Row="4" Margin="280,10,280,10" Click="FirmSearch">Firma</Button>
         <Button Grid.Row="5" Margin="10,10,630,10" Click="MoveBack">Wróć</Button>
     </Grid>
 </Page>

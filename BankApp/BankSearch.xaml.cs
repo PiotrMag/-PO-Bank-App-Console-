@@ -22,5 +22,11 @@ namespace BankApp
         {
             InitializeComponent();
         }
+
+        private void MoveBack(object sender, RoutedEventArgs e)
+        {
+            var database = new Database();
+            NavigationService.Navigate(database);
+        }
     }
 }

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace AppLogic
 {
-    public class ATMCard : Card
+    internal class ATMCard : Card
     {
         /// <summary>
         /// Tworzy nową kartę bankomatową o podanym numerze

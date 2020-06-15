@@ -4,7 +4,7 @@ using AppLogic;
 namespace AppLogicTests
 {
     [TestClass]
-    class ATMCardTests
+    public class ATMCardTests
     {
         [TestMethod]
         public void ATMCardSuccessfulTransactionTest()
@@ -24,11 +24,25 @@ namespace AppLogicTests
             {
                 card.MakeTransaction(-1500);
             }
-            catch(InsufficientCardBalanceException ex)
+            catch(InsufficientCardBalanceException)
             {
                 Assert.AreEqual(card.Balance, 1250.12);
             }
             Assert.AreEqual(card.Balance, 1250.12);
+        }
+        [TestMethod]
+        public void ATMCardAuthorizeRejectedTest()
+        {
+            var client = new NaturalPerson("Jan Kowalski", "11312737254");
+            var card = new ATMCard("1234567890", client, true, 1250.12);
+            Assert.AreEqual(card.Authorize(-1500), BankActionResult.REJECTED_INSUFFICIENT_ACCOUNT_BALANCE);
+        }
+        [TestMethod]
+        public void ATMCardAuthorizeSuccessfulTest()
+        {
+            var client = new NaturalPerson("Jan Kowalski", "11312737254");
+            var card = new ATMCard("1234567890", client, true, 1250.12);
+            Assert.AreEqual(card.Authorize(1500), BankActionResult.SUCCESS);
         }
     }
 }
