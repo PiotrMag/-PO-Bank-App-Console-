@@ -33,7 +33,7 @@ namespace AppLogic
             if (!(obj is Client))
                 return false;
             Client client = (Client)obj;
-            if (client.Name == this.Name && client.ClientType == this.ClientType && client.Number == this.Number)
+            if (client.Name == Name && client.ClientType == ClientType && client.Number == Number)
                 return true;
             return false;
         }

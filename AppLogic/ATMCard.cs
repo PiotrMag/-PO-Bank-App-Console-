@@ -25,6 +25,7 @@ namespace AppLogic
             if (balance + amount < 0)
                 throw new InsufficientCardBalanceException("Próbowano pobrać większą kwotę niż to możliwe", this.Number, amount);
             balance += amount;
+            Math.Round(balance, 2);
         }
         public override BankActionResult Authorize(double amount)
         {

@@ -31,6 +31,9 @@ namespace AppLogic
             if(balance + amount < creditLimit)
                 throw new InsufficientCardBalanceException("Kwota transakcji przekracza dopuszczalny limit karty kredytowej", Number, amount);
             balance += amount;
+            balance *= 100;
+            Math.Round(balance);
+            balance /= 100;
         }
         public override BankActionResult Authorize(double amount)
         {

@@ -4,11 +4,14 @@ using AppLogic;
 namespace AppLogicTests
 {
     [TestClass]
-    class TransportCompanyTests
+    public class TransportCompanyTests
     {
         [TestMethod]
-        public void TestMethod1()
+        public void ConstructorTest()
         {
+            var company = new TransportCompany("PeKaeS", "9661233000");
+            Assert.AreEqual("PeKaeS", company.Name);
+            Assert.AreEqual("9661233000", company.Number);
         }
     }
 }

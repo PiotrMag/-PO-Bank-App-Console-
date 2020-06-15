@@ -22,9 +22,10 @@ namespace AppLogic
 
         public override void MakeTransaction(double amount)
         {
-            if (this.balance + amount < 0)
+            if (balance + amount < 0)
                 throw new InsufficientCardBalanceException("Kwota transakcji przekracza stan karty debetowej", this.Number, amount);
-            this.balance += amount;
+            balance += amount;
+            Math.Round(balance, 2);
         }
         public override BankActionResult Authorize(double amount)
         {
