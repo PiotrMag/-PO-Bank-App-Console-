@@ -32,17 +32,26 @@ namespace BankApp
 
         private void Submit(object sender, RoutedEventArgs e)
         {
+            bool success = true;
             try
             {
                 PaymentCenter.Instance.DeleteClientRequest(number.Text);
             }
             catch(WrongUserException ex)
             {
+                success = false;
                 MessageBox.Show(ex.Message);
             }
             catch(NotEmptyAccountException ex2)
             {
+                success = false;
                 MessageBox.Show(ex2.Message + "\r\n" + ex2.Amount);
+            }
+            if (success)
+            {
+                MessageBox.Show("Pomyślnie usunięto klienta");
+                var mainMenu = new MainMenu();
+                NavigationService.Navigate(mainMenu);
             }
         }
     }

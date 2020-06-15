@@ -39,10 +39,12 @@ namespace BankApp
             }
             catch(NoSuchCardException ex)
             {
+                success = false;
                 MessageBox.Show(ex.Message);
             }
             catch(NotEmptyAccountException ex2)
             {
+                success = false;
                 MessageBox.Show(ex2.Message);
             }
             if (success)
