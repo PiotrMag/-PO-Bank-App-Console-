@@ -10,6 +10,8 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using AppLogic;
+using Microsoft.Data.Sqlite;
 
 namespace BankApp
 {
@@ -21,7 +23,20 @@ namespace BankApp
         public Search(string query)
         {
             InitializeComponent();
-            //zapytanie do bazy danych
+            try
+            {
+                PaymentCenter.Instance.SearchArchives(query);
+            }
+            catch (DBNotBound e)
+            {
+                MessageBox.Show(e.Message + "\r\nŚcieżka: " + e.DBFilePath);
+                return
+            }
+            catch (SqliteException ex)
+            {
+                MessageBox.Show(ex.Message + "\r\nKod błędu: " + ex.SqliteExtendedErrorCode);
+                return;
+            }
             //wyświetlanie wyników
         }
 
