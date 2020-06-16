@@ -30,7 +30,7 @@ namespace BankApp
             catch (DBNotBound e)
             {
                 MessageBox.Show(e.Message + "\r\nŚcieżka: " + e.DBFilePath);
-                return
+                return;
             }
             catch (SqliteException ex)
             {
