@@ -8,6 +8,11 @@
 
   <ItemGroup>
     <None Remove="files\background.jpg" />
+    <None Remove="files\sample_system_state.xml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="files\sample_system_state.xml" />
   </ItemGroup>
 
   <ItemGroup>
