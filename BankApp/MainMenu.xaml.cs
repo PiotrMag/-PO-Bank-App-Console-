@@ -24,17 +24,22 @@ namespace BankApp
     {
         public MainMenu()
         {
-            string Path = null;
+            string SystemStatePath = "state.xml";
+            string DBPath = "archive.db";
             InitializeComponent();
             try
             {
                 //wczytywanie bazy danych
-                PaymentCenter.Instance.InitDB(Path, "Transakcje");
-                PaymentCenter.Instance.LoadSystemState(Path);
+                PaymentCenter.Instance.InitDB(DBPath);
+                PaymentCenter.Instance.LoadSystemState(SystemStatePath);
             }
             catch(SqliteException ex)
             {
                 MessageBox.Show(ex.Message + "\r\nKod błędu: " + ex.SqliteExtendedErrorCode);
+            }
+            catch(NoSuchFileException nsfex)
+            {
+                MessageBox.Show(nsfex.Message + "\r\nNie udało się załadować stanu systemu z pliku: " + nsfex.FilePath + "\r\nUżywanie czystego(noweg) stanu systemu");
             }
 
         }

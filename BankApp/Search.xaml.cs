@@ -25,7 +25,7 @@ namespace BankApp
             InitializeComponent();
             try
             {
-                PaymentCenter.Instance.SearchArchives(query);
+                List<ArchiveRecord> records = PaymentCenter.Instance.SearchArchives(query);
             }
             catch (DBNotBound e)
             {

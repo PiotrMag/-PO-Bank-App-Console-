@@ -19,7 +19,6 @@ namespace AppLogic
     public sealed class PaymentCenter
     {
         private string dbFilePath;
-        private string dbTableName;
         private bool isDBAvailable;
 
         #region Kod Singleton Pattern
@@ -45,23 +44,26 @@ namespace AppLogic
         /// </summary>
         /// <param name="dbFilePath">Ścieżka do pliku z bazą danych (jeżeli jej nie ma, to zostanie utworzona)</param>
         /// <param name="dbTableName">Nazwa tabeli (jeżeli jej nie ma, to zostanie utworzona)</param>
-        public void InitDB(string dbFilePath, string dbTableName)
+        public void InitDB(string dbFilePath)
         {
             this.dbFilePath = dbFilePath;
-            this.dbTableName = dbTableName;
 
             if (!Archive.CheckIfDBPresent(dbFilePath))
             {
                 isDBAvailable = false;
                 try
                 {
-                    Archive.CreateDBAndTable(dbFilePath, dbTableName);
+                    Archive.CreateDBAndTable(dbFilePath);
                     isDBAvailable = true;
                 }
                 catch (SqliteException e)
                 {
                     throw e;
                 }
+            }
+            else
+            {
+                isDBAvailable = true;
             }
         }
 
@@ -75,9 +77,9 @@ namespace AppLogic
         /// <returns>Zwraca te rekordy, które pasowały do zapytania SQLite</returns>
         public List<ArchiveRecord> SearchArchives(string query)
         {
-            if (this.dbFilePath == null || this.dbTableName == null || !this.isDBAvailable)
+            if (this.dbFilePath == null || !this.isDBAvailable)
                 if (this.dbFilePath != null)
-                    throw new DBNotBound("Nie udało się skorzystać z bazy danych", dbFilePath);
+                    throw new DBNotBound("Baza danych istnieje, ale nie udało się skożystac z tabeli (tabela może nie istnieć)", dbFilePath);
                 else
                     throw new DBNotBound("Nie można uzyskać dostępu do bazy danych");
             List<ArchiveRecord> data = null;
@@ -107,9 +109,9 @@ namespace AppLogic
         /// <param name="result">Wynik wykonania transakcji (czy wystąpił błąd, jeśli tak, to jaki)</param>
         public void LogInArchive(Card fromCard, Bank fromBank, Card toCard, Bank toBank, decimal amount, BankActionResult result)
         {
-            if (isDBAvailable && dbFilePath != null && dbTableName != null)
+            if (isDBAvailable && dbFilePath != null)
             {
-                Archive.AddRecord(dbFilePath, dbTableName,
+                Archive.AddRecord(dbFilePath,
                     new ArchiveRecord(fromCard.Owner.Name,
                                     fromCard.Owner.Number,
                                     fromCard.Owner.ClientType.ToString("g"),
