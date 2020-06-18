@@ -35,6 +35,7 @@ namespace AppLogic
             Name = name;
             Id = counter++;
             IsActive = true;
+            Cards = new List<Card>();
         }
 
         public Bank(string name, int id, bool isActive)
@@ -47,6 +48,7 @@ namespace AppLogic
             if (counter <= id)
                 counter = id + 1;
             IsActive = isActive;
+            Cards = new List<Card>();
         }
 
         /// <summary>

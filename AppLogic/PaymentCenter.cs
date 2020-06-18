@@ -286,7 +286,6 @@ namespace AppLogic
             using (XmlReader reader = XmlReader.Create(fileStream))
             {
                 string currentBankName = null, currentBankId = null;
-
                 while (reader.Read())
                 {
                     if (reader.NodeType == XmlNodeType.Element && reader.Name == "bank")

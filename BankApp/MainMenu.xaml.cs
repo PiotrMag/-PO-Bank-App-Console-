@@ -24,7 +24,7 @@ namespace BankApp
     {
         public MainMenu()
         {
-            string SystemStatePath = "state.xml";
+            string SystemStatePath = "system_state.xml";
             string DBPath = "archive.db";
             InitializeComponent();
             try
