@@ -22,6 +22,7 @@ namespace BankApp
     /// </summary>
     public partial class MainMenu : Page
     {
+        static private bool wasSystemStateLoaded = false;
         public MainMenu()
         {
             string SystemStatePath = "system_state.xml";
@@ -31,7 +32,11 @@ namespace BankApp
             {
                 //wczytywanie bazy danych
                 PaymentCenter.Instance.InitDB(DBPath);
-                PaymentCenter.Instance.LoadSystemState(SystemStatePath);
+                if (!wasSystemStateLoaded)
+                {
+                    PaymentCenter.Instance.LoadSystemState(SystemStatePath);
+                    wasSystemStateLoaded = true;
+                }
             }
             catch(SqliteException ex)
             {
