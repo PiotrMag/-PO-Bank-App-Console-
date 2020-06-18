@@ -36,6 +36,7 @@ namespace BankApp
             try
             {
                 PaymentCenter.Instance.AddBank(name.Text);
+                MessageBox.Show("Pomyslnie dodano bank o nazwie: " + name.Text);
             }
             catch(BankAlreadyExistsException ex)
             {

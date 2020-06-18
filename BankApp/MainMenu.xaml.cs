@@ -23,10 +23,10 @@ namespace BankApp
     public partial class MainMenu : Page
     {
         static private bool wasSystemStateLoaded = false;
+        static public string SystemStatePath = "system_state.xml";
+        static public string DBPath = "archive.db";
         public MainMenu()
         {
-            string SystemStatePath = "system_state.xml";
-            string DBPath = "archive.db";
             InitializeComponent();
             try
             {
@@ -68,8 +68,7 @@ namespace BankApp
 
         private void SaveNQuit(object sender, RoutedEventArgs e)
         {
-            string Path = null;
-            if (!PaymentCenter.Instance.SaveSystemState(Path))
+            if (!PaymentCenter.Instance.SaveSystemState(SystemStatePath))
                 MessageBox.Show("Wystąpił błąd zapisu");
             else
                 Application.Current.Shutdown();

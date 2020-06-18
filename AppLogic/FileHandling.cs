@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Text;
 
 namespace AppLogic
 {
@@ -29,7 +30,7 @@ namespace AppLogic
             if (!writeEvenIfExists)
                 if (File.Exists(filePath))
                     return false;
-            File.WriteAllText(filePath, content);
+            File.WriteAllText(filePath, content, Encoding.UTF8);
             return true;
         }
     }

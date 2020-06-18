@@ -193,13 +193,19 @@ namespace AppLogic
         /// </summary>
         /// <param name="filePath">Ścieżka do pliku do zapisania</param>
         /// <returns>Zwraca true, jeżeli udało się zapisać bez problemu, a false jeżeli sie nie udało</returns>
-        public bool SaveSystemState(String filePath)
+        public bool SaveSystemState(string filePath)
         {
             StringBuilder xmlContent = new StringBuilder();
 
-            using (XmlWriter writer = XmlWriter.Create(xmlContent))
+            XmlWriterSettings settings = new XmlWriterSettings();
+            settings.Indent = true;
+            settings.Encoding = new UTF8Encoding(false);
+            settings.OmitXmlDeclaration = true;
+
+            using (XmlWriter writer = XmlWriter.Create(xmlContent, settings))
             {
-                writer.WriteStartDocument();
+                writer.WriteStartElement("system");
+                //writer.WriteStartDocument();
                 // zapisywanie stanu banków
                 foreach (Bank bank in bankList)
                 {
@@ -231,8 +237,8 @@ namespace AppLogic
                         writer.WriteAttributeString("number", cardNumber);
                         writer.WriteAttributeString("ownerName", cardOwner.Name);
                         writer.WriteAttributeString("ownerNumber", cardOwner.Number.ToString());
-                        writer.WriteAttributeString("ownerType", cardOwner.ClientType.ToString("g"));
-                        writer.WriteAttributeString("cardType", cardType.ToString("g"));
+                        writer.WriteAttributeString("ownerType", cardOwner.ClientType.ToString("d"));
+                        writer.WriteAttributeString("cardType", cardType.ToString("d"));
                         writer.WriteAttributeString("isActive", card.IsActive.ToString());
                         writer.WriteAttributeString("balance", card.Balance.ToString());
 
@@ -241,12 +247,13 @@ namespace AppLogic
 
                     writer.WriteEndElement();
                 }
+                writer.WriteEndElement();
                 // zapisywanie stanu archiwum
                 // .........
                 // .........
             }
 
-            return FileHandling.WriteFile(filePath, xmlContent.ToString(), false);
+            return FileHandling.WriteFile(filePath, xmlContent.ToString(), true);
         }
 
         /// <summary>
@@ -265,6 +272,32 @@ namespace AppLogic
                     return true;
             }
             return false;
+        }
+
+        /// <summary>
+        /// Tworzy nowy bank jeżeli bank o podanych danych nie istnieje. Działa też jeżeli dane banku sa równe null
+        /// </summary>
+        /// <param name="bankName">Nazwa banku</param>
+        /// <param name="bankId">ID banku</param>
+        private void CreateBankIfNotExists(string bankName, string bankId)
+        {
+            if (!IsBankOnTheList(bankId == null ? -1 : int.Parse(bankId)))
+            {
+                Bank newBank;
+
+                if (bankId == null || int.Parse(bankId) < 0)
+                {
+                    newBank = new Bank(bankName ?? "UNKNOWN");
+                    bankId = newBank.Id.ToString();
+                    bankName = newBank.Name;
+                }
+                else
+                {
+                    newBank = new Bank(bankName, int.Parse(bankId), true);
+                }
+
+                bankList.Add(newBank);
+            }
         }
 
         /// <summary>
@@ -292,6 +325,7 @@ namespace AppLogic
                     {
                         currentBankName = reader.GetAttribute("name");
                         currentBankId = reader.GetAttribute("id");
+                        CreateBankIfNotExists(currentBankName, currentBankId);
                     }
 
                     if (reader.NodeType == XmlNodeType.Element && reader.Name == "card")
@@ -341,23 +375,7 @@ namespace AppLogic
                             else
                                 continue;
 
-                            if (!IsBankOnTheList(currentBankId == null ? -1 : int.Parse(currentBankId)))
-                            {
-                                Bank newBank;
-
-                                if (currentBankId == null || int.Parse(currentBankId) < 0)
-                                {
-                                    newBank = new Bank(currentBankName ?? "UNKNOWN");
-                                    currentBankId = newBank.Id.ToString();
-                                    currentBankName = newBank.Name;
-                                }
-                                else
-                                {
-                                    newBank = new Bank(currentBankName, int.Parse(currentBankId), true);
-                                }
-
-                                bankList.Add(newBank);
-                            }
+                            CreateBankIfNotExists(currentBankName, currentBankId);
 
                             AddNewCardRequest(newCard, int.Parse(currentBankId));
                         }
