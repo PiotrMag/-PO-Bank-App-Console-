@@ -19,7 +19,7 @@ namespace BankApp
     /// </summary>
     public partial class AddUserDialog : Window
     {
-        public AddUserDialog(string clientID, CardType type, string bankName)
+        internal AddUserDialog(string clientID, CardType type, string bankName)
         {
             ClientID = clientID;
             Type = type;

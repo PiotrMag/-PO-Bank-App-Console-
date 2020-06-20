@@ -57,6 +57,13 @@ namespace AppLogic
         }
         internal string Name;
     }
+    class InactiveBankException : Exception
+    {
+        internal InactiveBankException(string message): base(message)
+        {
+
+        }
+    }
     #endregion
 
     #region wyjątki dot. klientów

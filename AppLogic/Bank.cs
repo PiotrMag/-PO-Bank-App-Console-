@@ -102,7 +102,7 @@ namespace AppLogic
 
         #region tworzenie kart
         /// <summary>
-        /// Funkcja generująca 18-cyfrowy numer karty bankowej
+        /// Funkcja generująca 14-cyfrowy numer karty bankowej
         /// </summary>
         /// <param name="type">typ karty, której numer generujemy</param>
         /// <returns>numer karty</returns>

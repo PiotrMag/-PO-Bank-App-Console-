@@ -42,6 +42,7 @@ namespace BankApp
                         MessageBox.Show("Dodano kartę o numerze: " + card.Number);
                         break;
                     case "Karta debetowa":
+                        //dodać monit o max wysokość debetu
                         card = PaymentCenter.Instance.AddNewCardRequest(number.Text, Card.CardType.DebitCard, bank.Text);
                         MessageBox.Show("Dodano kartę o numerze: " + card.Number);
                         break;
@@ -75,6 +76,10 @@ namespace BankApp
             catch (NoSuchBankException ex3)
             {
                 MessageBox.Show(ex3.Message + "\r\n" + ex3.Name);
+            }
+            catch(InactiveBankException ex4)
+            {
+                MessageBox.Show(ex4.Message);
             }
         }
     }

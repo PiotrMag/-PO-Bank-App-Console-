@@ -485,6 +485,7 @@ namespace AppLogic
         /// <exception cref="NullUserException"/>
         /// <exception cref="WrongUserException"/>
         /// <exception cref="NoSuchBankException"/>
+        /// <exception cref="InactiveBankException"/>
         internal Card AddNewCardRequest(string clientNr, CardType type, string bankName)
         {
             Card card = null;
@@ -493,6 +494,7 @@ namespace AppLogic
                 int bankId = FindBankByName(bankName);
                 foreach (var bank in bankList)
                 {
+                    if (bank.Id == bankId && !bank.IsActive) throw new InactiveBankException("Wybrany bank został wcześniej usunięty z systemu");
                     if (bankId == bank.Id)
                     {
                         card = bank.AddCard(FindClientByNr(clientNr), type);
