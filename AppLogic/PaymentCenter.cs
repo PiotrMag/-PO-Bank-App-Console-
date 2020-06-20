@@ -546,6 +546,37 @@ namespace AppLogic
             throw new NoSuchCardException("Nie znaleziono karty", nr);
         }
 
+        public Card AddCardWithOwnerRequest(string clientNr, CardType type, string bankName, string name, ClientType clientType)
+        {
+            Card card = null;
+            int bankId = FindBankByName(bankName);
+            Client client = null;
+            switch(clientType)
+            {
+                case ClientType.NaturalPerson:
+                    client = new NaturalPerson(name, clientNr);
+                    break;
+                case ClientType.ServiceCompany:
+                    client = new ServiceCompany(name, clientNr);
+                    break;
+                case ClientType.Shop:
+                    client = new Shop(name, clientNr);
+                    break;
+                case ClientType.TransportCompany:
+                    client = new TransportCompany(name, clientNr);
+                    break;
+            }
+            foreach (var bank in bankList)
+            {
+                if (bankId == bank.Id)
+                {
+                    card = bank.AddCard(client, type);
+                    break;
+                }
+            }
+            return card;
+        }
+
         /// <summary>
         /// Wysyła do banku prośbę o usunięcie z systemu karty
         /// </summary>
@@ -591,7 +622,7 @@ namespace AppLogic
                 }
             if (client != null)
                 return client;
-            throw new WrongUserException("Nie znaleziono użytkownika");
+            throw new WrongUserException("Nie znaleziono użytkownika.\r\nCzy chcesz dodać nowego klienta?");
         }
 
         /// <summary>

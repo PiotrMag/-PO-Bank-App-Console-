@@ -26,7 +26,7 @@
         <Label Content="Panel edycji bazy danych" VerticalAlignment="Center" FontSize="36" Height="66" Width="424" FontFamily="Arial Unicode MS" Foreground="Yellow" Grid.ColumnSpan="2" Margin="188,0,188,0"/>
         <Button Grid.Row="1" Grid.Column="0" Margin="30" Click="AddBank">Dodaj Bank</Button>
         <Button Grid.Row="1" Grid.Column="1" Margin="30" Click="DelBank">Usuń Bank</Button>
-        <Button Grid.Row="3" Grid.Column="1" Margin="30" Click="DelClient">Usuń Klienta</Button>
+        <Button Grid.Row="3" Margin="230,25,230,35" Click="DelClient" Grid.ColumnSpan="2">Usuń Klienta</Button>
         <Button Grid.Row="2" Grid.Column="0" Margin="30" Click="AddCard">Dodaj Kartę</Button>
         <Button Grid.Row="2" Grid.Column="1" Margin="30" Click="DelCard">Usuń Kartę</Button>
         <Button Grid.Row="4" Margin="230,30,230,30" Click="MoveBack" Grid.ColumnSpan="2">Wróć</Button>

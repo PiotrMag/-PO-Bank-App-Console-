@@ -32,18 +32,22 @@ namespace BankApp
 
         private void Submit(object sender, RoutedEventArgs e)
         {
+            Card card = null;
             try
             {
                 switch (box.Text)
                 {
                     case "Karta bankomatowa":
-                        PaymentCenter.Instance.AddNewCardRequest(number.Text, Card.CardType.ATMCard, bank.Text);
+                        card = PaymentCenter.Instance.AddNewCardRequest(number.Text, Card.CardType.ATMCard, bank.Text);
+                        MessageBox.Show("Dodano kartę o numerze: " + card.Number);
                         break;
                     case "Karta debetowa":
-                        PaymentCenter.Instance.AddNewCardRequest(number.Text, Card.CardType.DebitCard, bank.Text);
+                        card = PaymentCenter.Instance.AddNewCardRequest(number.Text, Card.CardType.DebitCard, bank.Text);
+                        MessageBox.Show("Dodano kartę o numerze: " + card.Number);
                         break;
                     case "Karta kredytowa":
-                        PaymentCenter.Instance.AddNewCardRequest(number.Text, Card.CardType.CreditCard, bank.Text);
+                        card = PaymentCenter.Instance.AddNewCardRequest(number.Text, Card.CardType.CreditCard, bank.Text);
+                        MessageBox.Show("Dodano kartę o numerze: " + card.Number);
                         break;
                     default:
                         MessageBox.Show("Nie wybrano typu karty");
@@ -53,10 +57,20 @@ namespace BankApp
             catch (NullUserException ex)
             {
                 MessageBox.Show(ex.Message);
+                
             }
             catch (WrongUserException ex2)
             {
-                MessageBox.Show(ex2.Message);
+                MessageBoxResult result = MessageBox.Show(ex2.Message, "Word Processor", MessageBoxButton.YesNo);
+                switch (result)
+                {
+                    case MessageBoxResult.Yes:
+                        AddUserDialog user = new AddUserDialog(number.Text, Card.CardType.ATMCard, bank.Text);
+                        user.ShowDialog();
+                        break;
+                    case MessageBoxResult.No:
+                        return;
+                }
             }
             catch (NoSuchBankException ex3)
             {

@@ -42,7 +42,7 @@ namespace BankApp
             }
             catch (NoSuchFileException nsfex)
             {
-                MessageBox.Show(nsfex.Message + "\r\nNie udało się załadować stanu systemu z pliku: " + nsfex.FilePath + "\r\nUżywanie czystego(noweg) stanu systemu");
+                MessageBox.Show(nsfex.Message + "\r\nNie udało się załadować stanu systemu z pliku: " + nsfex.FilePath + "\r\nUżywanie czystego(nowego) stanu systemu");
             }
         }
     }
