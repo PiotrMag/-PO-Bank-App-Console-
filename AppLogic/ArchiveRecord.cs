@@ -50,20 +50,20 @@ namespace AppLogic
                                 string toName, string toID, string toType, string toCardID, string toCardType, string toBankName, string toBankID,
                                 decimal amount, BankActionResult bankActionResult)
         {
-            FromName = fromName != null ? fromName : "NULL";
-            FromID = fromId != null ? fromId : "NULL";
-            FromType = fromType != null ? fromType : "NULL";
-            FromCardID = fromCardID != null ? fromCardID : "NULL";
-            FromCardType = fromCardType != null ? fromCardType : "NULL";
-            FromBankName = fromBankName != null ? fromBankName : "NULL";
-            FromBankID = fromBankID != null ? fromBankID : "NULL";
-            ToName = toName != null ? toName : "NULL";
-            ToID = toID != null ? toID : "NULL";
-            ToType = toType != null ? toType : "NULL";
-            ToCardID = toCardID != null ? toCardID : "NULL";
-            ToCardType = toCardType != null ? toCardType : "NULL";
-            ToBankName = toBankName != null ? toBankName : "NULL";
-            ToBankID = toBankID != null ? toBankID : "NULL";
+            FromName = fromName ?? "NULL";
+            FromID = fromId ?? "NULL";
+            FromType = fromType ?? "NULL";
+            FromCardID = fromCardID ?? "NULL";
+            FromCardType = fromCardType ?? "NULL";
+            FromBankName = fromBankName ?? "NULL";
+            FromBankID = fromBankID ?? "NULL";
+            ToName = toName ?? "NULL";
+            ToID = toID ?? "NULL";
+            ToType = toType ?? "NULL";
+            ToCardID = toCardID ?? "NULL";
+            ToCardType = toCardType ?? "NULL";
+            ToBankName = toBankName ?? "NULL";
+            ToBankID = toBankID ?? "NULL";
             Amount = amount;
             Result = bankActionResult;
         }

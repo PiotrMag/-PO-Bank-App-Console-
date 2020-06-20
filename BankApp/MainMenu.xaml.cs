@@ -22,31 +22,10 @@ namespace BankApp
     /// </summary>
     public partial class MainMenu : Page
     {
-        static private bool wasSystemStateLoaded = false;
-        static public string SystemStatePath = "system_state.xml";
-        static public string DBPath = "archive.db";
+
         public MainMenu()
         {
             InitializeComponent();
-            try
-            {
-                //wczytywanie bazy danych
-                PaymentCenter.Instance.InitDB(DBPath);
-                if (!wasSystemStateLoaded)
-                {
-                    PaymentCenter.Instance.LoadSystemState(SystemStatePath);
-                    wasSystemStateLoaded = true;
-                }
-            }
-            catch(SqliteException ex)
-            {
-                MessageBox.Show(ex.Message + "\r\nKod błędu: " + ex.SqliteExtendedErrorCode);
-            }
-            catch(NoSuchFileException nsfex)
-            {
-                MessageBox.Show(nsfex.Message + "\r\nNie udało się załadować stanu systemu z pliku: " + nsfex.FilePath + "\r\nUżywanie czystego(noweg) stanu systemu");
-            }
-
         }
         private void Transaction(object sender, RoutedEventArgs e)
         {
@@ -68,7 +47,7 @@ namespace BankApp
 
         private void SaveNQuit(object sender, RoutedEventArgs e)
         {
-            if (!PaymentCenter.Instance.SaveSystemState(SystemStatePath))
+            if (!PaymentCenter.Instance.SaveSystemState(MainWindow.SystemStatePath))
                 MessageBox.Show("Wystąpił błąd zapisu");
             else
                 Application.Current.Shutdown();

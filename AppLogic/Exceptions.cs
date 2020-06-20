@@ -96,14 +96,14 @@ namespace AppLogic
         }
     }
 
-    public class DBNotBound : Exception
+    public class DBNotBoundException : Exception
     {
         public string DBFilePath { get; }
-        public DBNotBound(string message, string dbFilePath) : base(message)
+        public DBNotBoundException(string message, string dbFilePath) : base(message)
         {
             this.DBFilePath = dbFilePath;
         }
-        public DBNotBound(string message) : base(message) { }
+        public DBNotBoundException(string message) : base(message) { }
     }
 
     public class WrongSumException : Exception

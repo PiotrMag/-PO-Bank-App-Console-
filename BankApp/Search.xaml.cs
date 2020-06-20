@@ -26,8 +26,9 @@ namespace BankApp
             try
             {
                 List<ArchiveRecord> records = PaymentCenter.Instance.SearchArchives(query);
+                SearchResult.ItemsSource = records;
             }
-            catch (DBNotBound e)
+            catch (DBNotBoundException e)
             {
                 MessageBox.Show(e.Message + "\r\nŚcieżka: " + e.DBFilePath);
                 return;
@@ -37,7 +38,6 @@ namespace BankApp
                 MessageBox.Show(ex.Message + "\r\nKod błędu: " + ex.SqliteExtendedErrorCode);
                 return;
             }
-            //wyświetlanie wyników
         }
 
         private void MoveBack(object sender, RoutedEventArgs e)

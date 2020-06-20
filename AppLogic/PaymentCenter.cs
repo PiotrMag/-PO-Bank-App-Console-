@@ -79,9 +79,9 @@ namespace AppLogic
         {
             if (this.dbFilePath == null || !this.isDBAvailable)
                 if (this.dbFilePath != null)
-                    throw new DBNotBound("Baza danych istnieje, ale nie udało się skożystac z tabeli (tabela może nie istnieć)", dbFilePath);
+                    throw new DBNotBoundException("Baza danych istnieje, ale nie udało się skożystac z tabeli (tabela może nie istnieć)", dbFilePath);
                 else
-                    throw new DBNotBound("Nie można uzyskać dostępu do bazy danych");
+                    throw new DBNotBoundException("Nie można uzyskać dostępu do bazy danych");
             List<ArchiveRecord> data = null;
             try
             {
@@ -131,7 +131,7 @@ namespace AppLogic
             }
             else
             {
-                throw new DBNotBound("Nie połączonon z bazą danych");
+                throw new DBNotBoundException("Nie połączonon z bazą danych");
             }
         }
 
@@ -197,10 +197,12 @@ namespace AppLogic
         {
             StringBuilder xmlContent = new StringBuilder();
 
-            XmlWriterSettings settings = new XmlWriterSettings();
-            settings.Indent = true;
-            settings.Encoding = new UTF8Encoding(false);
-            settings.OmitXmlDeclaration = true;
+            XmlWriterSettings settings = new XmlWriterSettings
+            {
+                Indent = true,
+                Encoding = new UTF8Encoding(false),
+                OmitXmlDeclaration = true
+            };
 
             using (XmlWriter writer = XmlWriter.Create(xmlContent, settings))
             {

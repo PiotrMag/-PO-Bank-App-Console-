@@ -19,5 +19,23 @@
         </Grid.RowDefinitions>
         <Label Content="Wyniki wyszukiwania" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="36" Height="55" Width="351" FontFamily="Arial Unicode MS" Foreground="Yellow"/>
         <Button Grid.Row="2" Margin="15,15,630,15" Click="MoveBack">Wróć</Button>
+        <ListView Grid.Row="1" Margin="20,0,20,0" Name="SearchResult">
+            <ListView.View>
+                <GridView AllowsColumnReorder="False">
+                    <GridViewColumn Header="Nazwa płatnika" DisplayMemberBinding="{Binding FromName}"/>
+                    <GridViewColumn Header="ID płatnika" DisplayMemberBinding="{Binding FromID}"/>
+                    <GridViewColumn Header="Typ płatnika" DisplayMemberBinding="{Binding FromType}"/>
+                    <GridViewColumn Header="Numer karty płatnika" DisplayMemberBinding="{Binding FromCardID}"/>
+                    <GridViewColumn Header="Typ karty płatnika" DisplayMemberBinding="{Binding FromCardType}"/>
+                    <GridViewColumn Header="ID banku płatnika" DisplayMemberBinding="{Binding FromBankID}"/>
+                    <GridViewColumn Header="Nazwa biorcy" DisplayMemberBinding="{Binding ToName}"/>
+                    <GridViewColumn Header="ID biorcy" DisplayMemberBinding="{Binding ToID}"/>
+                    <GridViewColumn Header="Typ biorcy" DisplayMemberBinding="{Binding ToType}"/>
+                    <GridViewColumn Header="Numer karty biorcy" DisplayMemberBinding="{Binding ToCardID}"/>
+                    <GridViewColumn Header="Typ karty biorcy" DisplayMemberBinding="{Binding ToCardType}"/>
+                    <GridViewColumn Header="ID banku biorcy" DisplayMemberBinding="{Binding ToBankID}"/>
+                </GridView>
+            </ListView.View>
+        </ListView>
     </Grid>
 </Page>
