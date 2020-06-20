@@ -1,13 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Dynamic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using static AppLogic.Card;
 
 namespace AppLogic
 {
+    #region enum wynik operacji
+    /// <summary>
+    /// Wynik operacji bankowej
+    /// </summary>
     public enum BankActionResult
     {
         NULL = -1,
@@ -17,20 +17,16 @@ namespace AppLogic
         REJECTED_INSUFFICIENT_ACCOUNT_BALANCE = 3,
         TRANSACTION_REJECTED = 4
     }
+    #endregion
 
     public class Bank
     {
-        private static int counter = 0;
-        public string Name { get; set; }
-        public bool IsActive{get; set;}
-        public List<Card> Cards { get; }
-        public int Id { get; }
-
+        #region konstruktory
         /// <summary>
-        /// Konstruktor obiektu Bank
+        /// Tworzy obiekt banku o podanej nazwie
         /// </summary>
         /// <param name="name">Nazwa banku</param>
-        public Bank(string name="UNKNOWN")
+        internal Bank(string name="UNKNOWN")
         {
             Name = name;
             Id = counter++;
@@ -38,7 +34,13 @@ namespace AppLogic
             Cards = new List<Card>();
         }
 
-        public Bank(string name, int id, bool isActive)
+        /// <summary>
+        /// Tworzy obiekt banku o podanych parametrach
+        /// </summary>
+        /// <param name="name">Nazwa banku</param>
+        /// <param name="id">Id banku</param>
+        /// <param name="isActive">Stan banku (czy jest aktywny)</param>
+        internal Bank(string name, int id, bool isActive)
         {
             if (name == null)
                 Name = "UNKNOWN";
@@ -50,14 +52,25 @@ namespace AppLogic
             IsActive = isActive;
             Cards = new List<Card>();
         }
+        #endregion
+        
+        #region pola i właściwości
+        private static int counter = 0;
+        internal string Name { get; set; }
+        internal bool IsActive{get; set;}
+        internal List<Card> Cards { get; }
+        internal int Id { get; }
+        #endregion
 
+        #region metody
+        #region transakcje
         /// <summary>
-        /// Probuje autoryzowac płatność kartą na podaną kwotę
+        /// Autoryzuje płatność kartą na podaną kwotę
         /// </summary>
-        /// <returns>
-        /// BankActionResult, ktory mowi o tym, czy autoryzacja sie powiodla, czy nie
-        /// </returns>
-        public BankActionResult Authorize(string cardNumber, decimal amount)
+        /// <param name="cardNumber">Numer karty</param>
+        /// <param name="amount">Kwota transakcji</param>
+        /// <returns></returns>
+        internal BankActionResult Authorize(string cardNumber, decimal amount)
         {
             foreach (Card c in Cards)
             {
@@ -72,9 +85,9 @@ namespace AppLogic
         /// Dokonuje transakcji z podanej karty o podanej kwocie. Podanie kwoty z minusem powoduje zabranie kwoty z karty, a z plusem dodanie kwoty na kartę
         /// </summary>
         /// <param name="cardNumber">Karta do wykonania transakcji</param>
-        /// <param name="amount">Kwota do dodania/zabrania</param>
+        /// <param name="amount">Kwota transakcji</param>
         /// <returns>Zwraca rezultat wykonania transakcji</returns>
-        public void MakeTransaction(string cardNumber, decimal amount)
+        internal void MakeTransaction(string cardNumber, decimal amount)
         {
             foreach (var card in Cards)
             {
@@ -85,9 +98,9 @@ namespace AppLogic
                 }
             }
         }
+        #endregion
 
-        #region obsługa kart (dodawanie/usuwanie)
-
+        #region tworzenie kart
         /// <summary>
         /// Funkcja generująca 18-cyfrowy numer karty bankowej
         /// </summary>
@@ -135,7 +148,7 @@ namespace AppLogic
         /// <returns>
         /// Obiekt utworzonej karty
         /// </returns>
-        public Card AddCard(Client owner, CardType type)
+        internal Card AddCard(Client owner, CardType type)
         {
             if (owner == null)
                 throw new NullUserException("Nie podano użytkownika");
@@ -157,18 +170,24 @@ namespace AppLogic
             return card;
         }
 
-        public void AddCard(Card card)
+        /// <summary>
+        /// Dodaje kartę do listy banku
+        /// </summary>
+        /// <param name="card">Obiekt dodawanej karty</param>
+        internal void AddCard(Card card)
         {
             if (card == null)
                 throw new NoSuchCardException("Probowano dodac pusta karte", "");
             Cards.Add(card);
         }
+        #endregion
 
+        #region usuwanie kart i klientów
         /// <summary>
         /// Usuwa kartę z systemu (tzw. soft delete)
         /// </summary>
         /// <param name="number">Numer usuwanej karty</param>
-        public void DeleteCard(string number)
+        internal void DeleteCard(string number)
         {
             bool removed = false;
             foreach (var card in Cards)
@@ -186,13 +205,12 @@ namespace AppLogic
             if (!removed)
                 throw new NoSuchCardException("Nie znaleziono karty o podanym numerze", number);
         }
-        #endregion
 
         /// <summary>
         /// Usuwa z systemu klienta i powiązane z nim karty (tzw. soft delete)
         /// </summary>
         /// <param name="client">Obiekt usuwanego klienta</param>
-        public void DeleteClient(Client client)
+        internal void DeleteClient(Client client)
         {
             foreach (var card in Cards)
             {
@@ -206,5 +224,7 @@ namespace AppLogic
                 }
             }
         }
+        #endregion
+        #endregion
     }
 }

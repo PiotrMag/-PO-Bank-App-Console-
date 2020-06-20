@@ -1,13 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace AppLogic
+﻿namespace AppLogic
 {
-    internal class Shop : Company
+    class Shop : Company
     {
-        public Shop(string name, string NIP) : base(name, NIP, ClientType.Shop) { }
+        #region konstruktory
+        /// <summary>
+        /// Tworzy obiekt Sklepu
+        /// </summary>
+        /// <param name="name">Nazwa firmy</param>
+        /// <param name="NIP">Id firmy</param>
+        internal Shop(string name, string NIP) : base(name, NIP, ClientType.Shop) { }
+        #endregion
     }
 }

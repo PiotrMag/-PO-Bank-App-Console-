@@ -1,18 +1,21 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace AppLogic
+﻿namespace AppLogic
 {
-    abstract public class Company : Client
+    abstract class Company : Client
     {
-        public Company(string name, string NIP, ClientType clientType) : base(name, NIP, clientType)
+        #region konstruktory
+        /// <summary>
+        /// Tworzy obiekt firmy o podanych parametrach
+        /// </summary>
+        /// <param name="name">Nazwa firmy</param>
+        /// <param name="NIP">Id firmy</param>
+        /// <param name="clientType">Typ firmy</param>
+        internal Company(string name, string NIP, ClientType clientType) : base(name, NIP, clientType)
         {
 
         }
+        #endregion
 
+        #region przesłonięte metody klasy Object
         public override bool Equals(object obj)
         {
             if (!(obj is Company))
@@ -25,5 +28,6 @@ namespace AppLogic
         {
             return int.Parse(Number);
         }
+        #endregion
     }
 }

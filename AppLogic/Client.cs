@@ -1,12 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace AppLogic
+﻿namespace AppLogic
 {
-    public enum ClientType
+    #region enum typ klienta
+    /// <summary>
+    /// Typ klienta
+    /// </summary>
+    enum ClientType
     {
         Null = -1,
         NaturalPerson = 1,
@@ -14,20 +12,33 @@ namespace AppLogic
         Shop = 3,
         TransportCompany = 4,
     }
-    abstract public class Client
-    {
-        public string Name { get; }
-        public string Number { get; }
-        public bool IsActive { get; set; }
-        public ClientType ClientType { get; }
+    #endregion
 
-        public Client(string name, string number, ClientType clientType)
+    abstract class Client
+    {
+        #region konstruktory
+        /// <summary>
+        /// Tworzy obiekt klienta
+        /// </summary>
+        /// <param name="name">Nazwa klienta</param>
+        /// <param name="number">Id klienta</param>
+        /// <param name="clientType">Typ klienta</param>
+        internal Client(string name, string number, ClientType clientType)
         {
             Name = name;
             Number = number;
             ClientType = clientType;
         }
+        #endregion
 
+        #region właściwości
+        internal string Name { get; }
+        internal string Number { get; }
+        internal bool IsActive { get; set; }
+        internal ClientType ClientType { get; }
+        #endregion
+
+        #region przesłonięte metody klasy Object
         public override bool Equals(object obj)
         {
             if (!(obj is Client))
@@ -41,5 +52,6 @@ namespace AppLogic
         {
             return int.Parse(Number);
         }
+        #endregion
     }
 }

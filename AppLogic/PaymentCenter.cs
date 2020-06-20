@@ -3,9 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Runtime.InteropServices;
 using System.Text;
-using System.Threading.Tasks;
 using System.Xml;
 using static AppLogic.Card;
 
@@ -16,14 +14,17 @@ namespace AppLogic
     /// Klasa PaymentCenter zaimplementowana na bazie Singleton Pattern
     /// Nie jest to rozwiazanie wielowatkowe
     /// </summary>
-    public sealed class PaymentCenter
+    sealed class PaymentCenter
     {
+        #region pola prywatne
         private string dbFilePath;
         private bool isDBAvailable;
+        private readonly List<Bank> bankList;
+        #endregion
 
         #region Kod Singleton Pattern
         private static PaymentCenter instance = null;
-        public static PaymentCenter Instance
+        internal static PaymentCenter Instance
         {
             get
             {
@@ -39,12 +40,13 @@ namespace AppLogic
         }
         #endregion
 
+        #region Inicjalizacja bazy danych
         /// <summary>
         /// Metoda, którą należy wywołac przed wykonywaniem jakichkolwiek czynności związanych z bazą danych
         /// </summary>
         /// <param name="dbFilePath">Ścieżka do pliku z bazą danych (jeżeli jej nie ma, to zostanie utworzona)</param>
-        /// <param name="dbTableName">Nazwa tabeli (jeżeli jej nie ma, to zostanie utworzona)</param>
-        public void InitDB(string dbFilePath)
+        /// <exception cref="SqliteException"/>
+        internal void InitDB(string dbFilePath)
         {
             this.dbFilePath = dbFilePath;
 
@@ -66,8 +68,7 @@ namespace AppLogic
                 isDBAvailable = true;
             }
         }
-
-        private readonly List<Bank> bankList;
+        #endregion
 
         #region przeszukiwanie archiwum
         /// <summary>
@@ -75,7 +76,8 @@ namespace AppLogic
         /// </summary
         /// <param name="query">Zapytanie do wykonania w archiwum</param>
         /// <returns>Zwraca te rekordy, które pasowały do zapytania SQLite</returns>
-        public List<ArchiveRecord> SearchArchives(string query)
+        /// <exception cref="SqliteException"/>
+        internal List<ArchiveRecord> SearchArchives(string query)
         {
             if (this.dbFilePath == null || !this.isDBAvailable)
                 if (this.dbFilePath != null)
@@ -107,7 +109,7 @@ namespace AppLogic
         /// <param name="toBankID">ID banku, w którym jest karta, na którą próbowano przelać środki</param>
         /// <param name="amount">Kwota</param>
         /// <param name="result">Wynik wykonania transakcji (czy wystąpił błąd, jeśli tak, to jaki)</param>
-        public void LogInArchive(Card fromCard, Bank fromBank, Card toCard, Bank toBank, decimal amount, BankActionResult result)
+        internal void LogInArchive(Card fromCard, Bank fromBank, Card toCard, Bank toBank, decimal amount, BankActionResult result)
         {
             if (isDBAvailable && dbFilePath != null)
             {
@@ -135,7 +137,14 @@ namespace AppLogic
             }
         }
 
-        public void PrepareArchiveLog(decimal amount, BankActionResult result, string fromCardNumber = null, string toCardNumber = null)
+        /// <summary>
+        /// Wyszukuje w systemie dane potrzebne do utworzenia loga transakcji
+        /// </summary>
+        /// <param name="amount">Kwota transakcji</param>
+        /// <param name="result">Wynik transakcji</param>
+        /// <param name="fromCardNumber">Numer karty płatnika</param>
+        /// <param name="toCardNumber">Numer karty odbiorcy</param>
+        internal void PrepareArchiveLog(decimal amount, BankActionResult result, string fromCardNumber = null, string toCardNumber = null)
         {
             LogInArchive(FindCardByNr(fromCardNumber), FindBankByCardNr(fromCardNumber), FindCardByNr(toCardNumber), FindBankByCardNr(toCardNumber), amount, result);
         }
@@ -167,11 +176,13 @@ namespace AppLogic
             return companies;
         }
         #endregion
+
+        #region przeglądanie klientów
         /// <summary>
         /// Zwraca wszystkich klientów. Unikalność klienta jest określana na podstawie nazwy i numeru klienta
         /// </summary>
         /// <returns>Lista typu Client</returns>
-        public List<Client> GetClients()
+        internal List<Client> GetClients()
         {
             List<Client> list = new List<Client>();
             foreach (Bank b in bankList)
@@ -186,6 +197,7 @@ namespace AppLogic
             }
             return list;
         }
+        #endregion
 
         #region zapis/odczyt stanu centrum
         /// <summary>
@@ -193,7 +205,7 @@ namespace AppLogic
         /// </summary>
         /// <param name="filePath">Ścieżka do pliku do zapisania</param>
         /// <returns>Zwraca true, jeżeli udało się zapisać bez problemu, a false jeżeli sie nie udało</returns>
-        public bool SaveSystemState(string filePath)
+        internal bool SaveSystemState(string filePath)
         {
             StringBuilder xmlContent = new StringBuilder();
 
@@ -214,7 +226,7 @@ namespace AppLogic
                     string bankName = bank.Name;
                     int bankId = bank.Id;
                     if (bankName == null || bankId < 0)
-                        continue; // TODO: może trzeba zmienić, żeby wyrzucało błąd????
+                        continue;
                     writer.WriteStartElement("bank");
                     writer.WriteAttributeString("name", bankName);
                     writer.WriteAttributeString("id", bankId.ToString());
@@ -224,7 +236,7 @@ namespace AppLogic
                         string cardNumber = card.Number;
                         Client cardOwner = card.Owner;
                         if (cardNumber == null || cardOwner == null)
-                            continue; // TODO: może lepiej przerobić, żeby wyrzucało wyjątek????
+                            continue;
                         CardType cardType;
                         if (card is CreditCard)
                             cardType = CardType.CreditCard;
@@ -233,7 +245,7 @@ namespace AppLogic
                         else if (card is ATMCard)
                             cardType = CardType.ATMCard;
                         else
-                            continue; //TODO: może lepiej wyrzucić wyjątek????
+                            continue;
 
                         writer.WriteStartElement("card");
                         writer.WriteAttributeString("number", cardNumber);
@@ -308,7 +320,7 @@ namespace AppLogic
         /// </summary>
         /// <param name="filePath">Ścieżka do pliku do odczytania</param>
         /// <returns>Zwraca true, jeżeli udało się poprawnie załadować stan systemu, a false, jeżeli wystąpił błąd</returns>
-        public bool LoadSystemState(string filePath)
+        internal bool LoadSystemState(string filePath)
         {
             Stream fileStream = FileHandling.GetReadingStream(filePath);
             if (fileStream == null)
@@ -396,7 +408,7 @@ namespace AppLogic
         }
         #endregion
 
-        #region dokonanie transakcji
+        #region dokonywanie transakcji
         /// <summary>
         /// Metoda wysyłająca prośbę o dokonanie transakcji do banków obsługujących dane karty
         /// </summary>
@@ -404,7 +416,8 @@ namespace AppLogic
         /// <param name="toCardNumber">Karta, na która ma zostaś wpłacona kwota</param>
         /// <param name="amount">Kwota</param>
         /// <returns>Wynik wykonania transakcji</returns>
-        public void MakeTransactionRequest(string fromCardNumber, string toCardNumber, decimal amount)
+        /// <exception cref="TransactionDeniedException"/>
+        internal void MakeTransactionRequest(string fromCardNumber, string toCardNumber, decimal amount)
         {
             if (fromCardNumber.Length < 5 || toCardNumber.Length < 5) throw new TransactionDeniedException("Nieprawidłowy numer karty");
             int id1 = 9999 - int.Parse(fromCardNumber.Remove(4));
@@ -443,7 +456,8 @@ namespace AppLogic
         /// </summary>
         /// <param name="number">numer karty</param>
         /// <param name="amount">kwota operacji</param>
-        public void OneCardTransactionRequest(string number, decimal amount)
+        /// <exception cref="NoSuchCardException"/>
+        internal void OneCardTransactionRequest(string number, decimal amount)
         {
             if (number.Length < 5) throw new NoSuchCardException("Nieprawidłowy numer karty", number);
             int id = 9999 - int.Parse(number.Remove(4));
@@ -467,10 +481,11 @@ namespace AppLogic
         /// </summary>
         /// <param name="client">Klient żądający dodania karty</param>
         /// <param name="type">Typ tworzonej karty</param>
-        /// <returns>
-        /// Obiekt utworzonej karty
-        /// </returns>
-        public Card AddNewCardRequest(string clientNr, CardType type, string bankName)
+        /// <returns>Obiekt utworzonej karty</returns>
+        /// <exception cref="NullUserException"/>
+        /// <exception cref="WrongUserException"/>
+        /// <exception cref="NoSuchBankException"/>
+        internal Card AddNewCardRequest(string clientNr, CardType type, string bankName)
         {
             Card card = null;
             try
@@ -500,17 +515,13 @@ namespace AppLogic
             return card;
         }
 
-        private int FindBankByName(string bankName)
-        {
-            foreach (var bank in bankList)
-            {
-                if (bank.Name == bankName)
-                    return bank.Id;
-            }
-            throw new NoSuchBankException("Nie znaleziono banku o podanej nazwie", bankName);
-        }
-
-        public void AddNewCardRequest(Card card, int bankId)
+        /// <summary>
+        /// Wysyła do banku prośbę o dodanie nowej karty bierzącemu klientowi
+        /// </summary>
+        /// <param name="Card">Obiekt karty</param>
+        /// <param name="bankId">Id banku</param>
+        /// <exception cref="NoSuchCardException"/>
+        internal void AddNewCardRequest(Card card, int bankId)
         {
             Bank bank = null;
             foreach (Bank b in bankList)
@@ -528,6 +539,12 @@ namespace AppLogic
             bank.AddCard(card);
         }
 
+        /// <summary>
+        /// Znajduje obiekt karty o podanym numerze
+        /// </summary>
+        /// <param name="nr">Numer karty</param>
+        /// <returns>Obiekt karty</returns>
+        /// <exception cref="NoSuchCardException"/>
         private Card FindCardByNr(string nr)
         {
             if (nr == null) return null;
@@ -546,7 +563,16 @@ namespace AppLogic
             throw new NoSuchCardException("Nie znaleziono karty", nr);
         }
 
-        public Card AddCardWithOwnerRequest(string clientNr, CardType type, string bankName, string name, ClientType clientType)
+        /// <summary>
+        /// Dodaje obiekt karty i obiekt jej właściciela
+        /// </summary>
+        /// <param name="clientNr">Id klienta</param>
+        /// <param name="type">Typ karty</param>
+        /// <param name="bankName">Nazwa banku</param>
+        /// <param name="name">Podpis klienta</param>
+        /// <param name="clientType">Typ klienta</param>
+        /// <returns>Obiekt karty</returns>
+        internal Card AddCardWithOwnerRequest(string clientNr, CardType type, string bankName, string name, ClientType clientType)
         {
             Card card = null;
             int bankId = FindBankByName(bankName);
@@ -581,7 +607,7 @@ namespace AppLogic
         /// Wysyła do banku prośbę o usunięcie z systemu karty
         /// </summary>
         /// <param name="number">Numer usuwanej karty</param>
-        public void DeleteCardRequest(string number)
+        internal void DeleteCardRequest(string number)
         {
             int id = 9999 - int.Parse(number.Remove(4));
             try
@@ -607,9 +633,15 @@ namespace AppLogic
                 throw exception;
             }
         }
-
         #endregion
 
+        #region obsługa klientów
+        /// <summary>
+        /// Znajduje klienta po numerze ID
+        /// </summary>
+        /// <param name="nr">Id klienta</param>
+        /// <returns>Obiekt klienta</returns>
+        /// <exception cref="WrongUserException"/>
         private Client FindClientByNr(string nr)
         {
             Client client = null;
@@ -629,7 +661,9 @@ namespace AppLogic
         /// Wysyła do wszystkich banków prośbę o usunięcie z systemu klienta, usuwa klienta z listy lokalnej
         /// </summary>
         /// <param name="client">Obiekt usuwanego klienta</param>
-        public void DeleteClientRequest(string number)
+        /// <exception cref="NotEmptyAccountException"/>
+        /// <exception cref="WrongUserException"/>
+        internal void DeleteClientRequest(string number)
         {
             try
             {
@@ -657,8 +691,29 @@ namespace AppLogic
                 throw ex2;
             }
         }
+        #endregion
 
+        #region obsługa banków
+        /// <summary>
+        /// Znajduje obiekt banku po jego nazwie
+        /// </summary>
+        /// <param name="bankName">Nazwa banku</param>
+        /// <returns>Id banku</returns>
+        private int FindBankByName(string bankName)
+        {
+            foreach (var bank in bankList)
+            {
+                if (bank.Name == bankName)
+                    return bank.Id;
+            }
+            throw new NoSuchBankException("Nie znaleziono banku o podanej nazwie", bankName);
+        }
 
+        /// <summary>
+        /// Znajduje obiekt banku po numerze karty
+        /// </summary>
+        /// <param name="number">Numer karty płatniczej</param>
+        /// <returns>Obiekt banku</returns>
         private Bank FindBankByCardNr(string number)
         {
             if (number == null) return null;
@@ -669,7 +724,13 @@ namespace AppLogic
             }
             return null;
         }
-        public void AddBank(string name)
+        
+        /// <summary>
+        /// Dodaje nowy bank do centrum
+        /// </summary>
+        /// <param name="name">Nazwa banku</param>
+        /// <exception cref="BankAlreadyExistsException"/>
+        internal void AddBank(string name)
         {
             foreach (var bank in bankList)
             {
@@ -679,7 +740,12 @@ namespace AppLogic
             bankList.Add(new Bank(name));
         }
 
-        public void DeleteBank(string name)
+        /// <summary>
+        /// Usuwa bank z centrum
+        /// </summary>
+        /// <param name="name">Nazwa banku</param>
+        /// <exception cref="BankContainsActiveCardsException"/>
+        internal void DeleteBank(string name)
         {
             foreach (var bank in bankList)
             {
@@ -693,5 +759,6 @@ namespace AppLogic
                 }
             }
         }
+        #endregion
     }
 }

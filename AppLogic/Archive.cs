@@ -1,39 +1,35 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Reflection.Emit;
-using System.Text;
-using System.Threading.Tasks;
-//using Microsoft.Data.Sqlite;
+﻿using System.Collections.Generic;
 using System.Data.SQLite;
+using System.IO;
 
 
 namespace AppLogic
 {
     static class Archive
     {
-        static private string sqlCreateTable = @"CREATE TABLE transactions (id INTEGER PRIMARY KEY AUTOINCREMENT, fromName TEXT, fromID TEXT, fromType TEXT, fromCardID TEXT, fromCardType TEXT, fromBankName TEXT, fromBankID TEXT, toName TEXT, toID TEXT, toType TEXT, toCardID TEXT, toCardType TEXT, toBankName TEXT, toBankID TEXT, amount REAL, bankActionResult TEXT);";
-        static private string sqlInsertIntoTable = @"INSER INTO transactions (fromName, fromID, fromType, fromCardID, fromCardType, fromBankName, fromBankID, toName, toID, toType, toCardID, toCardType, toBankName, toBankID, amount, bankActionResult) VALUES (@fromName, @fromID, @fromType, @fromCardID, @fromCardType, @fromBankName, @fromBankID, @toName, @toID, @toType, @toCardID, @toCardType, @toBankName, @toBankID, @amount, @bankActionResult);";
-        static public string tableName = "transactions";
+        #region pola
+        static readonly string sqlCreateTable = @"CREATE TABLE transactions (id INTEGER PRIMARY KEY AUTOINCREMENT, fromName TEXT, fromID TEXT, fromType TEXT, fromCardID TEXT, fromCardType TEXT, fromBankName TEXT, fromBankID TEXT, toName TEXT, toID TEXT, toType TEXT, toCardID TEXT, toCardType TEXT, toBankName TEXT, toBankID TEXT, amount REAL, bankActionResult TEXT);";
+        static readonly string sqlInsertIntoTable = @"INSER INTO transactions (fromName, fromID, fromType, fromCardID, fromCardType, fromBankName, fromBankID, toName, toID, toType, toCardID, toCardType, toBankName, toBankID, amount, bankActionResult) VALUES (@fromName, @fromID, @fromType, @fromCardID, @fromCardType, @fromBankName, @fromBankID, @toName, @toID, @toType, @toCardID, @toCardType, @toBankName, @toBankID, @amount, @bankActionResult);";
+        internal static readonly string tableName = "transactions";
+        #endregion
 
+        #region metody
         /// <summary>
         /// Sprawdza, czy plik z bazą danych istnieje
         /// </summary>
         /// <param name="dbFilePath">Ściezka do pliku z bazą danych</param>
-        /// <returns>Zwraca wartość, czy plik z bazą danych istnieje</returns>
-        static public bool CheckIfDBPresent(string dbFilePath)
+        /// <returns>Zwraca informację, czy plik z bazą danych istnieje</returns>
+        internal static bool CheckIfDBPresent(string dbFilePath)
         {
             return File.Exists(dbFilePath);
         }
 
         /// <summary>
-        /// Tworzy bazę danych SQLite
+        /// Tworzy bazę danych SQLite zawierającą logi transakcji
         /// </summary>
         /// <param name="dbFilePath">Ściezka do utworzenia bazy danych</param>
         /// <exception cref="SqliteException">Wyrzuca wyjątek SQLiteException</exception>
-        static public void CreateDBAndTable(string dbFilePath)//, string tableName)
+        internal static void CreateDBAndTable(string dbFilePath)
         {
             using (var connection = new SQLiteConnection("Data Source=" + dbFilePath + ";Mode=ReadWriteCreate;Version=3"))
             {
@@ -41,8 +37,6 @@ namespace AppLogic
 
                 var command = connection.CreateCommand();
                 command.CommandText = sqlCreateTable;
-                //command.Parameters.AddWithValue("@tableName", "\'" + tableName + "\'");
-                //command.Parameters.AddWithValue("@tableName", tableName);
                 int res = command.ExecuteNonQuery();
             }
         }
@@ -53,7 +47,7 @@ namespace AppLogic
         /// <param name="dbFilePath">Ściezka do bazy danych</param>
         /// <param name="record">Rekord do dodania</param>
         /// <exception cref="SqliteException">Wyrzuca SQLiteExceptino</exception>"
-        static public void AddRecord(string dbFilePath, ArchiveRecord record)
+        internal static void AddRecord(string dbFilePath, ArchiveRecord record)
         {
             using (var connection = new SQLiteConnection("Data Source=" + dbFilePath))
             {
@@ -61,7 +55,6 @@ namespace AppLogic
 
                 var command = connection.CreateCommand();
                 command.CommandText = sqlInsertIntoTable;
-                //command.Parameters.AddWithValue("@tableName", "\'" + tableName + "\'");
                 command.Parameters.AddWithValue("@fromName", record.FromName);
                 command.Parameters.AddWithValue("@fromID", record.FromID);
                 command.Parameters.AddWithValue("@fromType", record.FromType);
@@ -83,12 +76,12 @@ namespace AppLogic
         }
 
         /// <summary>
-        /// Wykonuje komendę SQLite na bazie danych
+        /// Wykonuje zapytanie SQLite na bazie danych
         /// </summary>
-        /// <param name="dbFilePath">Ściezka do bazy danych</param>
+        /// <param name="dbFilePath">Ścieżka do bazy danych</param>
         /// <param name="command">Komenda do wykonania</param>
-        /// <returns>Zwraca wynik wykonania query</returns>
-        static public List<ArchiveRecord> ExecuteSQLQuery(string dbFilePath, string query)
+        /// <returns>Zwraca wynik wykonania zapytania</returns>
+        internal static List<ArchiveRecord> ExecuteSQLQuery(string dbFilePath, string query)
         {
             List<ArchiveRecord> records = new List<ArchiveRecord>();
             using (var connection = new SQLiteConnection("Data Source=" + dbFilePath))
@@ -103,7 +96,7 @@ namespace AppLogic
                     while (reader.Read())
                     {
                         if (reader.FieldCount < 15)
-                            continue; //TODO: może leipej wyrzucić błąd ????
+                            continue;
                         string fromName = reader.GetString(1);
                         string fromID = reader.GetString(2);
                         string fromType = reader.GetString(3);
@@ -128,5 +121,6 @@ namespace AppLogic
             }
             return records;
         }
+        #endregion
     }
 }
