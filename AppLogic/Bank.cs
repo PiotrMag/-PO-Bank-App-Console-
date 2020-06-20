@@ -148,7 +148,7 @@ namespace AppLogic
         /// <returns>
         /// Obiekt utworzonej karty
         /// </returns>
-        internal Card AddCard(Client owner, CardType type)
+        internal Card AddCard(Client owner, CardType type, decimal debit=1000)
         {
             if (owner == null)
                 throw new NullUserException("Nie podano użytkownika");
@@ -157,7 +157,7 @@ namespace AppLogic
             switch (type)
             {
                 case CardType.CreditCard:
-                    card = new CreditCard(number, owner);
+                    card = new CreditCard(number, owner, debit);
                     break;
                 case CardType.DebitCard:
                     card = new DebitCard(number, owner);

@@ -11,6 +11,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using static AppLogic.Card;
 
 namespace BankApp
 {
@@ -38,16 +39,16 @@ namespace BankApp
                 switch (box.Text)
                 {
                     case "Karta bankomatowa":
-                        card = PaymentCenter.Instance.AddNewCardRequest(number.Text, Card.CardType.ATMCard, bank.Text);
-                        MessageBox.Show("Dodano kartę o numerze: " + card.Number);
-                        break;
-                    case "Karta debetowa":
-                        //dodać monit o max wysokość debetu
-                        card = PaymentCenter.Instance.AddNewCardRequest(number.Text, Card.CardType.DebitCard, bank.Text);
+                        card = PaymentCenter.Instance.AddNewCardRequest(number.Text, CardType.ATMCard, bank.Text);
                         MessageBox.Show("Dodano kartę o numerze: " + card.Number);
                         break;
                     case "Karta kredytowa":
-                        card = PaymentCenter.Instance.AddNewCardRequest(number.Text, Card.CardType.CreditCard, bank.Text);
+                        DebitHeight debit = new DebitHeight(number.Text, bank.Text);
+                        /*card = PaymentCenter.Instance.AddNewCardRequest(number.Text, Card.CardType.DebitCard, bank.Text);
+                        MessageBox.Show("Dodano kartę o numerze: " + card.Number);*/
+                        break;
+                    case "Karta debetowa":
+                        card = PaymentCenter.Instance.AddNewCardRequest(number.Text, CardType.DebitCard, bank.Text);
                         MessageBox.Show("Dodano kartę o numerze: " + card.Number);
                         break;
                     default:
@@ -66,7 +67,7 @@ namespace BankApp
                 switch (result)
                 {
                     case MessageBoxResult.Yes:
-                        AddUserDialog user = new AddUserDialog(number.Text, Card.CardType.ATMCard, bank.Text);
+                        AddUserDialog user = new AddUserDialog(number.Text, CardType.ATMCard, bank.Text);
                         user.ShowDialog();
                         break;
                     case MessageBoxResult.No:
