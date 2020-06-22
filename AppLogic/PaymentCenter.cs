@@ -263,6 +263,8 @@ namespace AppLogic
                         writer.WriteAttributeString("ownerType", cardOwner.ClientType.ToString("d"));
                         writer.WriteAttributeString("cardType", cardType.ToString("d"));
                         writer.WriteAttributeString("isActive", card.IsActive.ToString());
+                        if (card is CreditCard)
+                            writer.WriteAttributeString("cardLimit", ((CreditCard)card).CreditLimit.ToString());
                         writer.WriteAttributeString("balance", card.Balance.ToString());
 
                         writer.WriteEndElement();
