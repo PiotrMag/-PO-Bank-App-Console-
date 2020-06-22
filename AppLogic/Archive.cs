@@ -9,7 +9,7 @@ namespace AppLogic
     {
         #region pola
         static readonly string sqlCreateTable = @"CREATE TABLE transactions (id INTEGER PRIMARY KEY AUTOINCREMENT, fromName TEXT, fromID TEXT, fromType TEXT, fromCardID TEXT, fromCardType TEXT, fromBankName TEXT, fromBankID TEXT, toName TEXT, toID TEXT, toType TEXT, toCardID TEXT, toCardType TEXT, toBankName TEXT, toBankID TEXT, amount REAL, bankActionResult TEXT);";
-        static readonly string sqlInsertIntoTable = @"INSER INTO transactions (fromName, fromID, fromType, fromCardID, fromCardType, fromBankName, fromBankID, toName, toID, toType, toCardID, toCardType, toBankName, toBankID, amount, bankActionResult) VALUES (@fromName, @fromID, @fromType, @fromCardID, @fromCardType, @fromBankName, @fromBankID, @toName, @toID, @toType, @toCardID, @toCardType, @toBankName, @toBankID, @amount, @bankActionResult);";
+        static readonly string sqlInsertIntoTable = @"INSERT INTO transactions (fromName, fromID, fromType, fromCardID, fromCardType, fromBankName, fromBankID, toName, toID, toType, toCardID, toCardType, toBankName, toBankID, amount, bankActionResult) VALUES (@fromName, @fromID, @fromType, @fromCardID, @fromCardType, @fromBankName, @fromBankID, @toName, @toID, @toType, @toCardID, @toCardType, @toBankName, @toBankID, @amount, @bankActionResult);";
         internal static readonly string tableName = "transactions";
         #endregion
 
