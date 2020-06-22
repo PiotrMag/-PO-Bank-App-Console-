@@ -133,7 +133,7 @@ namespace AppLogic
             }
             else
             {
-                throw new DBNotBoundException("Nie połączonon z bazą danych");
+                throw new DBNotBoundException("Nie połączono z bazą danych");
             }
         }
 
@@ -146,7 +146,16 @@ namespace AppLogic
         /// <param name="toCardNumber">Numer karty odbiorcy</param>
         internal void PrepareArchiveLog(decimal amount, BankActionResult result, string fromCardNumber = null, string toCardNumber = null)
         {
-            LogInArchive(FindCardByNr(fromCardNumber), FindBankByCardNr(fromCardNumber), FindCardByNr(toCardNumber), FindBankByCardNr(toCardNumber), amount, result);
+            try
+            {
+                LogInArchive(FindCardByNr(fromCardNumber), FindBankByCardNr(fromCardNumber), FindCardByNr(toCardNumber), FindBankByCardNr(toCardNumber), amount, result);
+            }
+            catch(NoSuchCardException ex)
+            {
+                if(ex.CardNumber == fromCardNumber)
+                    LogInArchive(null, null, FindCardByNr(toCardNumber), FindBankByCardNr(toCardNumber), amount, result);
+                LogInArchive(FindCardByNr(fromCardNumber), FindBankByCardNr(fromCardNumber), null, null, amount, result);
+            }
         }
         #endregion
 
@@ -632,9 +641,9 @@ namespace AppLogic
             {
                 throw ex;
             }
-            catch (NotEmptyAccountException exception)
+            catch (NotEmptyAccountException ex2)
             {
-                throw exception;
+                throw ex2;
             }
         }
         #endregion
@@ -658,7 +667,7 @@ namespace AppLogic
                 }
             if (client != null)
                 return client;
-            throw new WrongUserException("Nie znaleziono użytkownika.\r\nCzy chcesz dodać nowego klienta?");
+            throw new WrongUserException("Nie znaleziono użytkownika.");
         }
 
         /// <summary>

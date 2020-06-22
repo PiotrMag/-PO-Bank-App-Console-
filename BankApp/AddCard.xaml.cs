@@ -35,8 +35,7 @@ namespace BankApp
                         break;
                     case "Karta kredytowa":
                         DebitHeight debit = new DebitHeight(number.Text, bank.Text);
-                        /*card = PaymentCenter.Instance.AddNewCardRequest(number.Text, Card.CardType.DebitCard, bank.Text);
-                        MessageBox.Show("Dodano kartę o numerze: " + card.Number);*/
+                        debit.ShowDialog();
                         break;
                     case "Karta debetowa":
                         card = PaymentCenter.Instance.AddNewCardRequest(number.Text, CardType.DebitCard, bank.Text);
@@ -54,7 +53,7 @@ namespace BankApp
             }
             catch (WrongUserException ex2)
             {
-                MessageBoxResult result = MessageBox.Show(ex2.Message, "Word Processor", MessageBoxButton.YesNo);
+                MessageBoxResult result = MessageBox.Show(ex2.Message + "\r\nCzy chcesz dodać nowego klienta?", "Word Processor", MessageBoxButton.YesNo);
                 switch (result)
                 {
                     case MessageBoxResult.Yes:

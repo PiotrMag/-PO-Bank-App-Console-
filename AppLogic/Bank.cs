@@ -189,40 +189,45 @@ namespace AppLogic
         /// <param name="number">Numer usuwanej karty</param>
         internal void DeleteCard(string number)
         {
-            bool removed = false;
             foreach (var card in Cards)
             {
                 if (number == card.Number && card.Balance < 0)
                     throw new NotEmptyAccountException("Na karcie znajduje się debet. Nie można usunąć!!!", card.Balance, card.Number);
-                else if (number == card.Number && card.Balance > 0)
+                if (number == card.Number && card.Balance > 0)
                     throw new NotEmptyAccountException("Na karcie znajdują się jeszcze niewykorzystane środki. Nie można usunąć!!!", card.Balance, card.Number);
-                else if (number == card.Number)
+                if (number == card.Number && card.IsActive == false)
+                    throw new NoSuchCardException("Podana karta została już usunięta", card.Number);
+                if (number == card.Number)
                 {
                     card.IsActive = false;
-                    removed = true;
+                    return;
                 }
             }
-            if (!removed)
-                throw new NoSuchCardException("Nie znaleziono karty o podanym numerze", number);
+            throw new NoSuchCardException("Nie znaleziono karty o podanym numerze", number);
         }
 
         /// <summary>
         /// Usuwa z systemu klienta i powiązane z nim karty (tzw. soft delete)
         /// </summary>
         /// <param name="client">Obiekt usuwanego klienta</param>
+        /// <exception cref="NotEmptyAccountException"/>
+        /// <exception cref="WrongUserException"/>
         internal void DeleteClient(Client client)
         {
+            int counter = 0;
             foreach (var card in Cards)
             {
                 if (card.Owner.Equals(client) && card.Balance < 0)
                     throw new NotEmptyAccountException("Na karcie znajduje się debet. Nie można usunąć!!!", card.Balance, card.Number);
-                else if (card.Owner.Equals(client) && card.Balance > 0)
+                if (card.Owner.Equals(client) && card.Balance > 0)
                     throw new NotEmptyAccountException("Na karcie znajdują się jeszcze niewykorzystane środki. Nie można usunąć!!!", card.Balance, card.Number);
-                else if (card.Owner.Equals(client))
+                if (card.Owner.Equals(client))
                 {
                     card.IsActive = false;
+                    counter++;
                 }
             }
+            if (counter == 0) throw new WrongUserException("Nie znaleziono klienta");
         }
         #endregion
         #endregion
