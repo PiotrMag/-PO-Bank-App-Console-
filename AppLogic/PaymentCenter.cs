@@ -486,7 +486,7 @@ namespace AppLogic
         /// <exception cref="WrongUserException"/>
         /// <exception cref="NoSuchBankException"/>
         /// <exception cref="InactiveBankException"/>
-        internal Card AddNewCardRequest(string clientNr, CardType type, string bankName, decimal debit=1000)
+        internal Card AddNewCardRequest(string clientNr, CardType type, string bankName, decimal debit = 1000)
         {
             Card card = null;
             try
@@ -579,7 +579,7 @@ namespace AppLogic
             Card card = null;
             int bankId = FindBankByName(bankName);
             Client client = null;
-            switch(clientType)
+            switch (clientType)
             {
                 case ClientType.NaturalPerson:
                     client = new NaturalPerson(name, clientNr);
@@ -609,6 +609,8 @@ namespace AppLogic
         /// Wysyła do banku prośbę o usunięcie z systemu karty
         /// </summary>
         /// <param name="number">Numer usuwanej karty</param>
+        /// <exception cref="NoSuchCardException"/>
+        /// <exception cref="NotEmptyAccountException"/>
         internal void DeleteCardRequest(string number)
         {
             int id = 9999 - int.Parse(number.Remove(4));
@@ -705,7 +707,7 @@ namespace AppLogic
         {
             foreach (var bank in bankList)
             {
-                if (bank.Name == bankName)
+                if (bank.Name == bankName && bank.IsActive == true)
                     return bank.Id;
             }
             throw new NoSuchBankException("Nie znaleziono banku o podanej nazwie", bankName);
@@ -726,7 +728,7 @@ namespace AppLogic
             }
             return null;
         }
-        
+
         /// <summary>
         /// Dodaje nowy bank do centrum
         /// </summary>
@@ -747,19 +749,39 @@ namespace AppLogic
         /// </summary>
         /// <param name="name">Nazwa banku</param>
         /// <exception cref="BankContainsActiveCardsException"/>
+        /// <exception cref="NoSuchCardException"/>
+        /// <exception cref="NotEmptyAccountException"/>
         internal void DeleteBank(string name)
         {
             foreach (var bank in bankList)
             {
-                if (bank.Name == name)
+                if (bank.Name == name && bank.IsActive == false)
+                    throw new NoSuchBankException("Podany bank został wcześniej usunięty", bank.Name);
+                if (bank.Name == name && bank.IsActive == true)
                 {
                     foreach (var card in bank.Cards)
+                    {
                         if (card.IsActive)
                             throw new BankContainsActiveCardsException("Nie można usunąć - bank zawiera aktywne karty");
+                        else
+                            try
+                            {
+                                DeleteCardRequest(card.Number);
+                            }
+                            catch(NoSuchCardException ex)
+                            {
+                                throw ex;
+                            }
+                            catch(NotEmptyAccountException ex2)
+                            {
+                                throw ex2;
+                            }
+                    }
                     bank.IsActive = false;
-                    break;
+                    return;
                 }
             }
+            throw new NoSuchBankException("Podanego banku nie ma na liście", name);
         }
         #endregion
     }
