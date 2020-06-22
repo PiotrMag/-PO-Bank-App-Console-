@@ -18,7 +18,9 @@ namespace BankApp
             try
             {
                 List<ArchiveRecord> records = PaymentCenter.Instance.SearchArchives(query);
-                SearchResult.ItemsSource = records;
+                gridView.AutoGenerateColumns = true;
+                gridView.ItemsSource = records;
+                //SearchResult.ItemsSource = records;
             }
             catch (DBNotBoundException e)
             {

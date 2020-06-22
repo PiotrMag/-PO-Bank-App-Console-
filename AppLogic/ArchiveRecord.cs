@@ -4,26 +4,26 @@
     {
         #region właściwości rekordu
         // Dane klienta
-        internal string FromName { get; }
-        internal string FromID { get; }
-        internal string FromType { get; }
-        internal string FromCardID { get; }
-        internal string FromCardType { get; }
-        internal string FromBankName { get; }
-        internal string FromBankID { get; }
+        public string FromName { get; }
+        public string FromID { get; }
+        public string FromType { get; }
+        public string FromCardID { get; }
+        public string FromCardType { get; }
+        public string FromBankName { get; }
+        public string FromBankID { get; }
 
         // Dane firmy
-        internal string ToName { get; }
-        internal string ToID { get; }
-        internal string ToType { get; }
-        internal string ToCardID { get; }
-        internal string ToCardType { get; }
-        internal string ToBankName { get; }
-        internal string ToBankID { get; }
+        public string ToName { get; }
+        public string ToID { get; }
+        public string ToType { get; }
+        public string ToCardID { get; }
+        public string ToCardType { get; }
+        public string ToBankName { get; }
+        public string ToBankID { get; }
 
         // Dane transakcji
-        internal decimal Amount { get; }
-        internal BankActionResult Result { get; }
+        public decimal Amount { get; }
+        public BankActionResult Result { get; }
         #endregion
 
         #region metody

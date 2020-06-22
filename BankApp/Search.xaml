@@ -19,7 +19,10 @@
         </Grid.RowDefinitions>
         <Label Content="Wyniki wyszukiwania" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="36" Height="55" Width="351" FontFamily="Arial Unicode MS" Foreground="Yellow"/>
         <Button Grid.Row="2" Margin="15,15,630,15" Click="MoveBack">Wróć</Button>
-        <ListView Grid.Row="1" Margin="20,0,20,0" Name="SearchResult">
+        <DataGrid Grid.Row="1" Margin="20,0,20,0" Name="gridView" HorizontalAlignment="Left" VerticalAlignment="Top" Width="760" Height="300" HorizontalScrollBarVisibility="Visible">
+            
+        </DataGrid>
+        <!--<ListView Grid.Row="1" Margin="20,0,20,0" Name="SearchResult">
             <ListView.View>
                 <GridView AllowsColumnReorder="False">
                     <GridViewColumn Header="Nazwa płatnika" DisplayMemberBinding="{Binding FromName}"/>
@@ -36,6 +39,6 @@
                     <GridViewColumn Header="ID banku biorcy" DisplayMemberBinding="{Binding ToBankID}"/>
                 </GridView>
             </ListView.View>
-        </ListView>
+        </ListView>-->
     </Grid>
 </Page>
