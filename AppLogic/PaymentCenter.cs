@@ -475,6 +475,7 @@ namespace AppLogic
                 if (bank.Id == id && bank.Authorize(number, amount) == BankActionResult.SUCCESS)
                 {
                     bank.MakeTransaction(number, amount);
+                    return;
                 }
                 else if (bank.Id == id)
                     throw new InsufficientCardBalanceException("Brak środków na karcie");
