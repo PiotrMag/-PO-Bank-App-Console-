@@ -23,7 +23,7 @@
             <ColumnDefinition Width="1*" />
             <ColumnDefinition Width="1*" />
         </Grid.ColumnDefinitions>
-        <Label Content="Dodaj Kartę" VerticalAlignment="Center" FontSize="36" Height="54" FontFamily="Arial Unicode MS" Foreground="Yellow" Grid.ColumnSpan="2" Margin="289,0,289,0"/>
+        <Label Content="Dodaj Kartę" VerticalAlignment="Center" FontSize="36" Height="70" FontFamily="Arial Unicode MS" Foreground="Yellow" Grid.ColumnSpan="2" Margin="289,0,289,0"/>
         <TextBox x:Name="number" Grid.Column="1" Grid.Row="3" Margin="60,26,96,26"></TextBox>
         <TextBox x:Name="bank" Grid.Column="1" Grid.Row="2" Margin="60,26,96,26"></TextBox>
         <Button Grid.Column="0" Grid.Row="4" Margin="20,26,270,20" Click="MoveBack">Wróć</Button>

@@ -35,7 +35,7 @@ namespace BankApp
             }
             catch (WrongUserException ex2)
             {
-                MessageBoxResult result = MessageBox.Show(ex2.Message, "Word Processor", MessageBoxButton.YesNo);
+                MessageBoxResult result = MessageBox.Show(ex2.Message + "\r\nCzy chcesz dodać nowego klienta?", "" , MessageBoxButton.YesNo);
                 switch (result)
                 {
                     case MessageBoxResult.Yes:
