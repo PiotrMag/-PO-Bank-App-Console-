@@ -40,5 +40,11 @@ namespace BankApp
             else
                 Application.Current.Shutdown();
         }
+
+        private void Companies(object sender, RoutedEventArgs e)
+        {
+            var companies = new Companies();
+            NavigationService.Navigate(companies);
+        }
     }
 }

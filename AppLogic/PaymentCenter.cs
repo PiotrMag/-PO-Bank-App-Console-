@@ -1,6 +1,7 @@
 ﻿using Microsoft.Data.Sqlite;
 using System;
 using System.Collections.Generic;
+using System.Data.SQLite;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -81,7 +82,7 @@ namespace AppLogic
         {
             if (this.dbFilePath == null || !this.isDBAvailable)
                 if (this.dbFilePath != null)
-                    throw new DBNotBoundException("Baza danych istnieje, ale nie udało się skożystac z tabeli (tabela może nie istnieć)", dbFilePath);
+                    throw new DBNotBoundException("Baza danych istnieje, ale nie udało się skorzystac z tabeli (tabela może nie istnieć)", dbFilePath);
                 else
                     throw new DBNotBoundException("Nie można uzyskać dostępu do bazy danych");
             List<ArchiveRecord> data = null;
@@ -89,7 +90,7 @@ namespace AppLogic
             {
                 data = Archive.ExecuteSQLQuery(dbFilePath, query);
             }
-            catch (SqliteException e)
+            catch (SQLiteException e)
             {
                 throw e;
             }
@@ -172,11 +173,11 @@ namespace AppLogic
             {
                 foreach (Card c in b.Cards)
                 {
-                    if (c.Owner is Company company)
+                    if (c.Owner is Company)
                     {
                         if (!companies.Contains(c.Owner))
                         {
-                            companies.Add(company);
+                            companies.Add((Company)c.Owner);
                         }
                     }
                 }

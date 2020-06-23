@@ -83,43 +83,50 @@ namespace AppLogic
         /// <returns>Zwraca wynik wykonania zapytania</returns>
         internal static List<ArchiveRecord> ExecuteSQLQuery(string dbFilePath, string query)
         {
-            List<ArchiveRecord> records = new List<ArchiveRecord>();
-            using (var connection = new SQLiteConnection("Data Source=" + dbFilePath))
+            try
             {
-                connection.Open();
-
-                var command = connection.CreateCommand();
-                command.CommandText = query;
-
-                using (var reader = command.ExecuteReader())
+                List<ArchiveRecord> records = new List<ArchiveRecord>();
+                using (var connection = new SQLiteConnection("Data Source=" + dbFilePath))
                 {
-                    while (reader.Read())
-                    {
-                        if (reader.FieldCount < 15)
-                            continue;
-                        string fromName = reader.GetString(1);
-                        string fromID = reader.GetString(2);
-                        string fromType = reader.GetString(3);
-                        string fromCardID = reader.GetString(4);
-                        string fromCardType = reader.GetString(5);
-                        string fromBankName = reader.GetString(6);
-                        string fromBankID = reader.GetString(7);
-                        string toName = reader.GetString(8);
-                        string toID = reader.GetString(9);
-                        string toType = reader.GetString(10);
-                        string toCardID = reader.GetString(11);
-                        string toCardType = reader.GetString(12);
-                        string toBankName = reader.GetString(13);
-                        string toBankID = reader.GetString(14);
-                        float amount = reader.GetFloat(15);
-                        BankActionResult bankActionResult = (BankActionResult)int.Parse(reader.GetString(16));
+                    connection.Open();
 
-                        ArchiveRecord newRecord = new ArchiveRecord(fromName, fromID, fromType, fromCardID, fromCardType, fromBankName, fromBankID, toName, toID, toType, toCardID, toCardType, toBankName, toBankID, (decimal)amount, bankActionResult);
-                        records.Add(newRecord);
+                    var command = connection.CreateCommand();
+                    command.CommandText = query;
+
+                    using (var reader = command.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            if (reader.FieldCount < 15)
+                                continue;
+                            string fromName = reader.GetString(1);
+                            string fromID = reader.GetString(2);
+                            string fromType = reader.GetString(3);
+                            string fromCardID = reader.GetString(4);
+                            string fromCardType = reader.GetString(5);
+                            string fromBankName = reader.GetString(6);
+                            string fromBankID = reader.GetString(7);
+                            string toName = reader.GetString(8);
+                            string toID = reader.GetString(9);
+                            string toType = reader.GetString(10);
+                            string toCardID = reader.GetString(11);
+                            string toCardType = reader.GetString(12);
+                            string toBankName = reader.GetString(13);
+                            string toBankID = reader.GetString(14);
+                            float amount = reader.GetFloat(15);
+                            BankActionResult bankActionResult = (BankActionResult)int.Parse(reader.GetString(16));
+
+                            ArchiveRecord newRecord = new ArchiveRecord(fromName, fromID, fromType, fromCardID, fromCardType, fromBankName, fromBankID, toName, toID, toType, toCardID, toCardType, toBankName, toBankID, (decimal)amount, bankActionResult);
+                            records.Add(newRecord);
+                        }
                     }
                 }
+                return records;
             }
-            return records;
+            catch(SQLiteException ex)
+            {
+                throw ex;
+            }
         }
         #endregion
     }

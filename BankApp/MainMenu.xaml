@@ -19,12 +19,14 @@
             <RowDefinition Height="1*" />
             <RowDefinition Height="1*" />
             <RowDefinition Height="1*" />
+            <RowDefinition Height="1*" />
         </Grid.RowDefinitions>
         <Label Grid.Row="0" Content="Witaj w programie BankApp" HorizontalAlignment="Center" Margin="0,0,0,0" VerticalAlignment="Top" FontSize="36" Height="55" Width="463" FontFamily="Arial Unicode MS" Foreground="Yellow"/>
         <Label Grid.Row="1" Content="Menu główne" HorizontalAlignment="Center" Margin="0,0,0,0" Foreground="Yellow" FontFamily="Arial Unicode MS" FontSize="46"/>
         <Button Grid.Row="2" Margin="280,10,280,10" Click="Transaction">Dokonaj transakcji</Button>
         <Button Grid.Row="3" Margin="280,10,280,10" Click="ClientPanel">Panel edycji użytkowników</Button>
         <Button Grid.Row="4" Margin="280,10,280,10" Click="Database">Wyszukiwanie w bazie danych</Button>
-        <Button Grid.Row="5" Margin="280,10,280,10" Click="SaveNQuit">Zapisz i wyjdź</Button>
+        <Button Grid.Row="5" Margin="280,10,280,10" Click="Companies">Przegląd firm</Button>
+        <Button Grid.Row="6" Margin="280,10,280,10" Click="SaveNQuit">Zapisz i wyjdź</Button>
     </Grid>
 </Page>

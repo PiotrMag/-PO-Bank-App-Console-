@@ -1,6 +1,7 @@
 ﻿using AppLogic;
 using Microsoft.Data.Sqlite;
 using System.Collections.Generic;
+using System.Data.SQLite;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Navigation;
@@ -20,7 +21,6 @@ namespace BankApp
                 List<ArchiveRecord> records = PaymentCenter.Instance.SearchArchives(query);
                 gridView.AutoGenerateColumns = true;
                 gridView.ItemsSource = records;
-                //SearchResult.ItemsSource = records;
             }
             catch (DBNotBoundException e)
             {
@@ -30,6 +30,11 @@ namespace BankApp
             catch (SqliteException ex)
             {
                 MessageBox.Show(ex.Message + "\r\nKod błędu: " + ex.SqliteExtendedErrorCode);
+                return;
+            }
+            catch(SQLiteException ex2)
+            {
+                MessageBox.Show(ex2.Message);
                 return;
             }
         }
