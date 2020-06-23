@@ -53,6 +53,11 @@
         {
             return int.Parse(Number);
         }
+
+        public override string ToString()
+        {
+            return Name;
+        }
         #endregion
     }
 }

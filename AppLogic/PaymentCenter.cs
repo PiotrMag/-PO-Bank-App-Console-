@@ -488,7 +488,7 @@ namespace AppLogic
         }
         #endregion
 
-        #region obsługa kart (dodawanie/usuwanie/sprawdzanie typu)
+        #region obsługa kart (dodawanie/usuwanie/sprawdzanie typu/przegląd)
         /// <summary>
         /// Wysyła do banku prośbę o dodanie nowej karty bierzącemu klientowi
         /// </summary>
@@ -649,6 +649,20 @@ namespace AppLogic
             {
                 throw ex2;
             }
+        }
+
+        /// <summary>
+        /// Zwraca listę kart istniejących w systemie
+        /// </summary>
+        /// <returns>Lista kart</returns>
+        public List<Card> GetCards()
+        {
+            List<Card> list = new List<Card>();
+            foreach (var b in bankList)
+            {
+                list.AddRange(b.Cards);
+            }
+            return list;
         }
         #endregion
 

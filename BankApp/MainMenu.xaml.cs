@@ -46,5 +46,11 @@ namespace BankApp
             var companies = new Companies();
             NavigationService.Navigate(companies);
         }
+
+        private void Cards(object sender, RoutedEventArgs e)
+        {
+            var cards = new Cards();
+            NavigationService.Navigate(cards);
+        }
     }
 }

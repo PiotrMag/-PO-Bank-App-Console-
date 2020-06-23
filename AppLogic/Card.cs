@@ -1,4 +1,6 @@
-﻿namespace AppLogic
+﻿using System.Data.SqlTypes;
+
+namespace AppLogic
 {
     abstract class Card
     {
@@ -33,10 +35,10 @@
         #endregion
 
         #region właściwości
-        internal Client Owner { get; }
-        internal string Number { get; set; }
-        internal bool IsActive { get; set; }
-        internal decimal Balance { get { return balance; } }
+        public Client Owner { get; }
+        public string Number { get; set; }
+        public bool IsActive { get; set; }
+        public decimal Balance { get { return balance; } }
         internal CardType Type { get; }
         protected decimal balance;
         #endregion
@@ -70,7 +72,7 @@
 
         public override int GetHashCode()
         {
-            return int.Parse(Number);
+            return Number.GetHashCode();
         }
         #endregion
     }
