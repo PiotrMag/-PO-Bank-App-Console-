@@ -6,6 +6,7 @@
         xmlns:local="clr-namespace:BankApp"
         mc:Ignorable="d"
         Title="BankApp" Height="450" Width="800"
-        x:Name="_MainWindow" Source="MainMenu.xaml" ShowsNavigationUI="False" ResizeMode="NoResize" >
+        x:Name="_MainWindow" Source="MainMenu.xaml" ShowsNavigationUI="False"
+        ResizeMode="NoResize" Closing="Quit">
     
 </NavigationWindow>
