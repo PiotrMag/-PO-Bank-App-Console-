@@ -32,10 +32,10 @@
         #endregion
 
         #region właściwości
-        internal string Name { get; }
-        internal string Number { get; }
-        internal bool IsActive { get; set; }
-        internal ClientType ClientType { get; }
+        public string Name { get; }
+        public string Number { get; }
+        public bool IsActive { get; set; }
+        public ClientType ClientType { get; }
         #endregion
 
         #region przesłonięte metody klasy Object
