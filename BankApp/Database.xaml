@@ -21,10 +21,10 @@
             <RowDefinition Height="1*" />
         </Grid.RowDefinitions>
         <Label Grid.Row="0" Content="Znajdź w bazie" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="36" Height="55" Width="256" FontFamily="Arial Unicode MS" Foreground="Yellow"/>
-        <Label Grid.Row="1" Content="Wpisz zapytanie zgodne ze składnią SQL" VerticalAlignment="Center"  FontSize="24" Height="55" FontFamily="Arial Unicode MS" Foreground="Yellow" Margin="21,0,316,0"/>
+        <Label Grid.Row="1" Content="Wpisz zapytanie zgodne ze składnią SQL Tabela to transactions" VerticalAlignment="Center"  FontSize="24" Height="55" FontFamily="Arial Unicode MS" Foreground="Yellow" Margin="21,0,21,0"/>
 
         <Button Grid.Row="5" Margin="10,10,630,10" Click="MoveBack">Wróć</Button>
-        <TextBox x:Name="box" HorizontalAlignment="Left" Margin="44,0,0,0" Grid.Row="2" Text="TextBox" TextWrapping="Wrap" VerticalAlignment="Center" Width="440" Height="26"/>
+        <TextBox x:Name="box" HorizontalAlignment="Left" Margin="44,0,0,0" Grid.Row="2" Text="SELECT * from transactions" TextWrapping="Wrap" VerticalAlignment="Center" Width="440" Height="26"/>
         <Button Grid.Row="3" Margin="575,10,65,10" Click="Search" Content="Wyświetl wyniki"/>
     </Grid>
 </Page>

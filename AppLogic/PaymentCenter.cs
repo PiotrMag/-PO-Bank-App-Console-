@@ -684,15 +684,18 @@ namespace AppLogic
         {
             try
             {
+                int counter = 0;
                 List<Client> clientList = GetClients();
                 Client client = FindClientByNr(number);
                 foreach (var bank in bankList)
                 {
-                    bank.DeleteClient(client);
+                    counter += bank.DeleteClient(client);
                 }
+                if (counter <= 0)
+                    throw new WrongUserException("Nie było kart do usunięcia dla podanego klienta");
                 foreach (var c in clientList)
                 {
-                    if (c == client)
+                    if (c.Equals(client))
                     {
                         c.IsActive = false;
                         break;

@@ -210,9 +210,9 @@ namespace AppLogic
         /// Usuwa z systemu klienta i powiązane z nim karty (tzw. soft delete)
         /// </summary>
         /// <param name="client">Obiekt usuwanego klienta</param>
+        /// <returns>Zwraca liczbe usunietych kart klienta</returns>
         /// <exception cref="NotEmptyAccountException"/>
-        /// <exception cref="WrongUserException"/>
-        internal void DeleteClient(Client client)
+        internal int DeleteClient(Client client)
         {
             int counter = 0;
             foreach (var card in Cards)
@@ -227,7 +227,8 @@ namespace AppLogic
                     counter++;
                 }
             }
-            if (counter == 0) throw new WrongUserException("Nie znaleziono klienta");
+            //if (counter == 0) throw new WrongUserException("Nie znaleziono klienta");
+            return counter;
         }
         #endregion
         #endregion

@@ -28,6 +28,7 @@
             Name = name;
             Number = number;
             ClientType = clientType;
+            IsActive = true;
         }
         #endregion
 
