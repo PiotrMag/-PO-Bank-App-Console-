@@ -1,0 +1,17 @@
+﻿<Window x:Class="BankApp.DebitHeight"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:BankApp"
+        mc:Ignorable="d"
+        Title="DebitHeight" Height="200" Width="350">
+    <Grid Margin="5">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="2*"/>
+            <RowDefinition Height="1*"/>
+        </Grid.RowDefinitions>
+        <TextBox x:Name="debit" Text="Maksymalna wysokość debetu" FontSize="18" Margin="30,30,30,40" Grid.Row="0"/>
+        <Button Content="_Ok" IsDefault="True" Margin="226,5,5,5" Grid.Row="2" x:Name="btnOk" Click="BtnOk_Click" />
+    </Grid>
+</Window>

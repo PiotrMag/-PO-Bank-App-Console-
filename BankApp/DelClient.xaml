@@ -1,0 +1,31 @@
+﻿<Page x:Class="BankApp.DelClient"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:BankApp"
+      mc:Ignorable="d" 
+      d:DesignHeight="450" d:DesignWidth="800"
+      Title="DelClient">
+
+    <Grid>
+        <Grid.Background>
+            <ImageBrush ImageSource="files/background.jpg" />
+        </Grid.Background>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="1*" />
+            <RowDefinition Height="2*" />
+            <RowDefinition Height="1*" />
+            <RowDefinition Height="1*" />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="1*" />
+            <ColumnDefinition Width="1*" />
+        </Grid.ColumnDefinitions>
+        <Label Content="Usuń Klienta" VerticalAlignment="Center" FontSize="36" Height="54" FontFamily="Arial Unicode MS" Foreground="Yellow" Grid.ColumnSpan="2" Margin="284,0,284,0"/>
+        <TextBox x:Name="number" Grid.Column="1" Grid.Row="1" Margin="60,66,96,66"></TextBox>
+        <Button Grid.Column="0" Grid.Row="3" Margin="20,26,270,20" Click="MoveBack">Wróć</Button>
+        <Button Grid.Column="1" Grid.Row="2" Margin="127,23,163,23" Click="Submit">Usuń Klienta</Button>
+        <Label Content="PESEL/NIP/REGON/KRS" VerticalAlignment="Center" FontSize="20" Height="38" FontFamily="Arial Unicode MS" Foreground="Yellow" Margin="125,0,23,0" Grid.Row="1"/>
+    </Grid>
+</Page>

@@ -1,0 +1,31 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <UseWPF>true</UseWPF>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="files\background.jpg" />
+    <None Remove="files\sample_system_state.xml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="files\sample_system_state.xml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Data.Sqlite.Core" Version="3.1.5" />
+    <PackageReference Include="System.Data.SQLite" Version="1.0.113.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\AppLogic\AppLogic.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="files\background.jpg" />
+  </ItemGroup>
+
+</Project>

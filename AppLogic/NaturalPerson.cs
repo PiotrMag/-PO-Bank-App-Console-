@@ -1,12 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace AppLogic
+﻿namespace AppLogic
 {
-    internal class NaturalPerson
+    class NaturalPerson : Client
     {
+        #region konstruktory
+        /// <summary>
+        /// Tworzy obiekt osoby fizycznej o podanych parametrach
+        /// </summary>
+        /// <param name="name">Imię i Nazwisko</param>
+        /// <param name="PESEL">Numer PESEL</param>
+        internal NaturalPerson(string name, string PESEL) : base(name, PESEL, ClientType.NaturalPerson)
+        {
+            
+        }
+        #endregion
     }
 }

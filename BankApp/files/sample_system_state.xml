@@ -1,0 +1,18 @@
+﻿<system>
+  <bank name="Bank1" id="1">
+    <!--Karta kredytowa (ma atrybut limit)-->
+    <card number="10" ownerName="Jan Kowalski" ownerNumber="1290384617" ownerType="1" cardType="1" cardLimit="1000" isActive="true" balance="2500"/>
+    <!--Karta debetowa-->
+    <card number="11" ownerName="John Smith" ownerNumber="0082837461" ownerType="1" cardType="2" isActive="true" balance="30000"/>
+    <!--Firma z kartą kredytową-->
+    <card number="12" ownerName="Microsoft" ownerNumber="12345678910" ownerType="2" cardType="1" cardLimit="1000000" isActive="true" balance="200200700"/>
+  </bank>
+  <bank name="Bank2" id="2">
+    <!--Karta kredytowa (ma atrybut limit)-->
+    <card number="20" ownerName="Jan Kowalski" ownerNumber="0123987" ownerType="1" cardType="1" cardLimit="1000" isActive="true" balance="3000"/>
+    <!--Karta debetowa-->
+    <card number="21" ownerName="John Smith" ownerNumber="0148719842" ownerType="1" cardType="2" isActive="false" balance="150"/>
+    <!--Firma z kartą kredytową-->
+    <card number="22" ownerName="Sun" ownerNumber="10221989312" ownerType="2" cardType="1" cardLimit="1000000" isActive="true" balance="20"/>
+  </bank>
+</system>

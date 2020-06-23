@@ -1,0 +1,30 @@
+﻿<Page x:Class="BankApp.Companies"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:BankApp"
+      mc:Ignorable="d" 
+      d:DesignHeight="450" d:DesignWidth="800"
+      Title="Companies">
+
+    <Grid>
+        <Grid.Background>
+            <ImageBrush ImageSource="files/background.jpg" />
+        </Grid.Background>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="1*" />
+            <RowDefinition Height="4*" />
+            <RowDefinition Height="1*" />
+        </Grid.RowDefinitions>
+        <Label Content="Wyniki wyszukiwania" VerticalAlignment="Center" HorizontalAlignment="Center"
+               FontSize="36" Height="55" Width="351" FontFamily="Arial Unicode MS" Foreground="Yellow"/>
+        <Button Grid.Row="2" Margin="15,15,630,15" Click="MoveBack">Wróć</Button>
+        <DataGrid Grid.Row="1" Margin="20,0,20,0" Name="gridView" HorizontalAlignment="Left" Padding="2,0,15,25"
+                  VerticalAlignment="Top" Width="760" Height="300" RowHeight="20"
+                  ScrollViewer.CanContentScroll="True" 
+                  ScrollViewer.VerticalScrollBarVisibility="Auto"
+                  ScrollViewer.HorizontalScrollBarVisibility="Auto" IsReadOnly="True">
+        </DataGrid>
+    </Grid>
+</Page>

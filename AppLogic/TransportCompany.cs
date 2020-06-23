@@ -1,12 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace AppLogic
+﻿namespace AppLogic
 {
-    internal class TransportCompany : Client
+    class TransportCompany : Company
     {
+        #region konstruktory
+        /// <summary>
+        /// Tworzy obiekt Firmy transportowej
+        /// </summary>
+        /// <param name="name">Nazwa firmy</param>
+        /// <param name="NIP">Id firmy</param>
+        internal TransportCompany(string name, string NIP) : base(name, NIP, ClientType.TransportCompany) { }
+        #endregion
     }
 }
